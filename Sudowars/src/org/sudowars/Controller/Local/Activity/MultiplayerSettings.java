@@ -202,6 +202,7 @@ public class MultiplayerSettings extends PoolBinder {
         			tglLocalReady.setEnabled(true);
         		} else {
         			MultiplayerSettings.this.btnKick.setEnabled(false);
+        			MultiplayerSettings.this.tglLocalReady.setChecked(false);
         			MultiplayerSettings.this.tglLocalReady.setEnabled(false);
         		}
     			
