@@ -52,13 +52,11 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.sudowars.DebugHelper;
-import org.sudowars.Model.SudokuManagement.Pool.SudokuPool;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.graphics.SweepGradient;
 
 public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 	
