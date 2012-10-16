@@ -1,47 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011 - 2012 Adrian Vielsack, Christof Urbaczek, Florian Rosenthal, Michael Hoff, Moritz Lüdecke, Philip Flohr.
- * 
- * This file is part of Sudowars.
- * 
- * Sudowars is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * Sudowars is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with Sudowars.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * 
- * 
- * Diese Datei ist Teil von Sudowars.
- * 
- * Sudowars ist Freie Software: Sie können es unter den Bedingungen
- * der GNU General Public License, wie von der Free Software Foundation,
- * Version 3 der Lizenz oder (nach Ihrer Option) jeder späteren
- * veröffentlichten Version, weiterverbreiten und/oder modifizieren.
- * 
- * Sudowars wird in der Hoffnung, dass es nützlich sein wird, aber
- * OHNE JEDE GEWÄHELEISTUNG, bereitgestellt; sogar ohne die implizite
- * Gewährleistung der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
- * Siehe die GNU General Public License für weitere Details.
- * 
- * Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
- * Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
- * 
- * Contributors:
- * initial API and implementation:
- * Adrian Vielsack
- * Christof Urbaczek
- * Florian Rosenthal
- * Michael Hoff
- * Moritz Lüdecke
- * Philip Flohr 
- ******************************************************************************/
 package org.sudowars.Controller.Remote;
 
 import java.io.IOException;
@@ -52,11 +8,13 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.sudowars.DebugHelper;
+import org.sudowars.Model.SudokuManagement.Pool.SudokuPool;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.graphics.SweepGradient;
 
 public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 	
@@ -214,6 +172,8 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 		if (this.internalState != INTERNAL_STATE.STATE_LISTENING)
 			return false;
 		try {
+			if (btServer == null)
+				return false;
 			this.btSocket = btServer.accept(3000);
 			
 			if (blockedMAC.contains(this.btSocket.getRemoteDevice().getAddress())) {
@@ -395,7 +355,7 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 		
 		public void stopThread() {
 			this.interrupt();
-			this.stop();
+		
 			
 		}
 		
@@ -419,9 +379,11 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 			
 			try {
 				btServer.close();
+				
 			} catch (IOException e) {
 				
 			}
+			btServer = null;
 		}
 
 		public void stopThread() {
