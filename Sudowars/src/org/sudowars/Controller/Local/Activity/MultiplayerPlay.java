@@ -302,11 +302,7 @@ public class MultiplayerPlay extends Play {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.FROYO) {
-		    inflater.inflate(R.menu.multiplayer_play_old, menu);
-		} else {
-		    inflater.inflate(R.menu.multiplayer_play, menu);
-		}
+		inflater.inflate(R.menu.multiplayer_play, menu);
 		
 		return true;
 	}
