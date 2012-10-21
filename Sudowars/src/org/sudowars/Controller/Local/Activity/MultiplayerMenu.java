@@ -275,7 +275,11 @@ public class MultiplayerMenu extends PoolBinder {
 	@Override
 	public boolean onCreateOptionsMenu (Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.multiplayer_menu, menu);
+		if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.FROYO) {
+		    inflater.inflate(R.menu.multiplayer_menu_old, menu);
+		} else {
+		    inflater.inflate(R.menu.multiplayer_menu, menu);
+		}
 	    
 	    return true;
 	}
