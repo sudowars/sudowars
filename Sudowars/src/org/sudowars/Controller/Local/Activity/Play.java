@@ -584,11 +584,9 @@ public abstract class Play extends PoolBinder {
 		lblText.setTextColor(this.getResources().getColor(R.color.text_game_over));
 		lblText.setGravity(Gravity.CENTER);
 		
-		//TODO:
 		AlphaAnimation fadeIn = new AlphaAnimation(0, 1);
 		fadeIn.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text));
 		lblText.setAnimation(fadeIn);
-		
 		
 		for (int i = 0; i < layKeysLine.length; i++) {
 			AlphaAnimation fadeOut = new AlphaAnimation(1, 0);

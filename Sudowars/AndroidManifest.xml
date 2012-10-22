@@ -97,11 +97,12 @@
             android:configChanges="orientation|keyboard|keyboardHidden" />
         <activity
             android:name=".Controller.Local.Activity.SingleplayerPlay" 
-            android:configChanges="orientation" />
+            android:configChanges="orientation|uiMode" />
+            
         
         <activity
             android:name=".Controller.Local.Activity.MultiplayerPlay" 
-            android:configChanges="orientation|keyboard|keyboardHidden" />
+            android:configChanges="orientation|keyboard|keyboardHidden|uiMode" />
         
     </application>
     
