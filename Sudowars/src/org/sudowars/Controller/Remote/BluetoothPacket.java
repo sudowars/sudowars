@@ -52,16 +52,9 @@ import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
-import java.util.ArrayList;
 import java.util.zip.CRC32;
-
-
 import org.sudowars.Model.CommandManagement.Command;
-
-import android.util.Log;
-
 import org.sudowars.DebugHelper;
-
 
 /**
  * This class describes the packet store structure of the {@link BluetoothConnection} class.
@@ -71,21 +64,12 @@ import org.sudowars.DebugHelper;
  * This class describes the packet store structure of the {@link BluetoothConnection} class.
  */
 public class BluetoothPacket implements Serializable{
-	
-	
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2125177040121071495L;
 	
 	private static int packetIndex = 0;
 	private static Object indexSync = new Object();
 	
-	
 	private int graceCounter = 10;
-	
-	
 	
 	/**
 	 * The arguments of the command as serializable class
@@ -118,11 +102,7 @@ public class BluetoothPacket implements Serializable{
 		}
 		return newPacketId;
 	}
-
-	/**
-	 * The 
-	 */
-	private boolean remoteCorrupted = false;
+	
 	/**
 	 * Initializes a new instance of the {@link BluetoothPacket} class with a given command object.
 	 * @param command A reference to a command  with shall be sent via bluetooth.
@@ -133,19 +113,10 @@ public class BluetoothPacket implements Serializable{
 		this.data = command;
 		
 		this.packetId = (byte) getNextCommandId();
-		
-		
-		
-		
-		
-		
 	}
 
 	public BluetoothPacket(byte[] header, byte[] data){
-		
 		validate(header, data);
-
-		
 	}
 	/**
 	 * Returns the command of the current instance.
@@ -194,7 +165,7 @@ public class BluetoothPacket implements Serializable{
 	 * @param data data of the packet
 	 */
 	public void validate (byte[] header, byte[] data) {
-		int len =  ((int)(header[8] & 0xFF) << 8) | (int)(header[9] & 0xFF);
+		//int len =  ((int)(header[8] & 0xFF) << 8) | (int)(header[9] & 0xFF);
 		this.packetId = header[7];
 		this.packetCorrupted = false;
 		
@@ -211,12 +182,6 @@ public class BluetoothPacket implements Serializable{
 			DebugHelper.log(DebugHelper.PackageName.BluetoothPacket, "CRC32 did not match, sorry :-(");
 			return;
 		}
-	
-
-		
-		
-		
-
 	}
 	
 	
@@ -246,7 +211,6 @@ public class BluetoothPacket implements Serializable{
 			return null;
 		}
 		
-	
 		try {
 			this.data = objIn.readObject();
 		} catch (OptionalDataException e) {
@@ -334,7 +298,5 @@ public class BluetoothPacket implements Serializable{
 	public void markRemoteCorrupted() {
 		this.graceCounter --;
 	}
-	
-	
 }
 

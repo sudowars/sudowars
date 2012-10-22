@@ -51,21 +51,13 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
-
 import org.sudowars.DebugHelper;
-import org.sudowars.Model.SudokuManagement.Pool.SudokuPool;
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.graphics.SweepGradient;
 
 public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8611765134721761230L;
 
 	enum INTERNAL_STATE {
@@ -79,7 +71,6 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 	/**
 	 * Internal state
 	 */
-	
 	private INTERNAL_STATE internalState = INTERNAL_STATE.STATE_NONE;
 	
 	/**
@@ -90,13 +81,11 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 	/**
 	 * BluetoothSocket
 	 */
-	
 	static BluetoothSocket btSocket;
 	
 	/**
 	 * BluetoothServer
 	 */
-	
 	static BluetoothServerSocket btServer;
 	
 	/**
@@ -107,7 +96,6 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 	/**
 	 * BluetoothAdapter
 	 */
-	
 	BluetoothAdapter btAdapter;
 	
 	/**
@@ -118,14 +106,12 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 	/**
 	 * Input-/Output-Streams
 	 */
-	
 	InputStream inp;
 	OutputStream out;
 	
 	/**
 	 * Connecting Thread
 	 */
-	
 	ConnectThread cntThread;
 	
 	Object closeSync = new Object();
@@ -144,14 +130,13 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 		blockedMAC = new ArrayList<String>();
 	}
 	
-	
 	public void setEventHandler(SocketEvent evtHandler) {
 		this.socketEventHandler = evtHandler;
 	}
 	
 	public boolean listen() {
 		try {
-			this.btServer = this.btAdapter.listenUsingRfcommWithServiceRecord("Sudowars Server Service", uuid_secure);
+			SudowarsBluetoothSocket.btServer = this.btAdapter.listenUsingRfcommWithServiceRecord("Sudowars Server Service", uuid_secure);
 		} catch (IOException e) {
 			return false;
 		}
@@ -161,7 +146,6 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 		wasListening = true;
 		this.socketEventHandler.onListening();
 	
-		
 		return true;
 	}
 	
@@ -176,14 +160,14 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 	public void ban() {
 		if (this.internalState != INTERNAL_STATE.STATE_CONNECTED)
 			return;
-		this.blockedMAC.add(this.btSocket.getRemoteDevice().getAddress());
+		this.blockedMAC.add(SudowarsBluetoothSocket.btSocket.getRemoteDevice().getAddress());
 		kick();
 	}
 	
 	private boolean prepareConnected () {
 		try {
-			out = this.btSocket.getOutputStream();
-			inp = this.btSocket.getInputStream();
+			out = SudowarsBluetoothSocket.btSocket.getOutputStream();
+			inp = SudowarsBluetoothSocket.btSocket.getInputStream();
 			return true;
 		} catch (IOException e) {
 			DebugHelper.log(DebugHelper.PackageName.BluetoothConnection, "Could not get input/Output Stream");
@@ -219,9 +203,9 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 		try {
 			if (btServer == null)
 				return false;
-			this.btSocket = btServer.accept(3000);
+			SudowarsBluetoothSocket.btSocket = btServer.accept(3000);
 			
-			if (blockedMAC.contains(this.btSocket.getRemoteDevice().getAddress())) {
+			if (blockedMAC.contains(SudowarsBluetoothSocket.btSocket.getRemoteDevice().getAddress())) {
 				return false;
 			}
 			
@@ -249,18 +233,18 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 				o += a.getClassName() + " -> ";
 			
 			DebugHelper.log(DebugHelper.PackageName.BluetoothConnection, "close called by " + o);	
-			if (this.btServer != null) {
+			if (SudowarsBluetoothSocket.btServer != null) {
 				try {
 					
-					this.btServer.close();
+					SudowarsBluetoothSocket.btServer.close();
 				} catch (IOException e) {
 					DebugHelper.log(DebugHelper.PackageName.BluetoothConnection, "Could not close Server Socket, probably bad ...");
 					
 				}
 			}
-			if (this.btSocket != null) {
+			if (SudowarsBluetoothSocket.btSocket != null) {
 				try {
-					this.btSocket.close();
+					SudowarsBluetoothSocket.btSocket.close();
 				} catch (IOException e) {
 					DebugHelper.log(DebugHelper.PackageName.BluetoothConnection, "Could not close Socket, probably bad ...");
 				}
@@ -312,12 +296,10 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 		if (internalState != INTERNAL_STATE.STATE_CONNECTED)
 			return false;
 		synchronized (sendLock) {
-			
-		
 			try {
 				if (data.length <= maxFragmentSize)
 					out.write(data);
-				else{
+				else {
 					byte[] tmp;
 					for (int n = 0; n < data.length - 1; n+= maxFragmentSize){
 						tmp = new byte[Math.min(maxFragmentSize, data.length - n)];
@@ -325,11 +307,9 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 						
 						out.write(tmp);
 					}
-						
 				}
 				
 				DebugHelper.log(DebugHelper.PackageName.BluetoothConnection, "Written " + data.length + " Bytes");
-				
 			} catch (IOException e) {
 				DebugHelper.log(DebugHelper.PackageName.BluetoothConnection, "Could not send data!!");
 				close();
@@ -338,7 +318,6 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 
 		}
 		return true;
-		
 	}
 	
 	public boolean isConnected() {
@@ -357,15 +336,12 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 		return true;
 	}
 	
-	
 	/**
 	 * Accepting Thread
 	 * @author adrian
 	 *
 	 */
 	private class ConnectThread extends Thread {
-		
-		
 		public ConnectThread(BluetoothDevice btDev) throws IOException {
 			if (btSocket != null) {
 				try {
@@ -400,24 +376,15 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 		
 		public void stopThread() {
 			this.interrupt();
-		
-			
 		}
-		
 	}
 	
-	
 	class ServerThread extends Thread {
-		
-		
 		volatile boolean exit = false;
 		
-		public ServerThread() {
-			
-		}
+		public ServerThread() {}
 		
 		public void run() {
-			
 			while (internalState == INTERNAL_STATE.STATE_LISTENING && exit == false) {
 				accept();
 			}
@@ -439,6 +406,6 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 	public String getRemoteHost() {
 		if (internalState != INTERNAL_STATE.STATE_CONNECTED)
 			return "";
-		return this.btSocket.getRemoteDevice().getAddress() == null ? "" : this.btSocket.getRemoteDevice().getAddress();
+		return SudowarsBluetoothSocket.btSocket.getRemoteDevice().getAddress() == null ? "" : SudowarsBluetoothSocket.btSocket.getRemoteDevice().getAddress();
 	}
 }

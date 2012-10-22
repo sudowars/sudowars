@@ -44,24 +44,16 @@
  ******************************************************************************/
 package org.sudowars.Controller.Remote;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-
 import org.sudowars.DebugHelper;
 import org.sudowars.Model.CommandManagement.Command;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 
 /**
@@ -70,17 +62,9 @@ import android.os.Handler;
  * 
  */
 
-public class BluetoothConnection implements Serializable{
-	
-
+public class BluetoothConnection implements Serializable {
 	private static BluetoothConnection btActive = null;
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4029656510931959533L;
-
-	
-	
 	
 	Handler timeSyncHandler = new Handler();
 	/**
@@ -110,7 +94,6 @@ public class BluetoothConnection implements Serializable{
 	 */
 	public final static int MESSAGE_BT_PACKET_DELIVERED = 3;
 	
-	
 	/**
 	 * Packet list to handle lost packets
 	 */
@@ -139,16 +122,12 @@ public class BluetoothConnection implements Serializable{
 	
 	private LinkedList<BluetoothPacket> deliveredCommand;
 	
-	
 	Object socketClose = new Object();
 	
 	/**
 	 * Thread to run When Connected, handles Packet reception
 	 */
-	
 	ConnectedThread cndThread;
-	
-	
 	
 	/**
 	 * Packet Handler, takes care of damaged Packages
@@ -160,24 +139,13 @@ public class BluetoothConnection implements Serializable{
 	/**
 	 * Current Data received in buffer
 	 */
-	
 	Command currentData;
 	LinkedList<BluetoothPacket> currentPacket;
-	
-	
-	
-	
 	private ArrayList<BluetoothPacket> sentPacket;
-	
-	
 	protected SudowarsSocket swSocket;
-	
-	 
-	
 	private TimeSyncer tsync;
 	
 	private SocketEvent sckEvent = new SocketEvent() {
-		
 		@Override
 		public void onListening() {
 			setState(STATE_LISTENING);			
@@ -186,32 +154,26 @@ public class BluetoothConnection implements Serializable{
 		@Override
 		public void onConnecting() {
 			setState(STATE_CONNECTING);
-			
 		}
 		
 		@Override
 		public void onConnected() {
 			connected();
-			
 		}
 		
 		@Override
 		public void onClose() {
 			connectionClosed();
-			
 		}
 	};
 	
 	private Runnable timeSyncRunnable = new Runnable() {
-		
 		@Override
 		public void run() {
 			if (tsync != null && state == STATE_CONNECTED) {
-				
 				tsync.syncTime();
 				timeSyncHandler.postDelayed(timeSyncRunnable, 5000);
 			}
-			
 		}
 	};
 	
@@ -225,8 +187,6 @@ public class BluetoothConnection implements Serializable{
 	 * Constructs a new {@link BluetoothConnection}
 	 */
 	public BluetoothConnection () {
-		
-		
 		this.state = STATE_NONE;
 		if (btActive != null){
 			if (swSocket != null)
@@ -276,6 +236,7 @@ public class BluetoothConnection implements Serializable{
 	public static BluetoothConnection getActiveBluetoothConnection() {
 		return btActive;
 	}
+	
 	/**
 	 * This command creates a {@link BluetoothPacket} and sends it to the receiver
 	 *
@@ -300,7 +261,6 @@ public class BluetoothConnection implements Serializable{
 		return cmd; 
 	}
 	
-	
 	/**
 	 * Query the state of the BluetoothConnection
 	 *
@@ -315,7 +275,6 @@ public class BluetoothConnection implements Serializable{
 		this.state = newState;
 		if (this.bluetoothEventHandler != null)
 			this.bluetoothEventHandler.obtainMessage(MESSAGE_BT_STATE_CHANGE).sendToTarget();
-		
 	}
 	
 	/**
@@ -326,13 +285,11 @@ public class BluetoothConnection implements Serializable{
 				return;
 			this.state = STATE_NONE;
 			
-			
 			if (this.swSocket.isConnected())
 				this.swSocket.close();
 			if (this.sendQueue != null)
 				this.sendQueue.endThread();
 			BluetoothConnection.btActive = null;	
-		
 	}
 	
 	/**
@@ -345,13 +302,8 @@ public class BluetoothConnection implements Serializable{
 	public boolean connect(String deviceMac) {
 		return this.swSocket.connect(deviceMac);
 	}
-
-
-
 	
 	void connected() {
-		
-		
 		DebugHelper.log(DebugHelper.PackageName.BluetoothConnection, "Starting Transmission Threads");
 		state = STATE_CONNECTED;
 		this.cndThread = new ConnectedThread();
@@ -363,10 +315,7 @@ public class BluetoothConnection implements Serializable{
 		this.sendQueue.start();
 		setState(STATE_CONNECTED);
 		
-		
-		
 		DebugHelper.log(DebugHelper.PackageName.BluetoothConnection, "Connected Threads started!");
-		
 	}
 	/**
 	 * Returns the device name of the remote device
@@ -378,33 +327,20 @@ public class BluetoothConnection implements Serializable{
 	}
 	
 	protected void connectionClosed() {
-
-
 		DebugHelper.log(DebugHelper.PackageName.BluetoothConnection, "BluetoothConnection: Connection has been closed!");
 		this.timeSyncHandler.removeCallbacks(timeSyncRunnable);
 		
 		setState(STATE_NONE);
-		
-		
 	}
 	
-	
-	
 	private class ConnectedThread extends Thread {
-		
-		private ConnectedThread() {
-			
-		}
+		private ConnectedThread() {}
 		
 		public void run() {
 			byte[] header = new byte[10];
-			String out;
 			int len;
 			
-			
-			
 			while (swSocket.isConnected()) {
-				
 				swSocket.recv(header);
 				
 				len = ((int)(header[8] & 0xFF) << 8) | (int)(header[9] & 0xFF);
@@ -412,7 +348,6 @@ public class BluetoothConnection implements Serializable{
 				byte[] data = new byte[len];
 				swSocket.recv(data);				
 				debugHex(data, "Received");
-				
 				
 				if (ptHandler.checkPacket(header, data))
 					continue;
@@ -428,12 +363,11 @@ public class BluetoothConnection implements Serializable{
 				} else {
 					ptHandler.sendResendCommand(p);
 				}
-				
 			}
 		}
 	}
 	
-	private void debugHex(byte[] data, int begin, String logd){
+	private void debugHex(byte[] data, int begin, String logd) {
 		String out = "";
 		for (int n = begin; n < data.length; n++) {
 			out += " ";
@@ -452,11 +386,7 @@ public class BluetoothConnection implements Serializable{
 		 debugHex(data, 0, logd);
 	}
 	
-	public class PacketHandler implements Serializable{
-		
-		/**
-		 * 
-		 */
+	public class PacketHandler implements Serializable {
 		private static final long serialVersionUID = 4977147614426859999L;
 		
 		/**
@@ -468,13 +398,11 @@ public class BluetoothConnection implements Serializable{
 		 */
 		private static final byte CMD_CORRUPT = (byte)0xE1;
 		
-		
-		
 		/**
 		 * Counter for Statistics
 		 */
-		private long resentPackets = 0;
-		private long sentPackets = 0;
+		//private long resentPackets = 0;
+		//private long sentPackets = 0;
 		
 		BluetoothConnection btConnection;
 		
@@ -494,11 +422,10 @@ public class BluetoothConnection implements Serializable{
 		 * @param btPacket
 		 */
 		public void addOutgoingPacket(BluetoothPacket btPacket) {
-			
 			if (btPacket == null)
 				return;
 			this.btPackets.add(btPacket);
-			this.sentPackets++;
+			//this.sentPackets++;
 			btPacket.setSent();
 		}
 		
@@ -537,23 +464,22 @@ public class BluetoothConnection implements Serializable{
 				
 				tsync.syncTimeCommand(data);
 				return true;
-			}else if (data[0] == TimeSyncer.CMD_TIMESYNC_PONG && data.length == 2) {
+			} else if (data[0] == TimeSyncer.CMD_TIMESYNC_PONG && data.length == 2) {
 				tsync.syncTimePongCommand();
 				return true;
-			}else if (data[0] == CMD_OK) {
+			} else if (data[0] == CMD_OK) {
 				tmp = getPacketById(header[7]);
 				if (tmp == null){
 					DebugHelper.log(DebugHelper.PackageName.BluetoothConnection_PacketHandler, "Could not find a Packet for removing! Aborting!!");
 					
 					return true;
-					
 				}
 				
 				deliveredCommand.offer(tmp);
 				bluetoothEventHandler.obtainMessage(MESSAGE_BT_PACKET_DELIVERED).sendToTarget();
 				btPackets.remove(tmp);
 				//sendQueue.notifySent();
-			}else if (data[0] == CMD_CORRUPT) {
+			} else if (data[0] == CMD_CORRUPT) {
 				tmp = getPacketById(header[7]);
 				
 				if (tmp == null){
@@ -568,10 +494,9 @@ public class BluetoothConnection implements Serializable{
 				}
 					
 				DebugHelper.log(DebugHelper.PackageName.BluetoothConnection_PacketHandler, "Received a currupt packetRequest! resending");
-				this.resentPackets ++;
+				//this.resentPackets ++;
 				tmp.markRemoteCorrupted();
 				swSocket.sendData(tmp.getPacket());
-				
 			}
 			
 			return true;
@@ -591,6 +516,7 @@ public class BluetoothConnection implements Serializable{
 			};
 			swSocket.sendData(data);
 		}
+		
 		/**
 		 * Send a command to take a Successfull received packet out of the Buffer
 		 * @param btPacket
@@ -605,13 +531,6 @@ public class BluetoothConnection implements Serializable{
 			};
 			swSocket.sendData(data);
 		}
-		
-		
-		
-		
-
-
-
 	}
 	
 	public void stop() {
@@ -623,7 +542,6 @@ public class BluetoothConnection implements Serializable{
 	}
 	
 	private class SendThread extends Thread {
-		
 		private BlockingQueue<Command> btPacketsToSend;
 		Boolean EXIT = false;
 		
@@ -639,7 +557,7 @@ public class BluetoothConnection implements Serializable{
 					sendCommand(toSend);
 					DebugHelper.log(DebugHelper.PackageName.BluetoothConnection, "Sent a message async");
 				}
-			}catch (InterruptedException e ) {
+			} catch (InterruptedException e ) {
 				Thread.currentThread().interrupt();
 				DebugHelper.log(DebugHelper.PackageName.BluetoothConnection, "SendThread was interrupted");
 			}
