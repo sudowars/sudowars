@@ -71,6 +71,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import org.sudowars.DebugHelper;
 import org.sudowars.R;
 import org.sudowars.Model.SudokuManagement.IO.FileIO;
+import org.sudowars.Model.SudokuUtil.SingleplayerGameState;
 import org.sudowars.Controller.Local.BluetoothDeviceList.BluetoothDeviceListAdapter;
 import org.sudowars.Controller.Local.BluetoothDeviceList.BluetoothDeviceListItem;
 import org.sudowars.Controller.Remote.BluetoothConnection;
@@ -207,10 +208,12 @@ public class MultiplayerMenu extends PoolBinder {
 	protected void onResume() {
 		super.onResume();
 		
-		if (!this.savedGames.hasMultiplayerGame()) {
-			this.btnMultiplayerContinue.setVisibility(View.GONE);
-		} else {
-			this.btnMultiplayerContinue.setVisibility(View.VISIBLE);
+		if (this.btnMultiplayerContinue != null) {
+			if (!this.savedGames.hasMultiplayerGame()) {
+				this.btnMultiplayerContinue.setVisibility(View.GONE);
+			} else {
+				this.btnMultiplayerContinue.setVisibility(View.VISIBLE);
+			}
 		}
 		
 		this.activateBluetooth();
@@ -277,6 +280,10 @@ public class MultiplayerMenu extends PoolBinder {
 	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.multiplayer_menu, menu);
 	    
+		if (!this.savedGames.hasMultiplayerGame()) {
+			menu.removeItem(R.id.btMultiplayerContinue);
+		}
+		
 	    return true;
 	}
 	
@@ -300,7 +307,13 @@ public class MultiplayerMenu extends PoolBinder {
 	 */
 	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
-		if (item.getItemId() == R.id.btScan) {
+		if (item.getItemId() == R.id.btMultiplayerNew) {
+			onBtnMultiplayerNewClick();
+			return true;
+		} else if (item.getItemId() == R.id.btMultiplayerContinue) {
+			onBtnMultiplayerContinueClick();
+			return true;
+		} else if (item.getItemId() == R.id.btScan) {
 			if (this.bluetoothAdapter.isDiscovering()) {
     			stopScan();
             } else {
@@ -431,20 +444,24 @@ public class MultiplayerMenu extends PoolBinder {
 		this.btnMultiplayerNew = (Button) findViewById(R.id.btnMultiplayerNew);
 		this.btnMultiplayerContinue = (Button) findViewById(R.id.btnMultiplayerContinue);
 		
-		this.btnMultiplayerNew.setOnClickListener(
-                new OnClickListener() {
-                	public void onClick(View v) {
-                        onBtnMultiplayerNewClick();
-                    }
-
-                });
+		if (this.btnMultiplayerNew != null) {
+			this.btnMultiplayerNew.setOnClickListener(
+	                new OnClickListener() {
+	                	public void onClick(View v) {
+	                        onBtnMultiplayerNewClick();
+	                    }
+	
+	                });
+		}
 		
-		this.btnMultiplayerContinue.setOnClickListener(
-                new OnClickListener() {
-                	public void onClick(View v) {
-                        onBtnMultiplayerContinueClick();
-                    }
-
-                });
+		if (this.btnMultiplayerContinue != null) {
+			this.btnMultiplayerContinue.setOnClickListener(
+	                new OnClickListener() {
+	                	public void onClick(View v) {
+	                        onBtnMultiplayerContinueClick();
+	                    }
+	
+	                });
+		}
     }
 }

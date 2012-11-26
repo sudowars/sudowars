@@ -65,6 +65,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -165,11 +168,36 @@ public class SingleplayerSettings extends PoolBinder {
 		editor.commit();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
+	@Override
+	public boolean onCreateOptionsMenu (Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.singleplayer_settings, menu);
+	    return true;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item) {
+		if (item.getItemId() == R.id.btStart) {
+			onBtnStartClick ();
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * Running on a click on button {@link btnStart}.
 	 */
 	private void onBtnStartClick () {
-		this.btnStart.setClickable(false);
+		if (this.btnStart != null)
+			this.btnStart.setClickable(false);
 		
 		int size = (this.rbtField_size[0].isChecked() == true)?9:16;
 		Difficulty difficulty;
@@ -231,11 +259,13 @@ public class SingleplayerSettings extends PoolBinder {
 		this.cbtAssistantBookmark = (CheckBox) findViewById(R.id.cbtAssistant_bookmark);
 		
 		this.btnStart = (Button) findViewById(R.id.btnStart);
-		this.btnStart.setOnClickListener(
-                new OnClickListener() {
-                	public void onClick(View v) {
-                		SingleplayerSettings.this.onBtnStartClick();
-                    }
-                });
+		if (this.btnStart != null) {
+			this.btnStart.setOnClickListener(
+	                new OnClickListener() {
+	                	public void onClick(View v) {
+	                		SingleplayerSettings.this.onBtnStartClick();
+	                    }
+	                });
+		}
 	}
 }
