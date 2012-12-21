@@ -211,9 +211,9 @@ public class MainMenu extends PoolBinder {
 		} else if (item.getItemId() == R.id.btAbout) {
 			showDialog(1);
 			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
-		
-		return true;
 	}
 	
 	/*

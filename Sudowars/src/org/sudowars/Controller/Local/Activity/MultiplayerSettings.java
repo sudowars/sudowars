@@ -79,6 +79,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -258,6 +259,10 @@ public class MultiplayerSettings extends PoolBinder {
 	public void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		//TODO:
+	    //ActionBar actionBar = getActionBar();
+	    //actionBar.setDisplayHomeAsUpEnabled(true);
+		
 		setContentView(R.layout.multiplayer_settings);
 		
 		this.setupButtons();
@@ -405,6 +410,20 @@ public class MultiplayerSettings extends PoolBinder {
 				this.counter = new Counter(resultCode * 1000, 1000);
 				this.counter.start();
 			}
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			this.onBackPressed();
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
 	}
 

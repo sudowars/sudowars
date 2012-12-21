@@ -729,7 +729,7 @@ public class MultiplayerPlay extends Play {
 		
 		this.lblCountdown = new TextView(this);
 		this.lblCountdown.setLayoutParams(lp);
-		//TODO: Größe variabel machen
+		//TODO: Make it variable
 		this.lblCountdown.setWidth(width);
 		this.lblCountdown.setGravity(Gravity.CENTER);
 		this.lblCountdown.setVisibility(View.GONE);
@@ -739,7 +739,7 @@ public class MultiplayerPlay extends Play {
 		
 		this.lblPauseText = new TextView(this);
 		this.lblPauseText.setLayoutParams(lp);
-		//TODO: Größe variabel machen
+		//TODO: Make it variable
 		this.lblPauseText.setWidth(width);
 		this.lblPauseText.setGravity(Gravity.CENTER);
 		this.lblPauseText.setText(this.getResources().getString(R.string.pause));

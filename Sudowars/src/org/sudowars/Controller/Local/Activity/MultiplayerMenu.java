@@ -169,6 +169,10 @@ public class MultiplayerMenu extends PoolBinder {
 		
 		super.onCreate(savedInstanceState);
 		
+		//TODO:
+	    //ActionBar actionBar = getActionBar();
+	    //actionBar.setDisplayHomeAsUpEnabled(true);
+		
 		setContentView(R.layout.multiplayer_menu);
 		
 		this.setupButtons();
@@ -307,7 +311,10 @@ public class MultiplayerMenu extends PoolBinder {
 	 */
 	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
-		if (item.getItemId() == R.id.btMultiplayerNew) {
+		if (item.getItemId() == android.R.id.home) {
+			this.onBackPressed();
+			return true;
+		} else if (item.getItemId() == R.id.btMultiplayerNew) {
 			onBtnMultiplayerNewClick();
 			return true;
 		} else if (item.getItemId() == R.id.btMultiplayerContinue) {

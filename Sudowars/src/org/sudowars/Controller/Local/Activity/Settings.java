@@ -47,6 +47,7 @@ package org.sudowars.Controller.Local.Activity;
 import org.sudowars.R;
 import org.sudowars.Model.SudokuManagement.Pool.SudokuFilePool;
 
+import android.app.ActionBar;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -54,6 +55,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceActivity;
+import android.view.MenuItem;
 
 /**
  * Shows the game settings. 
@@ -120,6 +122,25 @@ public class Settings extends PreferenceActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		//TODO:
+	    //ActionBar actionBar = getActionBar();
+	    //actionBar.setDisplayHomeAsUpEnabled(true);
+	    
 		addPreferencesFromResource(R.xml.preferences);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			this.onBackPressed();
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
 	}
 }

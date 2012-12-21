@@ -216,6 +216,10 @@ public abstract class Play extends PoolBinder {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		//TODO:
+	    //ActionBar actionBar = getActionBar();
+	    //actionBar.setDisplayHomeAsUpEnabled(true);
+		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		this.constants = new Constants(this);
@@ -366,8 +370,11 @@ public abstract class Play extends PoolBinder {
 	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
 	 */
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {		
-		if (item.getItemId() == R.id.give_up) {
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			this.onBackPressed();
+			return true;
+		} else if (item.getItemId() == R.id.give_up) {
 			if (!this.game.isPaused() && !this.gameState.isFinished()) {
 				showDialog(1);
 			}

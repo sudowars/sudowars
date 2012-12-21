@@ -61,6 +61,7 @@ import org.sudowars.Model.SudokuManagement.IO.FileIO;
 import org.sudowars.Model.SudokuUtil.NoteManager;
 import org.sudowars.Model.SudokuUtil.SingleplayerGameState;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -115,6 +116,10 @@ public class SingleplayerSettings extends PoolBinder {
 	@Override
 	public void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		//TODO:
+	    //ActionBar actionBar = getActionBar();
+	    //actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		setContentView(R.layout.singleplayer_settings);
 		setupButtons();
@@ -185,11 +190,15 @@ public class SingleplayerSettings extends PoolBinder {
 	 */
 	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
-		if (item.getItemId() == R.id.btStart) {
+		if (item.getItemId() == android.R.id.home) {
+			this.onBackPressed();
+			return true;
+		} else if (item.getItemId() == R.id.btStart) {
 			onBtnStartClick ();
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
-		
-		return true;
 	}
 	
 	/**
