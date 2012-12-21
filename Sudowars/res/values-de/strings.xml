@@ -78,8 +78,8 @@
     <string name="button_manual">Anleitung</string>
     <string name="button_kick">Kick</string>
     <string name="button_multiplayer">Mehrspieler</string>
-    <string name="button_multiplayer_continue">↷</string>
-    <string name="button_multiplayer_new">Neues Spiel erstellen</string>
+    <string name="button_multiplayer_continue">Fortsetzen</string>
+    <string name="button_multiplayer_new">Neues Spiel</string>
     <string name="button_next">weiter</string>
     <string name="button_no">Nein</string>
     <string name="button_ok">OK</string>

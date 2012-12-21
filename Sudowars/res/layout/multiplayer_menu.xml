@@ -75,7 +75,7 @@
             android:layout_marginRight="4dp"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="0dp"
-            android:text="@string/button_multiplayer_continue" />
+            android:text="@string/button_multiplayer_continue_symbol" />
         
     </LinearLayout>
 

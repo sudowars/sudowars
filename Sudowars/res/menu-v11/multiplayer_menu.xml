@@ -48,14 +48,14 @@
     <item
         android:id="@+id/btMultiplayerNew"
         android:title="@string/button_multiplayer_new"
-        android:showAsAction="ifRoom"
-        android:icon="@drawable/ic_menu_refresh" />
+        android:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_menu_mark" />
 
     <item
         android:id="@+id/btMultiplayerContinue"
         android:title="@string/button_multiplayer_continue"
-        android:showAsAction="ifRoom"
-        android:icon="@drawable/ic_menu_mark" />
+        android:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_menu_continue" />
     
     <item
         android:id="@+id/btScan"

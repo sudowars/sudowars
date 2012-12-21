@@ -86,8 +86,9 @@
     <string name="button_manual">Manual</string>
     <string name="button_kick">Kick</string>
     <string name="button_multiplayer">Multiplayer</string>
-    <string name="button_multiplayer_continue">↷</string>
-    <string name="button_multiplayer_new">Create New Game</string>
+    <string name="button_multiplayer_continue">Continue</string>
+    <string name="button_multiplayer_continue_symbol">↷</string>
+    <string name="button_multiplayer_new">New Game</string>
     <string name="button_next">next</string>
     <string name="button_no">No</string>
     <string name="button_ok">OK</string>
