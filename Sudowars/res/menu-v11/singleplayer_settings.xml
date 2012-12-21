@@ -48,5 +48,5 @@
     	android:id="@+id/btStart"
     	android:title="@string/button_start"
         android:showAsAction="ifRoom|withText"
-        android:icon="@drawable/ic_menu_mark"/>
+        android:icon="@drawable/ic_menu_done"/>
 </menu>
