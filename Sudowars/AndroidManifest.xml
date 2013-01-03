@@ -81,7 +81,7 @@
             android:screenOrientation="portrait" />
         
         <activity
-            android:name=".Controller.Local.Activity.Settings"
+            android:name=".Controller.Local.Activity.MainSettings"
             android:label="@string/settings" />
         
         <activity

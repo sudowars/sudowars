@@ -205,7 +205,7 @@ public class MainMenu extends PoolBinder {
 	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
 		if (item.getItemId() == R.id.btSettings) {
-			Intent intent = new Intent(this, Settings.class);
+			Intent intent = new Intent(this, MainSettings.class);
 			startActivity(intent);
 			return true;
 		} else if (item.getItemId() == R.id.btAbout) {

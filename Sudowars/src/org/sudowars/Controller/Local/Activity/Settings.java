@@ -125,8 +125,6 @@ public class Settings extends PreferenceActivity {
 		
 	    ActionBar actionBar = getActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
-	    
-		addPreferencesFromResource(R.xml.preferences);
 	}
 	
 	/*
