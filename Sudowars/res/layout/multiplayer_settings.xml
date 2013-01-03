@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
-                    android:text="@string/field_size" />
+                    android:text="FIELD_SIZE" />
         
                 <RadioGroup
                     android:id="@+id/rgrSize"
@@ -91,7 +91,7 @@
                         android:layout_marginLeft="4dp"
                         android:layout_weight="1"
                         android:layout_gravity="center|left"
-                        android:text="@string/radio_button_field_size_9x9"
+                        android:text="NINE"
                         android:enabled="false" />
         
                     <RadioButton
@@ -99,7 +99,7 @@
                         android:layout_weight="1"
                         android:layout_marginLeft="4dp"
                         android:layout_gravity="center|right"
-                        android:text="@string/radio_button_field_size_16x16"
+                        android:text="SIXTEEN"
                         android:enabled="false" />
         
                 </RadioGroup>
@@ -120,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
-                    android:text="@string/difficulty" />
+                    android:text="DIFFICULTY" />
         
                 <RadioGroup
                     android:id="@+id/rgrDifficulty"
@@ -134,7 +134,7 @@
                         android:layout_weight="1"
                         android:layout_marginLeft="4dp"
                         android:layout_gravity="center|left"
-                        android:text="@string/radio_button_difficulty_easy"
+                        android:text="EASY"
                         android:enabled="false" />
         
                     <RadioButton
@@ -143,7 +143,7 @@
                         android:layout_marginLeft="4dp"
                         android:layout_gravity="center|center"
                         android:checked="true"
-                        android:text="@string/radio_button_difficulty_medium"
+                        android:text="MEDIUM"
                         android:enabled="false" />
         
                     <RadioButton
@@ -151,7 +151,7 @@
                         android:layout_weight="1"
                         android:layout_marginLeft="8dp"
                         android:layout_gravity="center|right"
-                        android:text="@string/radio_button_difficulty_hard"
+                        android:text="HARD"
                         android:enabled="false" />
         
                 </RadioGroup>

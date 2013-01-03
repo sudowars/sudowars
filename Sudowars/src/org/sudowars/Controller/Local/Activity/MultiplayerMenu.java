@@ -175,8 +175,6 @@ public class MultiplayerMenu extends PoolBinder {
 		
 		setContentView(R.layout.multiplayer_menu);
 		
-		this.setupButtons();
-		
 		try {
 			this.savedGames = new FileIO(this.getApplicationContext());
 		} catch (IllegalArgumentException e) {
@@ -443,32 +441,4 @@ public class MultiplayerMenu extends PoolBinder {
 		    		new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BT);
         }
 	}
-	
-    /**
-	 * Setup buttons
-	 */
-	private void setupButtons() {
-		this.btnMultiplayerNew = (Button) findViewById(R.id.btnMultiplayerNew);
-		this.btnMultiplayerContinue = (Button) findViewById(R.id.btnMultiplayerContinue);
-		
-		if (this.btnMultiplayerNew != null) {
-			this.btnMultiplayerNew.setOnClickListener(
-	                new OnClickListener() {
-	                	public void onClick(View v) {
-	                        onBtnMultiplayerNewClick();
-	                    }
-	
-	                });
-		}
-		
-		if (this.btnMultiplayerContinue != null) {
-			this.btnMultiplayerContinue.setOnClickListener(
-	                new OnClickListener() {
-	                	public void onClick(View v) {
-	                        onBtnMultiplayerContinueClick();
-	                    }
-	
-	                });
-		}
-    }
 }

@@ -49,8 +49,6 @@
     <string name="assistants">Hilfen</string>
     <string name="bluetooth_connection_status">Verbindungsstatus</string>
     <string name="bluetooth_devices">Bluetoothgeräte</string>
-    <string name="difficulty">Schwierigkeitsgrad</string>
-    <string name="field_size">Feldgröße</string>
     <string name="get_ready">Mach dich bereit!</string>
     <string name="give_up">Aufgeben</string>
     <string name="multiplayer">Mehrspieler</string>
@@ -94,21 +92,17 @@
     <string name="button_yes">Ja</string>
     
     <!-- Settings -->
+    <string name="settings_game_assistant_show_mistakes">Fehler hervorheben</string>
+    <string name="settings_game_assistant_solve_cells">Erlaube Zelle lösen</string>
+    <string name="settings_game_assistant_bookmark">Erlaube Lesezeichen</string>
+    <string name="settings_game_difficulty">Schwierigkeitsgrad</string>
+    <string name="settings_game_field_size">Feldgröße</string>
     <string name="settings_notifications">Benachrichtigungen</string>
     <string name="settings_notifications_text">Benachrichtigungen im Spiel anzeigen</string>
     <string name="settings_show_zoom_buttons">Zoomknöpfe</string>
     <string name="settings_show_zoom_buttons_text">Zoomknöpfe für das Sudokufeld anzeigen</string>
     <string name="settings_vibrator">Vibration</string>
     <string name="settings_vibrator_text">Vibration bei Spielereignissen erlauben</string>
-    
-    <string name="check_box_assistant_obvious_mistakes">Offensichtliche Fehler anzeigen</string>
-    <string name="check_box_assistant_solve_cells">Erlaube das Lösen von Zellen</string>
-    <string name="check_box_assistant_bookmark">Erlaube Lesezeichen</string>
-    <string name="radio_button_difficulty_easy">Leicht</string>
-    <string name="radio_button_difficulty_medium">Normal</string>
-    <string name="radio_button_difficulty_hard">Schwer</string>
-    <string name="radio_button_field_size_9x9">9x9</string>
-    <string name="radio_button_field_size_16x16">16x16</string>
     
     <!-- Text messages -->
     <string name="text_about">Adrian Vielsack\nChristof Urbaczek\nFlorian Rosenthal\nMichael Hoff\nMoritz Lüdecke\nPhilip Flohr</string>
