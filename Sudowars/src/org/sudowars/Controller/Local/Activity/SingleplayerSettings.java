@@ -172,7 +172,7 @@ public class SingleplayerSettings extends Settings {
 		FileIO savedGames = new FileIO(this.getApplicationContext());
 		savedGames.saveSingleplayerGame(new SingleplayerGameState(game,
 				difficulty,
-				this.preferences.getBoolean("singleplayer_assistant_obvious_mistakes", true),
+				this.preferences.getBoolean("singleplayer_assistant_show_mistakes", true),
 				this.preferences.getBoolean("singleplayer_assistant_solve_cells", true),
 				this.preferences.getBoolean("singleplayer_assistant_bookmark", true),
 				new DeltaManager()));
