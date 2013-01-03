@@ -55,6 +55,7 @@
     <color name="RED">#FF0000</color>
     <color name="CYAN">#00FFFF</color>
     <color name="YELLOW">#C8C800</color>
+    <color name="HOLO_BLUE">#ff00ddff</color>
     
     
     <!-- Player colors -->
@@ -79,21 +80,21 @@
     <color name="button_symbols_notice_foreground">@color/BLACK</color>
     <color name="button_symbols_notice_background">@color/LTGRAY</color>
     <color name="button_symbols_cell_value_foreground">@color/BLACK</color>
-    <color name="button_symbols_cell_value_background">@color/CYAN</color>
+    <color name="button_symbols_cell_value_background">@color/HOLO_BLUE</color>
     <color name="button_symbols_toggled_foreground">@color/WHITE</color>
     <color name="button_symbols_toggled_background">@color/BLACK</color>
-    <color name="button_symbols_toggled_and_cell_value_foreground">@color/CYAN</color>
+    <color name="button_symbols_toggled_and_cell_value_foreground">@color/HOLO_BLUE</color>
     <color name="button_symbols_toggled_and_cell_value_background">@color/BLACK</color>
     
     <!-- Game message color -->
     <color name="text_counter">@color/LTGRAY</color>
-    <color name="text_game_over">@color/CYAN</color>
-    <color name="text_pause">@color/CYAN</color>
+    <color name="text_game_over">@color/HOLO_BLUE</color>
+    <color name="text_pause">@color/HOLO_BLUE</color>
     
     <!-- Sudoku field colors -->
     <color name="sudoku_field_bold_line">@color/WHITE</color>
     <color name="sudoku_field_normal_line">@color/WHITE</color>
-    <color name="sudoku_field_selected">@color/CYAN</color>
+    <color name="sudoku_field_selected">@color/HOLO_BLUE</color>
     <color name="sudoku_field_invalid">@color/RED</color>
     <color name="sudoku_field_remote">@color/actionbar_score_remote_background</color>
     <color name="sudoku_field_normal">@color/WHITE</color>

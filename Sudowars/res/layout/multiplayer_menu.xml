@@ -48,37 +48,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/layBtnMultiplayer"
-        android:layout_width="fill_parent"
-        android:layout_height="70dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/btnMultiplayerNew"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="4dp"
-            android:text="@string/button_multiplayer_new" />
-
-        <Button
-            android:id="@+id/btnMultiplayerContinue"
-            android:layout_weight="0"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="0dp"
-            android:text="@string/button_multiplayer_continue_symbol" />
-        
-    </LinearLayout>
-
 	<ListView
 	    android:id="@+id/lstBluetoothDevices"
 	    android:layout_width="match_parent"

@@ -47,6 +47,7 @@
     <item
     	android:id="@+id/btSettings"
     	android:title="@string/button_settings"
+        android:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_preferences"/>
     <item
     	android:id="@+id/btAbout"

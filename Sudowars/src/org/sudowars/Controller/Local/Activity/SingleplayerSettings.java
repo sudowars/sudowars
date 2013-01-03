@@ -79,7 +79,7 @@ import android.widget.RadioButton;
 /**
  * Shows the menu of a new Singleplayer game.
  */
-public class SingleplayerSettings extends PoolBinder {
+public class SingleplayerSettings extends Settings {
 	/**
 	 * the RadioButton array for size
 	 */
