@@ -68,6 +68,7 @@ import org.sudowars.Model.Difficulty.DifficultyEasy;
 import org.sudowars.Model.Difficulty.DifficultyHard;
 import org.sudowars.Model.Difficulty.DifficultyMedium;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
@@ -259,9 +260,8 @@ public class MultiplayerSettings extends PoolBinder {
 	public void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		//TODO:
-	    //ActionBar actionBar = getActionBar();
-	    //actionBar.setDisplayHomeAsUpEnabled(true);
+	    ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		setContentView(R.layout.multiplayer_settings);
 		
@@ -272,8 +272,6 @@ public class MultiplayerSettings extends PoolBinder {
 		
 		//local is client
 		if (intent.hasExtra("connection")) {
-			this.setTitle(this.getTitle() + String.format(" (%s)", getString(R.string.client)));
-			
 			this.connection = (BluetoothConnection) BluetoothConnection.getActiveBluetoothConnection();
 			this.tglBtVisible.setEnabled(false);
 			this.lblConnectionStatus.setText(getResources().getStringArray(R.array.bluetooth_states)[1]);
@@ -282,8 +280,6 @@ public class MultiplayerSettings extends PoolBinder {
 			
 		//local is server
 		} else {
-			this.setTitle(this.getTitle() + String.format(" (%s)", getString(R.string.server)));
-			
 			this.connection = new BluetoothServer();
 			
 			//commence game
@@ -341,6 +337,11 @@ public class MultiplayerSettings extends PoolBinder {
 				this.connection.sendCommand((Command) command);
 			}
 		}
+		
+		if (this.settings.isNewGame())
+			this.setTitle(String.format(getString(R.string.button_multiplayer_new)));
+		else
+			this.setTitle(String.format(getString(R.string.button_multiplayer_continue)));
 	}
     
 	/*

@@ -117,9 +117,8 @@ public class SingleplayerSettings extends PoolBinder {
 	public void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		//TODO:
-	    //ActionBar actionBar = getActionBar();
-	    //actionBar.setDisplayHomeAsUpEnabled(true);
+	    ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		setContentView(R.layout.singleplayer_settings);
 		setupButtons();

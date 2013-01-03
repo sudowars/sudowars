@@ -56,7 +56,6 @@
     <string name="assistants">Assistants</string>
     <string name="bluetooth_connection_status">Connection Status</string>
     <string name="bluetooth_devices">Bluetooth Devices</string>
-    <string name="client">Client</string>
     <string name="difficulty">Difficulty</string>
     <string name="field_size">Field size</string>
     <string name="get_ready">Get Ready!</string>
@@ -65,7 +64,6 @@
     <string name="pause">Pause</string>
     <string name="unknown">Unknown</string>
     <string name="scanning">Scanning…</string>
-    <string name="server">Server</string>
     <string name="settings">Settings</string>
     <string name="singleplayer">Singleplayer</string>
     <string name="warning">Warning</string>

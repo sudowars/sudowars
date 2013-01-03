@@ -47,6 +47,7 @@ package org.sudowars.Controller.Local.Activity;
 import java.util.ArrayList;
 import java.util.Set;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -169,9 +170,8 @@ public class MultiplayerMenu extends PoolBinder {
 		
 		super.onCreate(savedInstanceState);
 		
-		//TODO:
-	    //ActionBar actionBar = getActionBar();
-	    //actionBar.setDisplayHomeAsUpEnabled(true);
+	    ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		setContentView(R.layout.multiplayer_menu);
 		
