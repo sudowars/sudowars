@@ -90,21 +90,22 @@
         
         <activity
             android:name=".Controller.Local.Activity.MultiplayerMenu"
-            android:label="@string/multiplayer" 
+            android:label="@string/multiplayer"
             android:configChanges="orientation" />
         
         <activity
             android:name=".Controller.Local.Activity.MultiplayerSettings"
-            android:label="@string/multiplayer" 
-            android:configChanges="orientation|keyboard|keyboardHidden" />
+            android:label="@string/multiplayer"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden" />
+        
         <activity
             android:name=".Controller.Local.Activity.SingleplayerPlay" 
-            android:configChanges="orientation|uiMode" />
+            android:configChanges="orientation|screenSize|uiMode" />
             
         
         <activity
-            android:name=".Controller.Local.Activity.MultiplayerPlay" 
-            android:configChanges="orientation|keyboard|keyboardHidden|uiMode" />
+            android:name=".Controller.Local.Activity.MultiplayerPlay"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|uiMode" />
         
     </application>
     
