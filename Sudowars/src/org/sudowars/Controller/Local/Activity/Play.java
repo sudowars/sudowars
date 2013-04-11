@@ -47,6 +47,8 @@ package org.sudowars.Controller.Local.Activity;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -57,6 +59,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -591,35 +594,28 @@ public abstract class Play extends PoolBinder {
 		lblText.setTextColor(this.getResources().getColor(R.color.text_game_over));
 		lblText.setGravity(Gravity.CENTER);
 		
-		AlphaAnimation fadeIn = new AlphaAnimation(0, 1);
-		fadeIn.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text));
-		lblText.setAnimation(fadeIn);
-		
 		for (int i = 0; i < layKeysLine.length; i++) {
-			AlphaAnimation fadeOut = new AlphaAnimation(1, 0);
-			fadeOut.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text));
-			layKeysLine[i].setAnimation(fadeOut);
 			final int keyRow = i;
 			final TextView goodbye = lblText;
-			fadeOut.setAnimationListener(new AnimationListener() {
-				@Override
-				public void onAnimationEnd(Animation animation) {
-				        layKeysLine[keyRow].removeAllViews();
-				        if (keyRow == 1) {
-				        	layKeysLine[1].addView(goodbye);
-				        }
-				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-				        // TODO Auto-generated method stub
-				}
-
-				@Override
-				public void onAnimationStart(Animation animation) {
-				        // TODO Auto-generated method stub
-				}
-			});
+			layKeysLine[keyRow].animate()
+					.alpha(0f)
+					.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text))
+					.setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+						        layKeysLine[keyRow].removeAllViews();
+						        if (keyRow == 1) {
+						        	layKeysLine[keyRow].addView(goodbye);
+						        	layKeysLine[keyRow].animate()
+						    				.alpha(1f)
+						    				.setDuration(Play.this.getResources().getInteger(R.integer.fade_in_game_finish_text))
+						    				.setListener(null);
+						        } else {
+						        	layKeysLine[keyRow].setAlpha(1f);
+						        }
+						}
+					});
+			
 		}
 	}
 	
