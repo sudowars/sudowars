@@ -106,7 +106,7 @@
     
     <!-- Text messages -->
     <string name="text_about">Adrian Vielsack\nChristof Urbaczek\nFlorian Rosenthal\nMichael Hoff\nMoritz Lüdecke\nPhilip Flohr</string>
-    <string name="text_contributions">Dank geht an:\nViewPagerIndicator,\nFaenza (das Logo beruht auf dem Icon archlinux-logo.svg),\nOpenSudoku und\nAstrid (für Code-Beispiele)</string>
+    <string name="text_contributions">Dank geht an:\nViewPagerIndicator,\nFaenza (das Logo beruht auf dem Icon archlinux-logo.svg)</string>
     <string name="text_aborted_multiplayer">Der Gegner hat aufgegeben.</string>
     <string name="text_ban">Benutzer wurde gebannt.</string>
     <string name="text_banned">Du wurdest gebannt!</string>

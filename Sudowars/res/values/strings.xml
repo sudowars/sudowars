@@ -66,7 +66,7 @@
     <string name="singleplayer">Singleplayer</string>
     <string name="warning">Warning</string>
     <string name="version">version</string>
-    <string name="version_number">1.0</string>
+    <string name="version_number">1.1 alpha</string>
     
     <!-- Buttons -->
     <string name="button_about">About</string>
@@ -117,7 +117,7 @@
     
     <!-- Text messages -->
     <string name="text_about">Adrian Vielsack\nChristof Urbaczek\nFlorian Rosenthal\nMichael Hoff\nMoritz Lüdecke\nPhilip Flohr</string>
-    <string name="text_contributions">Thanks to:\nViewPagerIndicator,\nFaenza (the logo is based on the icon archlinux-logo.svg),\nAstrid and\nOpenSudoku (for code examples)</string>
+    <string name="text_contributions">Thanks to:\nViewPagerIndicator,\nFaenza (the logo is based on the icon archlinux-logo.svg)</string>
     <string name="text_contributions_astrid">Astrid</string>
     <string name="text_contributions_astrid_link">https://github.com/todoroo/astrid</string>
     <string name="text_contributions_faenza">Faenza</string>
