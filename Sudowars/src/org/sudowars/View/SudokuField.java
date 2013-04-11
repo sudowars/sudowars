@@ -645,7 +645,7 @@ public class SudokuField extends View {
 		zbc = new ZoomButtonsController(this);
 		zbc.setOnZoomListener(new ZoomButtonHandler());
 		zbc.setAutoDismissed(true);
-		this.zbc.setVisible(false);
+		zbc.setVisible(false);
 		zbc.setZoomInEnabled(true);
 		zbc.setZoomOutEnabled(true);
 		}
