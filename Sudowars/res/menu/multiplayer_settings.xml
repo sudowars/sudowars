@@ -47,7 +47,7 @@
     <item
         android:id="@+id/btVisible"
         android:title="@string/button_bluetooth_make_visible"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_refresh" />
     <item
     	android:id="@+id/btKick"

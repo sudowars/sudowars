@@ -65,7 +65,7 @@
     <string name="button_assistant">Assistent</string>
     <string name="button_ban">Verbanne Benutzer</string>
     <string name="button_bluetooth_activate">Aktiviere Bluetooth</string>
-    <string name="button_bluetooth_make_visible">Sichtbar machen</string>
+    <string name="button_bluetooth_make_visible">Gerät sichtbar machen</string>
     <string name="button_bluetooth_make_visible_active">Zeige verbleibende Sekunden an</string>
     <string name="button_bluetooth_is_visible_before">Das Gerät ist noch</string>
     <string name="button_bluetooth_is_visible_after">Sekunden sichtbar.</string>
