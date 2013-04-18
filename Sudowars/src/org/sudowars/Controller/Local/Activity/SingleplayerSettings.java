@@ -66,16 +66,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 /**
  * Shows the menu of a new Singleplayer game.
@@ -85,6 +92,16 @@ public class SingleplayerSettings extends Settings {
 	 * the start button to start a new Sudoku game
 	 */
 	private Button btnStart;
+	
+	/**
+	 * the RadioButton array for size
+	 */
+	private RadioButton[] rbtField_size;
+
+	/**
+	 * the RadioButton array for difficulty
+	 */
+	private RadioButton[] rbtDifficulty;
 	
 	/**
 	 * the preferences
@@ -102,9 +119,51 @@ public class SingleplayerSettings extends Settings {
 	    ActionBar actionBar = getActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
 	    
+	    setContentView(R.layout.singleplayer_settings);
 		addPreferencesFromResource(R.xml.singleplayer_preferences);
+		setupButtons();
 		
 		this.preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences preferences2 = getPreferences(Context.MODE_PRIVATE);
+		int size = preferences2.getInt("size", 0);
+		int difficulty = preferences2.getInt("difficulty", 1);
+		
+		if (size < 0 || size > 1) {
+			size = 0;
+		}
+
+		if (difficulty < 0 || difficulty > 2) {
+			difficulty = 1;
+		}
+
+		this.rbtField_size[size].setChecked(true);
+		this.rbtDifficulty[difficulty].setChecked(true);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sudowars.Controller.Local.PoolBinder#onStop()
+	 */
+	protected void onStop() {
+		super.onStop();
+
+		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
+
+		int difficulty;
+
+		if (this.rbtDifficulty[0].isChecked() == true) {
+			difficulty = 0;
+		} else if (this.rbtDifficulty[1].isChecked() == true) {
+			difficulty = 1;
+		} else {
+			difficulty = 2;
+		}
+
+		editor.putInt("size", (this.rbtField_size[0].isChecked() == true)?0:1);
+		editor.putInt("difficulty", difficulty);
+
+		editor.commit();
 	}
 	
 	/*
@@ -147,13 +206,11 @@ public class SingleplayerSettings extends Settings {
 		/* Ugly Android bug...
 		 * see https://code.google.com/p/android/issues/detail?id=2096
 		 */
-		int size = Integer.parseInt(this.preferences.getString("singleplayer_field_size",
-											this.getResources().getString(R.string.settings_game_field_size_default)));
-		int diffValue = Integer.parseInt(this.preferences.getString("singleplayer_difficulty",
-											this.getResources().getString(R.string.settings_game_difficulty_default)));
-		if (diffValue == 0) {
+		int size = (this.rbtField_size[0].isChecked() == true)?9:16;
+		
+		if (this.rbtDifficulty[0].isChecked() == true) {
 			difficulty = new DifficultyEasy();
-		} else if (diffValue == 1) {
+		} else if (this.rbtDifficulty[1].isChecked() == true) {
 			difficulty = new DifficultyMedium();
 		} else {
 			difficulty = new DifficultyHard();
@@ -189,5 +246,19 @@ public class SingleplayerSettings extends Settings {
 		Intent intent = new Intent(this, SingleplayerPlay.class);
 		startActivity(intent);
 		finish();
+	}
+	
+	/**
+	 * Setup buttons
+	 */
+	private void setupButtons() {
+		this.rbtField_size = new RadioButton[2];
+		this.rbtField_size[0] = (RadioButton) findViewById(R.id.rbtField_size_9x9);
+		this.rbtField_size[1] = (RadioButton) findViewById(R.id.rbtField_size_16x16);
+
+		this.rbtDifficulty = new RadioButton[3];
+		this.rbtDifficulty[0] = (RadioButton) findViewById(R.id.rbtDifficulty_easy);
+		this.rbtDifficulty[1] = (RadioButton) findViewById(R.id.rbtDifficulty_medium);
+		this.rbtDifficulty[2] = (RadioButton) findViewById(R.id.rbtDifficulty_hard);
 	}
 }

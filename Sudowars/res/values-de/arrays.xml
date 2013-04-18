@@ -53,15 +53,4 @@
         <item>Warte</item>
     </string-array>
     
-    <string-array name="difficulty">
-        <item>Leicht</item>
-        <item>Normal</item>
-        <item>Schwer</item>
-    </string-array>
-    
-    <string-array name="field_size">
-        <item>9x9</item>
-        <item>16x16</item>
-    </string-array>
-    
 </resources>

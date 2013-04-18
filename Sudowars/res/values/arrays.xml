@@ -53,21 +53,10 @@
         <item>Listening</item>
     </string-array>
     
-    <string-array name="difficulty">
-        <item>Easy</item>
-        <item>Medium</item>
-        <item>Hard</item>
-    </string-array>
-    
     <string-array name="difficulty_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
-    </string-array>
-    
-    <string-array name="field_size">
-        <item>9x9</item>
-        <item>16x16</item>
     </string-array>
     
     <string-array name="field_size_values">
