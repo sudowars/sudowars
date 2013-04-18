@@ -515,8 +515,7 @@ public class MultiplayerSettings extends PoolBinder {
 	private void onBtVisibleClick() {
 		if (this.visibleCounter <= 0
 				&& this.connection instanceof BluetoothServer
-				&& BluetoothAdapter.getDefaultAdapter().isEnabled()) {
-			MultiplayerSettings.this.btVisible.setTitle(R.string.button_bluetooth_make_visible_active);			
+				&& BluetoothAdapter.getDefaultAdapter().isEnabled()) {	
 			DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Make bluetooth device discoverable.");
 			
 			Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
@@ -792,6 +791,7 @@ public class MultiplayerSettings extends PoolBinder {
 		 */
 		public Counter(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);
+			MultiplayerSettings.this.btVisible.setTitle(R.string.button_bluetooth_make_visible_active);
 		}
 		
 		/*
