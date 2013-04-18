@@ -297,7 +297,7 @@ public class MultiplayerMenu extends PoolBinder {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		
-	    this.btScan = menu.findItem(R.id.btScan);
+	    this.btScan = (MenuItem) menu.findItem(R.id.btScan);
 	    this.btScan.setEnabled(BluetoothAdapter.getDefaultAdapter().isEnabled());
 	    
 		return true;

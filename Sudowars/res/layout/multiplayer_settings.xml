@@ -62,163 +62,41 @@
             android:gravity="fill_horizontal"
             android:orientation="vertical" >
             
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_gravity="center"
-                android:orientation="vertical" >
-        
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="@string/settings_game_field_size" />
-        
-                <RadioGroup
-                    android:id="@+id/rgrSize"
-                    android:layout_width="fill_parent"
-                    android:layout_height="60dp"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-        
-                    <RadioButton
-                        android:id="@+id/rbtField_size_9x9"
-                        android:checked="true"
-                        android:layout_marginLeft="4dp"
-                        android:layout_weight="1"
-                        android:layout_gravity="center|left"
-                        android:text="@string/settings_game_field_size_9x9"
-                        android:enabled="false" />
-        
-                    <RadioButton
-                        android:id="@+id/rbtField_size_16x16"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="4dp"
-                        android:layout_gravity="center|right"
-                        android:text="@string/settings_game_field_size_16x16"
-                        android:enabled="false" />
-        
-                </RadioGroup>
-        
-            </LinearLayout>
-        
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_gravity="center"
-                android:orientation="vertical" >
-        
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="@string/settings_game_difficulty" />
-        
-                <RadioGroup
-                    android:id="@+id/rgrDifficulty"
-                    android:layout_width="fill_parent"
-                    android:layout_height="60dp"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
-        
-                    <RadioButton
-                        android:id="@+id/rbtDifficulty_easy"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="4dp"
-                        android:layout_gravity="center|left"
-                        android:text="@string/settings_game_difficulty_easy"
-                        android:enabled="false" />
-        
-                    <RadioButton
-                        android:id="@+id/rbtDifficulty_medium"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="4dp"
-                        android:layout_gravity="center|center"
-                        android:checked="true"
-                        android:text="@string/settings_game_difficulty_medium"
-                        android:enabled="false" />
-        
-                    <RadioButton
-                        android:id="@+id/rbtDifficulty_hard"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="8dp"
-                        android:layout_gravity="center|right"
-                        android:text="@string/settings_game_difficulty_hard"
-                        android:enabled="false" />
-        
-                </RadioGroup>
-        
-            </LinearLayout>
+            <TextView
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:text="@string/settings_game_field_size"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+    
+            <include
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                layout="@layout/preferences_size" />
             
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_gravity="center"
-                android:orientation="vertical" >
-        
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="@string/bluetooth_connection_status" />
-                    
-                <TextView
-                   android:id="@+id/lblConnectionStatus"
-                   android:text=""
-                   android:textSize="20dp"
-                   android:layout_width="fill_parent"
-                   android:layout_height="60dp"
-                   android:gravity="center" />
-        
-            </LinearLayout>
+            <TextView
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:text="@string/settings_game_difficulty"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+            
+            <include
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                layout="@layout/preferences_difficulty" />
                 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:orientation="horizontal"
-                android:gravity="center" >
+            <TextView
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:text="@string/bluetooth_connection_status"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
                 
-                <ToggleButton
-                    android:id="@+id/tglBtVisible"
-                    android:layout_weight="1"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_gravity="center|left"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textOff="@string/button_bluetooth_make_visible"
-                    android:textOn="@string/button_bluetooth_make_visible" />
-                
-                
-                <Button
-                    android:id="@+id/btnKick"
-                    android:text="@string/button_kick"
-                    android:layout_weight="1"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginLeft="0dp"
-                    android:layout_gravity="center|right"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:longClickable="true"
-                    android:enabled="false" />
-                
-            </LinearLayout>
+            <TextView
+               android:id="@+id/lblConnectionStatus"
+               android:textIsSelectable="false"
+               android:textSize="20sp"
+               android:layout_width="fill_parent"
+               android:layout_height="60dp"
+               android:gravity="center" />
             
         </LinearLayout>
         

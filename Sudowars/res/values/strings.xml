@@ -71,8 +71,12 @@
     <!-- Buttons -->
     <string name="button_about">About</string>
     <string name="button_assistant">Assistant</string>
+    <string name="button_ban">Ban User</string>
     <string name="button_bluetooth_activate">Activate Bluetooth</string>
     <string name="button_bluetooth_make_visible">Make device visible</string>
+    <string name="button_bluetooth_make_visible_active">Show remaining seconds</string>
+    <string name="button_bluetooth_is_visible_before">The device is still</string>
+    <string name="button_bluetooth_is_visible_after">seconds visible.</string>
     <string name="button_bluetooth_scan">Scan</string>
     <string name="button_bluetooth_scan_stop">Stop scanning</string>
     <string name="button_bookmark_get">Open Bookmark</string>
@@ -80,7 +84,7 @@
     <string name="button_exit">Exit</string>
     <string name="button_give_up">Give Up</string>
     <string name="button_manual">Manual</string>
-    <string name="button_kick">Kick</string>
+    <string name="button_kick">Kick User</string>
     <string name="button_multiplayer">Multiplayer</string>
     <string name="button_multiplayer_continue">Continue</string>
     <string name="button_multiplayer_continue_symbol">↷</string>
