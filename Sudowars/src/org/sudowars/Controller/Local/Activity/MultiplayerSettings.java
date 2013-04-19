@@ -83,7 +83,6 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RadioButton;
@@ -800,7 +799,7 @@ public class MultiplayerSettings extends PoolBinder {
 		 */
 		@Override
 		public void onFinish() {
-				MultiplayerSettings.this.visibleCounter = -1;
+			MultiplayerSettings.this.visibleCounter = -1;
 			if (MultiplayerSettings.this.btVisible != null) {
 				MultiplayerSettings.this.btVisible.setTitle(R.string.button_bluetooth_make_visible);
 			}

@@ -166,8 +166,8 @@ public class MainMenu extends PoolBinder {
 		} else if (!this.savedGames.hasSingleplayerGame() && this.layBtnSingleplayer.getChildCount() == 2) {
 			this.layBtnSingleplayer.removeView(this.btnSingleplayerContinue);
 			this.btnSingleplayer.setLayoutParams(new LinearLayout.LayoutParams(
-					LinearLayout.MarginLayoutParams.FILL_PARENT,
-					LinearLayout.MarginLayoutParams.FILL_PARENT));
+					LinearLayout.MarginLayoutParams.MATCH_PARENT,
+					LinearLayout.MarginLayoutParams.MATCH_PARENT));
 			this.btnSingleplayer.setText(getString(R.string.button_singleplayer));
 		}
 	}

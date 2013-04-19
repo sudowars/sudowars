@@ -44,28 +44,29 @@
   Philip Flohr 
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/manual_page_background" >
     
     <TextView
         android:id="@+id/manual_page_title"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:gravity="center"
         android:textColor="@color/manual_title"
-        android:textSize="32dp"
+        android:textSize="32sp"
         android:textStyle="bold"
         android:shadowRadius="2"
         android:shadowDy="1"
-        android:shadowColor="@color/manual_title_shadow" />
+        android:shadowColor="@color/manual_title_shadow"
+        android:textIsSelectable="false" />
         
     <ImageView
         android:id="@+id/manual_page_image"
         android:contentDescription="@string/manual_image"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginLeft="40dp"
@@ -74,7 +75,7 @@
     
     <TextView
         android:id="@+id/manual_page_body"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minLines="3"
         android:layout_marginTop="16dp"
@@ -83,10 +84,11 @@
         android:layout_marginLeft="16dp"
         android:gravity="center"
         android:textColor="@color/manual_body"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:shadowRadius="2"
         android:shadowDy="1"
-        android:shadowColor="@color/manual_body_shadow" />
+        android:shadowColor="@color/manual_body_shadow"
+        android:textIsSelectable="false" />
         
 </LinearLayout>

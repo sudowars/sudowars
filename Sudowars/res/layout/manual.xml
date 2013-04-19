@@ -46,16 +46,16 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
@@ -68,7 +68,7 @@
             android:id="@+id/indicator"
             android:padding="15dip"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             style="@style/CirclePageIndicator" />
         
         <TextView
@@ -80,7 +80,7 @@
             android:layout_marginRight="5dip"
             android:text="@string/button_next"
             android:textColor="@color/manual_next_button"
-            android:textSize="20dip"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:paddingRight="10dip"
             android:shadowRadius="2"

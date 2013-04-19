@@ -62,9 +62,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -72,7 +70,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import org.sudowars.DebugHelper;
 import org.sudowars.R;
 import org.sudowars.Model.SudokuManagement.IO.FileIO;
-import org.sudowars.Model.SudokuUtil.SingleplayerGameState;
 import org.sudowars.Controller.Local.BluetoothDeviceList.BluetoothDeviceListAdapter;
 import org.sudowars.Controller.Local.BluetoothDeviceList.BluetoothDeviceListItem;
 import org.sudowars.Controller.Remote.BluetoothConnection;
@@ -85,16 +82,6 @@ public class MultiplayerMenu extends PoolBinder {
 	 * Intent request code
 	 */
     private static final int REQUEST_ENABLE_BT = 3;
-    
-	/**
-	 * Button to open a new multiplayer game
-	 */
-	private Button btnMultiplayerNew;
-	
-	/**
-	 * Button to continue the last unfinished multiplayer game
-	 */
-	private Button btnMultiplayerContinue;
 	
 	/**
 	 * List with all bluetooth devices, which lstBluetoothDevices uses
@@ -209,14 +196,6 @@ public class MultiplayerMenu extends PoolBinder {
 	 */
 	protected void onResume() {
 		super.onResume();
-		
-		if (this.btnMultiplayerContinue != null) {
-			if (!this.savedGames.hasMultiplayerGame()) {
-				this.btnMultiplayerContinue.setVisibility(View.GONE);
-			} else {
-				this.btnMultiplayerContinue.setVisibility(View.VISIBLE);
-			}
-		}
 		
 		this.activateBluetooth();
 		

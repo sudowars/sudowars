@@ -44,36 +44,36 @@
   Philip Flohr 
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:isScrollContainer="false" >
     
     <TextView
         style="?android:attr/listSeparatorTextViewStyle"
         android:text="@string/settings_game_field_size"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     
     <include
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         layout="@layout/preferences_size" />
     
     <TextView
         style="?android:attr/listSeparatorTextViewStyle"
         android:text="@string/settings_game_difficulty"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     
     <include
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         layout="@layout/preferences_difficulty" />
     
     <ListView
         android:id="@android:id/list"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
     

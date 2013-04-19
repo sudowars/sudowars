@@ -45,19 +45,19 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:baselineAligned="false"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:gravity="fill_horizontal"
     android:orientation="vertical" >
     
     <ScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical" >
         
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="fill_horizontal"
             android:orientation="vertical" >
@@ -65,36 +65,36 @@
             <TextView
                 style="?android:attr/listSeparatorTextViewStyle"
                 android:text="@string/settings_game_field_size"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
     
             <include
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 layout="@layout/preferences_size" />
             
             <TextView
                 style="?android:attr/listSeparatorTextViewStyle"
                 android:text="@string/settings_game_difficulty"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             
             <include
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 layout="@layout/preferences_difficulty" />
                 
             <TextView
                 style="?android:attr/listSeparatorTextViewStyle"
                 android:text="@string/bluetooth_connection_status"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
                 
             <TextView
                android:id="@+id/lblConnectionStatus"
                android:textIsSelectable="false"
                android:textSize="20sp"
-               android:layout_width="fill_parent"
+               android:layout_width="match_parent"
                android:layout_height="60dp"
                android:gravity="center" />
             
@@ -103,7 +103,7 @@
     </ScrollView>
     
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_gravity="center"
         android:gravity="center"

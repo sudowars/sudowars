@@ -713,8 +713,8 @@ public class MultiplayerPlay extends Play {
 		int marginvalue = (int) (20.0f * scale + 0.5f);
 		
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.FILL_PARENT);
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.MATCH_PARENT);
 		lp.setMargins(marginvalue, marginvalue, marginvalue, marginvalue);
 		
 		Display display = getWindowManager().getDefaultDisplay();
