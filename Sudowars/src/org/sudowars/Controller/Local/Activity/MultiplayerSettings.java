@@ -690,8 +690,8 @@ public class MultiplayerSettings extends Settings {
             public boolean onPreferenceChange(Preference pref, Object obj) {
             	if (obj instanceof String) {
 	            	int size = Integer.parseInt((String) obj);
-	            	int i = (size == 9)?0:1;
-	            	pref.setSummary(((ListPreference) pref).getEntries()[i]);
+	            	size = (size == 9)?0:1;
+	            	pref.setSummary(((ListPreference) pref).getEntries()[size]);
 					MultiplayerSettings.this.settings.setSize(size);
 					refresh();
             	}
