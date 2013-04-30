@@ -85,18 +85,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.RadioButton;
-import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.os.CountDownTimer;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.widget.ToggleButton;
 
 /**
  * Shows the settings menu of a new multiplayer game.
  */
-public class MultiplayerSettings extends PoolBinder {
+public class MultiplayerSettings extends Settings {
 	/**
 	 * Intent request code
 	 */
@@ -113,24 +113,9 @@ public class MultiplayerSettings extends PoolBinder {
     private boolean isClient;
     
 	/**
-	 * the size of the game
+	 * the preferences
 	 */
-	private RadioGroup rgrSize;
-	
-	/**
-	 * the difficulty of the game
-	 */
-	private RadioGroup rgrDifficulty;
-	
-	/**
-	 * the RadioButton array for size
-	 */
-	private RadioButton[] rbtField_size;
-	
-	/**
-	 * the RadioButton array for difficulty
-	 */
-	private RadioButton[] rbtDifficulty;
+	protected SharedPreferences preferences;
 	
 	/**
 	 * the button to kick a connected player
@@ -149,7 +134,7 @@ public class MultiplayerSettings extends PoolBinder {
 	/**
 	 * current connection status
 	 */
-	private TextView lblConnectionStatus;
+	private Preference connectionStatus;
 	
 	/**
 	 * the ready button of the local player
@@ -233,7 +218,7 @@ public class MultiplayerSettings extends PoolBinder {
     			}
 
         		String states[] = getResources().getStringArray(R.array.bluetooth_states);
-        		MultiplayerSettings.this.lblConnectionStatus.setText(states[MultiplayerSettings.this.connection.getState()]);
+        		MultiplayerSettings.this.connectionStatus.setTitle(states[MultiplayerSettings.this.connection.getState()]);
         		
         		break;
         	case BluetoothConnection.MESSAGE_NEW_DATA:
@@ -283,18 +268,19 @@ public class MultiplayerSettings extends PoolBinder {
 	    actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		setContentView(R.layout.multiplayer_settings);
-		
+		addPreferencesFromResource(R.xml.multiplayer_preferences);
+
+		this.preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		this.visibleCounter = -1;
 		this.setupButtons();
 		this.settings = new MultiplayerSudokuSettings();
 		
 		Intent intent = getIntent();
-		
 		isClient = intent.hasExtra("connection");
 		
 		if (isClient) {
 			this.connection = (BluetoothConnection) BluetoothConnection.getActiveBluetoothConnection();
-			this.lblConnectionStatus.setText(getResources().getStringArray(R.array.bluetooth_states)[1]);
+			this.connectionStatus.setTitle(getResources().getStringArray(R.array.bluetooth_states)[1]);
 			
 			this.connection.setBluetoothEventHandler(mHandler);
 			disableButtons();
@@ -304,7 +290,6 @@ public class MultiplayerSettings extends PoolBinder {
 			//commence game
 			if (intent.hasExtra("gameState")) {
 				disableButtons();
-				
 				this.gameState = (GameState) intent.getExtras().getSerializable("gameState");
 				this.game = (MultiplayerGame) this.gameState.getGame();
 				
@@ -321,29 +306,20 @@ public class MultiplayerSettings extends PoolBinder {
 			//new game
 			} else {
 				this.settings.setIsNewGame(true);
-				
-				SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-				int size = preferences.getInt("size", 0);
-				int difficulty = preferences.getInt("difficulty", 1);
-				
-				if (size < 0 || size > 1) {
-					size = 0;
-				}
-				
-				if (difficulty < 0 || difficulty > 2) {
+				int size = Integer.parseInt(preferences.getString("multiplayer_field_size", "9"));
+            	int difficulty = Integer.parseInt(preferences.getString("multiplayer_difficulty", "0"));
+            	
+            	size = (size == 9)?0:1;
+				if (difficulty < 0 || difficulty > 2)
 					difficulty = 1;
-				}
 				
 				this.settings.setSettings(size, difficulty, true);
 			}
 			
 			this.connection.setBluetoothEventHandler(mHandler);
 			
-			this.lblConnectionStatus.setText(getResources().getStringArray(R.array.bluetooth_states)[0]);
+			this.connectionStatus.setTitle(getResources().getStringArray(R.array.bluetooth_states)[0]);
 	    	((BluetoothServer) this.connection).listen();
-			
-			this.rbtField_size[(this.settings.getSize() == 0)?0:1].setChecked(true);
-			this.rbtDifficulty[this.settings.getDifficulty()].setChecked(true);
 			
 			if (this.connection.getState() == BluetoothConnection.STATE_CONNECTED) {
 				RemoteSettingsCommand command = new RemoteSettingsCommand(this.settings);
@@ -396,14 +372,6 @@ public class MultiplayerSettings extends PoolBinder {
 	    if (this.connection instanceof BluetoothServer) {
 	    	((BluetoothServer)this.connection).stopListening();
 	    }
-	    
-		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = preferences.edit();
-		
-		editor.putInt("size", this.settings.getSize());
-		editor.putInt("difficulty", this.settings.getDifficulty());
-		
-		editor.commit();
 	}
 	
 	/*
@@ -478,8 +446,13 @@ public class MultiplayerSettings extends PoolBinder {
 	 */
 	private void refresh() {
 		if (!(this.connection instanceof BluetoothServer)) {
-			this.rbtField_size[this.settings.getSize()].setChecked(true);
-			this.rbtDifficulty[this.settings.getDifficulty()].setChecked(true);
+			ListPreference size = (ListPreference) findPreference("multiplayer_field_size");
+			size.setValueIndex(this.settings.getSize());
+			size.setSummary(size.getEntries()[this.settings.getSize()]);
+			
+			ListPreference diff = (ListPreference) findPreference("multiplayer_difficulty");
+			diff.setValueIndex(this.settings.getDifficulty());
+			diff.setSummary(diff.getEntries()[this.settings.getDifficulty()]);
 		}
 		
 		if (this.connection != null && this.connection instanceof BluetoothServer && this.connection.getState() == BluetoothConnection.STATE_CONNECTED) {
@@ -711,56 +684,37 @@ public class MultiplayerSettings extends PoolBinder {
 	 * Setup buttons
 	 */
 	private void setupButtons() {
-		this.rbtField_size = new RadioButton[2];
-		this.rbtField_size[0] = (RadioButton) findViewById(R.id.rbtField_size_9x9);
-		this.rbtField_size[1] = (RadioButton) findViewById(R.id.rbtField_size_16x16);
-		
-		this.rbtDifficulty = new RadioButton[3];
-		this.rbtDifficulty[0] = (RadioButton) findViewById(R.id.rbtDifficulty_easy);
-		this.rbtDifficulty[1] = (RadioButton) findViewById(R.id.rbtDifficulty_medium);
-		this.rbtDifficulty[2] = (RadioButton) findViewById(R.id.rbtDifficulty_hard);
-		
-		this.rgrSize = (RadioGroup) findViewById(R.id.rgrSize);
-		this.rgrSize.setOnCheckedChangeListener(
-				new OnCheckedChangeListener() {
-					int size;
-					
-					public void onCheckedChanged(RadioGroup group, int checkedId) {
-						if (checkedId == MultiplayerSettings.this.rbtField_size[0].getId()) {
-							size = 0;
-						} else if (checkedId == MultiplayerSettings.this.rbtField_size[1].getId()) {
-							size = 1;
-						} else {
-							throw new IllegalArgumentException("Illegal size.");
-						}
-						
-						MultiplayerSettings.this.settings.setSize(size);
-						refresh();
-					}
-				});
-		
-		this.rgrDifficulty = (RadioGroup) findViewById(R.id.rgrDifficulty);
-		this.rgrDifficulty.setOnCheckedChangeListener(
-				new OnCheckedChangeListener() {
-					public void onCheckedChanged(RadioGroup group, int checkedId) {
-						int difficulty;
-						
-						if (checkedId == MultiplayerSettings.this.rbtDifficulty[0].getId()) {
-							difficulty = 0;
-						} else if (checkedId == MultiplayerSettings.this.rbtDifficulty[1].getId()) {
-							difficulty = 1;
-						} else if (checkedId == MultiplayerSettings.this.rbtDifficulty[2].getId()) {
-							difficulty = 2;
-						} else {
-							throw new IllegalArgumentException("Illegal difficulty.");
-						}
+		ListPreference size = (ListPreference) findPreference("multiplayer_field_size");
+		size.setSummary(size.getEntry());
+		size.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            public boolean onPreferenceChange(Preference pref, Object obj) {
+            	if (obj instanceof String) {
+	            	int size = Integer.parseInt((String) obj);
+	            	int i = (size == 9)?0:1;
+	            	pref.setSummary(((ListPreference) pref).getEntries()[i]);
+					MultiplayerSettings.this.settings.setSize(size);
+					refresh();
+            	}
+                return true;
+            }
+        });
 
-						MultiplayerSettings.this.settings.setDifficulty(difficulty);
-						refresh();
-					}
-				});
+		ListPreference diff = (ListPreference) findPreference("multiplayer_difficulty");
+		diff.setSummary(diff.getEntry());
+		diff.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference pref, Object obj) {
+            	if (obj instanceof String) {
+	            	int difficulty = Integer.parseInt((String) obj);
+	            	pref.setSummary(((ListPreference) pref).getEntries()[difficulty]);
+					MultiplayerSettings.this.settings.setDifficulty(difficulty);
+					refresh();
+            	}
+				return true;
+			}
+        });
 		
-		this.lblConnectionStatus = (TextView) findViewById(R.id.lblConnectionStatus);
+		this.connectionStatus = findPreference("multiplayer_connection_status");
 		
 		this.tglLocalReady = (ToggleButton) findViewById(R.id.tglLocalReady);
 		this.tglLocalReady.setOnClickListener(
@@ -816,12 +770,9 @@ public class MultiplayerSettings extends PoolBinder {
 	}
 	
 	private void disableButtons() {
-		for (int i = 0; i < this.rgrDifficulty.getChildCount(); i++) {
-			this.rgrDifficulty.getChildAt(i).setEnabled(false);
-		}
-		
-		for (int i = 0; i < this.rgrSize.getChildCount(); i++) {
-			this.rgrSize.getChildAt(i).setEnabled(false);
-		}
+		findPreference("multiplayer_field_size").setEnabled(false);
+		findPreference("multiplayer_field_size").setSelectable(false);
+		findPreference("multiplayer_difficulty").setEnabled(false);
+		findPreference("multiplayer_difficulty").setSelectable(false);
 	}
 }

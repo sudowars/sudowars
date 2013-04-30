@@ -113,10 +113,7 @@ public class SingleplayerSettings extends Settings {
             public boolean onPreferenceChange(Preference pref, Object obj) {
             	if (obj instanceof String) {
 	            	int i = Integer.parseInt((String) obj);
-	            	if (i == 9)
-	            		i = 0;
-	            	else
-	            		i = 1;
+	            	i = (i == 9)?0:1;
 	            	pref.setSummary(((ListPreference) pref).getEntries()[i]);
             	}
                 return true;

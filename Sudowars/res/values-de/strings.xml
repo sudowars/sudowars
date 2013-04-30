@@ -100,9 +100,6 @@
     <string name="settings_game_assistant_solve_cells">Erlaube Zelle lösen</string>
     <string name="settings_game_assistant_bookmark">Erlaube Lesezeichen</string>
     <string name="settings_game_difficulty">Schwierigkeitsgrad</string>
-    <string name="settings_game_difficulty_easy">Leicht</string>
-    <string name="settings_game_difficulty_medium">Normal</string>
-    <string name="settings_game_difficulty_hard">Schwer</string>
     <string name="settings_game_field_size">Feldgröße</string>
     <string name="settings_notifications">Benachrichtigungen</string>
     <string name="settings_notifications_text">Benachrichtigungen im Spiel anzeigen</string>

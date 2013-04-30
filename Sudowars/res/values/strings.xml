@@ -109,12 +109,7 @@
     <string name="settings_game_assistant_solve_cells">Allow cell solving</string>
     <string name="settings_game_assistant_bookmark">Allow bookmarking</string>
     <string name="settings_game_difficulty">Difficulty</string>
-    <string name="settings_game_difficulty_easy">Easy</string>
-    <string name="settings_game_difficulty_medium">Medium</string>
-    <string name="settings_game_difficulty_hard">Hard</string>
     <string name="settings_game_field_size">Field size</string>
-    <string name="settings_game_field_size_9x9">9x9</string>
-    <string name="settings_game_field_size_16x16">16x16</string>
     <string name="settings_notifications">Notifications</string>
     <string name="settings_notifications_text">Show notifications during game</string>
     <string name="settings_show_zoom_buttons">Zoom buttons</string>
