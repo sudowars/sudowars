@@ -55,7 +55,7 @@
     <color name="RED">#FF0000</color>
     <color name="CYAN">#00FFFF</color>
     <color name="YELLOW">#C8C800</color>
-    <color name="HOLO_BLUE">#ff00ddff</color>
+    <color name="HOLO_BLUE">@android:public/color/holo_blue_bright</color>
     
     
     <!-- Player colors -->
