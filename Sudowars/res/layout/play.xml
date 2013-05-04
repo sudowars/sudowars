@@ -51,30 +51,6 @@
     android:orientation="vertical" >
 	
     <LinearLayout
-        android:id="@+id/layActionBar"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-    	android:gravity="right"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/lblTime"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:maxLength="7"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:paddingRight="8dp"
-            android:paddingLeft="8dp"
-            android:gravity="right"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textIsSelectable="false" />
-
-    </LinearLayout>
-	
-    <LinearLayout
         android:id="@+id/laySudokuField"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"

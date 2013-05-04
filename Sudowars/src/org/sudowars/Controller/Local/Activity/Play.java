@@ -49,6 +49,7 @@ import java.util.List;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -69,6 +70,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -215,12 +217,11 @@ public abstract class Play extends PoolBinder {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		//TODO:
-	    //ActionBar actionBar = getActionBar();
-	    //actionBar.setDisplayHomeAsUpEnabled(true);
-		
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+	    ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+	    
+	    actionBar.setDisplayShowCustomEnabled(true);
+	    
 		this.constants = new Constants(this);
 		
 		if (this.constants.isLandscapeMode()) {
@@ -477,7 +478,7 @@ public abstract class Play extends PoolBinder {
 	 * @param elapsedMilliseconds the play time in milliseconds
 	 */
 	private void refreshTime(long elapsedMilliseconds) {
-		if (Play.this.lblTime != null) {
+		if (this.lblTime != null) {
 			final DecimalFormat format = new DecimalFormat("00");
 			
 			byte seconds = (byte) ((elapsedMilliseconds / 1000) % 60);
@@ -501,7 +502,7 @@ public abstract class Play extends PoolBinder {
 			
 			text += String.format("%s", format.format(seconds));
 			
-			Play.this.lblTime.setText(text);
+			this.lblTime.setText(text);
 		}
 	}
 	
@@ -562,9 +563,7 @@ public abstract class Play extends PoolBinder {
 		lp.setMargins(marginvalue, marginvalue, marginvalue, marginvalue);
 		Display display = getWindowManager().getDefaultDisplay();
 		
-		// Convert the dps to pixels, based on density scale
-		//TODO: make action bar variable with min height of 40 dp
-		int actionBar = ((LinearLayout) findViewById(R.id.layActionBar)).getLayoutParams().height;
+		int actionBar = this.getActionBar().getHeight();
 		
 		int width;
 		int height;
@@ -573,11 +572,12 @@ public abstract class Play extends PoolBinder {
 			width = display.getWidth() - display.getHeight() + this.constants.getStatusBarHeight() - 2 * marginvalue;
 			height = display.getHeight() - 2 * actionBar - this.constants.getStatusBarHeight() - 2 * marginvalue;
 			
+			/*TODO
 			int actionBarWidth = findViewById(R.id.layActionBar).getWidth();
 			
 			if (width < actionBarWidth) {
 				width = actionBarWidth;
-			}
+			}*/
 		} else {
 			width = display.getWidth();
 			height = display.getHeight() - display.getWidth() - 2 * marginvalue - this.constants.getStatusBarHeight() - actionBar;
@@ -663,6 +663,18 @@ public abstract class Play extends PoolBinder {
 	 */
 	abstract protected void saveGame();
 	
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
+    public boolean onCreateOptionsMenu(Menu menu) {
+        View view = (View) menu.findItem(R.id.time).getActionView();
+		this.lblTime = (TextView) view.findViewById(R.id.lblTime);
+		this.refreshTime(this.game.getGameTime());
+		
+        return super.onCreateOptionsMenu(menu);
+    }
+	
 	/**
 	 * Setup view
 	 */
@@ -689,15 +701,6 @@ public abstract class Play extends PoolBinder {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		this.sudokuField.setZoomButtonsEnable(settings.getBoolean("zoom_buttons", false));
 		
-		String time = "0:00";
-		
-		if (this.lblTime != null) {
-			time = (String) this.lblTime.getText();
-		}
-		
-		this.lblTime = (TextView) findViewById(R.id.lblTime);
-		this.lblTime.setText(time);
-		
 		setupButtons();
 	}
 	
@@ -712,17 +715,17 @@ public abstract class Play extends PoolBinder {
 		int marginvalue = (int) (1.0f * scale + 0.5f);
 		int minButtonWidth = (int) (62.0f * scale + 0.5f);
 		int minButtonHeight = (int) (40.0f * scale + 0.5f);
-
-		//TODO: make action bar variable with min height of 40 dp
-		int actionBar = ((LinearLayout) findViewById(R.id.layActionBar)).getLayoutParams().height;
+		
+		int actionBar = this.getActionBar().getHeight();
 		int size = this.game.getSudoku().getField().getStructure().getHeight();
 		
 		Display display = getWindowManager().getDefaultDisplay();
+		
 		int buttonWidth;
 		int buttonHeight;
 		
 		if (this.constants.isLandscapeMode()) {
-			buttonWidth = (display.getWidth() - display.getHeight() + this.constants.getStatusBarHeight()) / 3 - 2 * marginvalue;
+			buttonWidth = (display.getWidth() - display.getHeight() + actionBar + this.constants.getStatusBarHeight()) / 3 - 2 * marginvalue;
 			buttonHeight = (display.getHeight() - actionBar - this.constants.getStatusBarHeight()) / (size / 3 + 1) - 2 * marginvalue;
 		
 			if (buttonWidth < minButtonWidth) {

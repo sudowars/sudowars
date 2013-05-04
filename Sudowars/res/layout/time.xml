@@ -43,34 +43,26 @@
   Moritz Lüdecke
   Philip Flohr 
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/time"
-        android:title="@string/playtime"
-        android:showAsAction="always"
-        android:actionLayout="@layout/time" />
-    <item
-        android:id="@+id/assistant"
-        android:title="@string/button_assistant"
-        android:icon="@drawable/ic_menu_edit"/>
-    <item
-        android:id="@+id/give_up"
-        android:title="@string/button_give_up"
-        android:icon="@drawable/ic_menu_myplaces"/>
-    <item
-        android:id="@+id/undo"
-        android:title="@string/button_undo"
-        android:icon="@drawable/ic_menu_revert"/>
-    <item
-        android:id="@+id/redo"
-        android:title="@string/button_redo"
-        android:icon="@drawable/ic_menu_repeat"/>
-    <item
-        android:id="@+id/set_bookmark"
-        android:title="@string/button_bookmark_set"
-        android:icon="@drawable/ic_menu_mark"/>
-    <item
-        android:id="@+id/get_bookmark"
-        android:title="@string/button_bookmark_get"
-        android:icon="@drawable/ic_menu_goto"/>
-</menu>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:baselineAligned="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+    
+    <TextView
+        android:id="@+id/lblTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:maxLength="7"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:gravity="right"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textIsSelectable="false" />
+    
+</LinearLayout>

@@ -137,7 +137,7 @@ public class SingleplayerPlay extends Play {
 			menu.removeItem(R.id.set_bookmark);
 		}
 		
-		return true;
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	/*

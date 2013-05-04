@@ -52,5 +52,6 @@
     <item
     	android:id="@+id/btAbout"
     	android:title="@string/button_about"
+        android:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_info_details"/>
 </menu>
