@@ -60,7 +60,8 @@
     <application
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:allowBackup="true" >
+        android:allowBackup="true"
+        android:theme="@android:style/Theme.Holo" >
         
         <activity
             android:name=".Controller.Local.Activity.MainMenu"

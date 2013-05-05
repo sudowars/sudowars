@@ -60,7 +60,6 @@
     <string name="give_up">Give Up</string>
     <string name="multiplayer">Multiplayer</string>
     <string name="pause">Pause</string>
-    <string name="playtime">Playtime</string>
     <string name="unknown">Unknown</string>
     <string name="scanning">Scanning…</string>
     <string name="settings">Settings</string>
@@ -68,6 +67,11 @@
     <string name="warning">Warning</string>
     <string name="version">version</string>
     <string name="version_number">1.1 alpha</string>
+    
+    <!-- Menu -->
+    <string name="menu_playtime">Playtime</string>
+    <string name="menu_score_local">Own points</string>
+    <string name="menu_score_remote">Opponent points</string>
     
     <!-- Buttons -->
     <string name="button_about">About</string>

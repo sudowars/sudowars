@@ -53,13 +53,17 @@
     <string name="give_up">Aufgeben</string>
     <string name="multiplayer">Mehrspieler</string>
     <string name="pause">Pause</string>
-    <string name="playtime">Spielzeit</string>
     <string name="unknown">Unbekannt</string>
     <string name="scanning">Scanne…</string>
     <string name="settings">Einstellungen</string>
     <string name="singleplayer">Einzelspieler</string>
     <string name="warning">Warnung</string>
     <string name="version">version</string>
+    
+    <!-- Menu -->
+    <string name="menu_playtime">Spielzeit</string>
+    <string name="menu_score_local">Eigene Punkte</string>
+    <string name="menu_score_remote">Gegnerische Punkte</string>
     
     <!-- Buttons -->
     <string name="button_about">Über</string>

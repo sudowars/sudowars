@@ -351,6 +351,18 @@ public abstract class Play extends PoolBinder {
 	
 	/*
 	 * (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
+    public boolean onCreateOptionsMenu(Menu menu) {
+        View view = (View) menu.findItem(R.id.time).getActionView();
+		this.lblTime = (TextView) view.findViewById(R.id.lblTime);
+		this.refreshTime(this.game.getGameTime());
+		
+        return super.onCreateOptionsMenu(menu);
+    }
+	
+	/*
+	 * (non-Javadoc)
 	 * @see android.app.Activity#onPrepareOptionsMenu(android.view.Menu)
 	 */
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -571,13 +583,6 @@ public abstract class Play extends PoolBinder {
 		if (this.constants.isLandscapeMode()) {
 			width = display.getWidth() - display.getHeight() + this.constants.getStatusBarHeight() - 2 * marginvalue;
 			height = display.getHeight() - 2 * actionBar - this.constants.getStatusBarHeight() - 2 * marginvalue;
-			
-			/*TODO
-			int actionBarWidth = findViewById(R.id.layActionBar).getWidth();
-			
-			if (width < actionBarWidth) {
-				width = actionBarWidth;
-			}*/
 		} else {
 			width = display.getWidth();
 			height = display.getHeight() - display.getWidth() - 2 * marginvalue - this.constants.getStatusBarHeight() - actionBar;
@@ -662,18 +667,6 @@ public abstract class Play extends PoolBinder {
 	 * @param savedGames the saved games
 	 */
 	abstract protected void saveGame();
-	
-	/*
-	 * (non-Javadoc)
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
-    public boolean onCreateOptionsMenu(Menu menu) {
-        View view = (View) menu.findItem(R.id.time).getActionView();
-		this.lblTime = (TextView) view.findViewById(R.id.lblTime);
-		this.refreshTime(this.game.getGameTime());
-		
-        return super.onCreateOptionsMenu(menu);
-    }
 	
 	/**
 	 * Setup view

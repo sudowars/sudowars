@@ -46,7 +46,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/time"
-        android:title="@string/playtime"
+        android:title="@string/menu_playtime"
         android:showAsAction="always"
         android:actionLayout="@layout/time" />
     <item

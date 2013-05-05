@@ -58,6 +58,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
@@ -304,7 +305,23 @@ public class MultiplayerPlay extends Play {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.multiplayer_play, menu);
 		
-		return true;
+    	FrameLayout localScoreView = (FrameLayout) menu.findItem(R.id.score_local).getActionView();
+    	localScoreView.setBackgroundColor(this.getResources().getColor(R.color.actionbar_score_local_background));
+		this.lblLocalScore = (TextView) localScoreView.findViewById(R.id.lblScore);
+		this.lblLocalScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_local_foreground));
+		this.lblLocalOldScore = (TextView) localScoreView.findViewById(R.id.lblOldScore);
+		this.lblLocalOldScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_local_foreground));
+		
+        FrameLayout remoteScoreView = (FrameLayout) menu.findItem(R.id.score_remote).getActionView();
+        remoteScoreView.setBackgroundColor(this.getResources().getColor(R.color.actionbar_score_remote_background));
+		this.lblRemoteScore = (TextView) remoteScoreView.findViewById(R.id.lblScore);
+		this.lblRemoteScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_remote_foreground));
+		this.lblRemoteOldScore = (TextView) remoteScoreView.findViewById(R.id.lblOldScore);
+		this.lblRemoteOldScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_remote_foreground));
+		
+		this.refreshScore();
+		
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	/*
@@ -700,8 +717,6 @@ public class MultiplayerPlay extends Play {
 	protected void setupView() {
 		super.setupView();
 		
-		this.setupActionBar();
-		
 		this.laySudokuField = (LinearLayout) findViewById(R.id.laySudokuField);
 		
 		// Get the screen's density scale
@@ -745,66 +760,6 @@ public class MultiplayerPlay extends Play {
 		this.lblPauseText.setText(this.getResources().getString(R.string.pause));
 		this.lblPauseText.setTextSize(textSizePauseText);
 		this.lblPauseText.setTextColor(this.getResources().getColor(R.color.text_pause));
-	}
-	
-	/**
-	 * Setup the action bar
-	 */
-	private void setupActionBar() {
-		FrameLayout frmLocalScore = new FrameLayout(this);
-		FrameLayout frmRemoteScore = new FrameLayout(this);
-		LinearLayout layActionBar = (LinearLayout) findViewById(R.id.layActionBar);
-		
-		LinearLayout.LayoutParams lpFrameLayout = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
-		float pixel = TypedValue.applyDimension(
-				TypedValue.COMPLEX_UNIT_DIP, 38, this.getResources().getDisplayMetrics());
-		lpFrameLayout.height = (int) pixel;
-		lpFrameLayout.width = (int) (1.5 * pixel);
-		lpFrameLayout.setMargins(2, 2, 0, 2);
-		
-		LinearLayout.LayoutParams lpTextView = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT);
-		lpTextView.gravity = Gravity.CENTER;
-
-		this.lblLocalScore = new TextView(this);
-		this.lblLocalOldScore = new TextView(this);
-		this.lblRemoteScore = new TextView(this);
-		this.lblRemoteOldScore = new TextView(this);
-		
-		TextView lblScore[] = {
-				this.lblLocalScore, this.lblLocalOldScore, this.lblRemoteScore, this.lblRemoteOldScore };
-		
-		for (int i = 0; i < lblScore.length; i++) {
-			lblScore[i].setLayoutParams(lpTextView);
-			lblScore[i].setGravity(Gravity.CENTER);
-			lblScore[i].setText("0");
-			lblScore[i].setTextSize(20);
-			lblScore[i].setTypeface(null, Typeface.BOLD);
-		}
-		
-		this.lblLocalOldScore.setVisibility(View.INVISIBLE);
-		this.lblRemoteOldScore.setVisibility(View.INVISIBLE);
-		this.lblLocalScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_local_foreground));
-		this.lblLocalOldScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_local_foreground));
-		this.lblRemoteScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_remote_foreground));
-		this.lblRemoteOldScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_remote_foreground));
-		
-		
-		frmLocalScore.setLayoutParams(lpFrameLayout);
-		frmLocalScore.setBackgroundColor(this.getResources().getColor(R.color.actionbar_score_local_background));
-		frmLocalScore.addView(this.lblLocalScore);
-		frmLocalScore.addView(this.lblLocalOldScore);
-		
-		frmRemoteScore.setLayoutParams(lpFrameLayout);
-		frmRemoteScore.setBackgroundColor(this.getResources().getColor(R.color.actionbar_score_remote_background));
-		frmRemoteScore.addView(this.lblRemoteScore);
-		frmRemoteScore.addView(this.lblRemoteOldScore);
-		
-		layActionBar.addView(frmLocalScore);
-		layActionBar.addView(frmRemoteScore);
 	}
 	
 	/*

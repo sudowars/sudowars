@@ -43,28 +43,32 @@
   Moritz Lüdecke
   Philip Flohr 
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/time"
-        android:title="@string/menu_playtime"
-        android:showAsAction="always"
-        android:actionLayout="@layout/time" />
-    <item
-        android:id="@+id/score_local"
-        android:title="@string/menu_score_local"
-        android:showAsAction="always"
-        android:actionLayout="@layout/score" />
-    <item
-        android:id="@+id/score_remote"
-        android:title="@string/menu_score_remote"
-        android:showAsAction="always"
-        android:actionLayout="@layout/score" />
-    <item
-        android:id="@+id/pause"
-        android:title="@string/button_pause"
-        android:icon="@drawable/ic_menu_pause" />
-    <item
-        android:id="@+id/give_up"
-        android:title="@string/button_give_up"
-        android:icon="@drawable/ic_menu_myplaces" />
-</menu>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:baselineAligned="false"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginLeft="2dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp" >
+    
+    <TextView
+        android:id="@+id/lblScore"
+        android:layout_width="52dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+    
+    <TextView
+        android:id="@+id/lblOldScore"
+        android:layout_width="52dp"
+        android:layout_height="match_parent" 
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+     
+</FrameLayout>
