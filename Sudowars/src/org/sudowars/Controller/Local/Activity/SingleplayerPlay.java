@@ -100,6 +100,7 @@ public class SingleplayerPlay extends Play {
 	        @Override
 	        public void handleMessage(Message inputMessage) {
 	        	// Message Format: arg1 = cell number, negative = fail, arg2 = callvalue
+	        	assistantRunning = false;
 	        	if (inputMessage.arg1 >= 0) {
 	        		SetCellValueCommand command = new SetCellValueCommand(gameState.getGame().getSudoku().getField().getCell(inputMessage.arg1), 
 	        				inputMessage.arg2);
@@ -369,8 +370,13 @@ public class SingleplayerPlay extends Play {
 	private boolean handleObjectItemAssistant() throws IllegalArgumentException {
 		if (((SingleplayerGameState) this.gameState).isSolveCellEnabled() && !this.game.isPaused()
 				&& !this.gameState.isFinished()) {
-			new Thread(new Assistant((SingleplayerGame) this.game, this.assistantHandler)).start();
-			assistantRunning = true;
+			if (!assistantRunning) {
+				new Thread(new Assistant((SingleplayerGame) this.game, this.assistantHandler)).start();
+				assistantRunning = true;
+			} else {
+				notificate(R.string.notification_assistant_running, Toast.LENGTH_SHORT);
+			}
+			
 		}
 		return true;
 	}
