@@ -68,7 +68,7 @@ import org.sudowars.Model.SudokuUtil.SingleplayerGameState;
 public class SingleplayerPlay extends Play {
 	
 	private Handler assistantHandler = null;
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sudowars.Controller.Local.Play#onCreate(android.os.Bundle)
@@ -370,6 +370,7 @@ public class SingleplayerPlay extends Play {
 		if (((SingleplayerGameState) this.gameState).isSolveCellEnabled() && !this.game.isPaused()
 				&& !this.gameState.isFinished()) {
 			new Thread(new Assistant((SingleplayerGame) this.game, this.assistantHandler)).start();
+			assistantRunning = true;
 		}
 		return true;
 	}

@@ -133,6 +133,7 @@
     
     <!-- Notifications -->
     <string name="notification_assistant_failed">Es konnte keine Lösung gefunden werden. Ist Ihre Lösung fehlerhaft?</string>
+    <string name="notification_assistant_running">Der Assistant arbeitet. Einen Augenblick Geduld.</string>
     <string name="notification_cell_is_already_set">Zelle wurde bereits vom Gegenspieler gelöst.</string>
     <string name="notification_initial_field">Eine gesetzte Zelle kann nicht verändert werden.</string>
     <string name="notification_unselected_field">Zunächst eine Zelle auswählen.</string>
