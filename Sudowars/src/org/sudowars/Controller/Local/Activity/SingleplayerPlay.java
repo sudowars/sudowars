@@ -46,6 +46,8 @@ package org.sudowars.Controller.Local.Activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -56,8 +58,6 @@ import org.sudowars.R;
 import org.sudowars.Model.CommandManagement.GameCommands.*;
 import org.sudowars.Model.Game.GameCell;
 import org.sudowars.Model.Game.SingleplayerGame;
-import org.sudowars.Model.Solver.HumanSolveStep;
-import org.sudowars.Model.Solver.SolverStrategy;
 import org.sudowars.Model.SudokuManagement.IO.FileIO;
 import org.sudowars.Model.SudokuUtil.Assistant;
 import org.sudowars.Model.SudokuUtil.SingleplayerGameState;
@@ -66,9 +66,9 @@ import org.sudowars.Model.SudokuUtil.SingleplayerGameState;
  * Shows a running Sudoku game.
  */
 public class SingleplayerPlay extends Play {
-			
-	private Assistant assistant = null;
-
+	
+	private Handler assistantHandler = null;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.sudowars.Controller.Local.Play#onCreate(android.os.Bundle)
@@ -92,6 +92,26 @@ public class SingleplayerPlay extends Play {
 		debugAssistants += ((SingleplayerGameState) this.gameState).isBookmarkEnabled()?1:0;
 		
 		DebugHelper.log(DebugHelper.PackageName.SingleplayerPlay, "Assistants: " + debugAssistants);
+		assistantHandler = new Handler() {
+			/*
+	         * handleMessage() defines the operations to perform when
+	         * the Handler receives a new Message to process.
+	         */
+	        @Override
+	        public void handleMessage(Message inputMessage) {
+	        	// Message Format: arg1 = cell number, negative = fail, arg2 = callvalue
+	        	assistantRunning = false;
+	        	if (inputMessage.arg1 >= 0) {
+	        		SetCellValueCommand command = new SetCellValueCommand(gameState.getGame().getSudoku().getField().getCell(inputMessage.arg1), 
+	        				inputMessage.arg2);
+	        		if (command.execute(game, localPlayer)) {
+						deltaManager.addDelta((GameCommand) command);
+					}
+	        	} else {
+					Toast.makeText(getApplicationContext(), R.string.notification_assistant_failed, Toast.LENGTH_LONG).show();
+	        	}
+	        }
+		};
 	}
 	
 	/*
@@ -350,39 +370,14 @@ public class SingleplayerPlay extends Play {
 	private boolean handleObjectItemAssistant() throws IllegalArgumentException {
 		if (((SingleplayerGameState) this.gameState).isSolveCellEnabled() && !this.game.isPaused()
 				&& !this.gameState.isFinished()) {
-			if (this.assistant == null) {
-				this.assistant = new Assistant((SingleplayerGame) this.game);
-			}
-			
-			HumanSolveStep assistantResult = (HumanSolveStep)this.assistant.solveNext();	
-			
-			if (assistantResult != null && assistantResult.hasSolvedCell()) {
-				SetCellValueCommand command = new SetCellValueCommand((GameCell) assistantResult.getSolvedCell(),
-						assistantResult.getSolution());
-				
-				DebugHelper.log(DebugHelper.PackageName.SingleplayerPlay, "Cell #"
-						+ assistantResult.getSolvedCell().getIndex() + " solved : " + assistantResult.getSolution());
-				
-				if (assistantResult.getUsedStrategies().size() == 0) {
-					DebugHelper.log(DebugHelper.PackageName.SingleplayerPlay, "---" + "Cell \"advised\"");
-				} else {
-					DebugHelper.log(DebugHelper.PackageName.SingleplayerPlay, "Use strategy");
-					
-					for (SolverStrategy strategy : assistantResult.getUsedStrategies()) {
-						DebugHelper.log(DebugHelper.PackageName.SingleplayerPlay, "---" + strategy.toString());
-					}
-				}
-				
-				if (command.execute(this.game, this.localPlayer)) {
-					this.deltaManager.addDelta((GameCommand) command);
-				}
-				
+			if (!assistantRunning) {
+				new Thread(new Assistant((SingleplayerGame) this.game, this.assistantHandler)).start();
+				assistantRunning = true;
 			} else {
-				//the user should always notify, when the assistant could not find a solution
-				Toast.makeText(getApplicationContext(), R.string.notification_assistant_failed, Toast.LENGTH_LONG).show();
+				notificate(R.string.notification_assistant_running, Toast.LENGTH_SHORT);
 			}
+			
 		}
-		
 		return true;
 	}
 	
