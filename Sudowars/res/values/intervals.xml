@@ -51,6 +51,12 @@
     <integer name="vibrate_game_on_aborted">300</integer>
     <integer name="vibrate_game_on_finish">300</integer>
     <integer name="vibrate_opponent_set_cell">100</integer>
+    <integer name="fade_in_game_finish_text">200</integer>
+    <integer name="fade_in_highlight_cell">200</integer>
+    <integer name="fade_out_highlight_cell">2000</integer>
+    <integer name="fade_in_wrong_input">200</integer>
+    <integer name="fade_out_wrong_input">2000</integer>
+    
     
     <integer name="toggle_button_interval">500</integer>
     

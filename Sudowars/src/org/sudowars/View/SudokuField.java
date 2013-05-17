@@ -452,12 +452,11 @@ public class SudokuField extends View {
 				
 				
 				GameCell gc = (GameCell) this.game.getSudoku().getField().getCell(x, y);
-				Player localPlayer = this.game.getPlayers().get(0);
 				if (gc.getValue() != 0) {
 					tmpPaint = getPaintForCell(gc, x, y, activeCellInvalid);
 					drawCentered(this.symbols.getSymbol(gc.getValue()), tmpPaint, x * this.squareSize + (this.squareSize / 2), y * this.squareSize + (this.squareSize / 2), canvas);
 					
-				}else {	//Not set yet, check for notices
+				} else {	//Not set yet, check for notices
 					if (this.noteManager != null) {
 						try {
 							notes = this.noteManager.getNotes(gc);

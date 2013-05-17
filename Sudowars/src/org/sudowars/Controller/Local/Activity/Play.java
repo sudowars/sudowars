@@ -57,6 +57,9 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
@@ -538,14 +541,10 @@ public abstract class Play extends PoolBinder {
 		sudokuField.setDisabled(true);
 		this.gameState.gameFinished();
 		
-		LinearLayout layKeysLine[] = {
+		final LinearLayout layKeysLine[] = {
 				(LinearLayout) findViewById(R.id.layKeysLine1),
 				(LinearLayout) findViewById(R.id.layKeysLine2),
 				(LinearLayout) findViewById(R.id.layKeysLine3)};
-		
-		for (int i = 0; i < layKeysLine.length; i++) {
-			layKeysLine[i].removeAllViews();
-		}
 		
 		TextView lblText = new TextView(this);
 		lblText.setText(text);
@@ -585,7 +584,36 @@ public abstract class Play extends PoolBinder {
 		lblText.setTextColor(this.getResources().getColor(R.color.text_game_over));
 		lblText.setGravity(Gravity.CENTER);
 		
-		layKeysLine[1].addView(lblText);
+		AlphaAnimation fadeIn = new AlphaAnimation(0, 1);
+		fadeIn.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text));
+		lblText.setAnimation(fadeIn);
+		
+		for (int i = 0; i < layKeysLine.length; i++) {
+			AlphaAnimation fadeOut = new AlphaAnimation(1, 0);
+			fadeOut.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text));
+			layKeysLine[i].setAnimation(fadeOut);
+			final int keyRow = i;
+			final TextView goodbye = lblText;
+			fadeOut.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationEnd(Animation animation) {
+				        layKeysLine[keyRow].removeAllViews();
+				        if (keyRow == 1) {
+				        	layKeysLine[1].addView(goodbye);
+				        }
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				        // TODO Auto-generated method stub
+				}
+
+				@Override
+				public void onAnimationStart(Animation animation) {
+				        // TODO Auto-generated method stub
+				}
+			});
+		}
 	}
 	
 	/**

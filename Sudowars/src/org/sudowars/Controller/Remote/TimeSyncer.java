@@ -45,18 +45,12 @@
 package org.sudowars.Controller.Remote;
 
 import java.io.Serializable;
-
 import org.sudowars.DebugHelper;
-
 import android.os.SystemClock;
 
 public class TimeSyncer implements Serializable {
-
 	public static final byte CMD_TIMESYNC = (byte)0x45;
 	public static final byte CMD_TIMESYNC_PONG = (byte)0xF0;
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4137026736197609825L;
 	
 	private long timeOffset = 0;
@@ -80,7 +74,6 @@ public class TimeSyncer implements Serializable {
 			ret |= (data[n] & 0xFF);
 		}
 		return ret;
-		
 	}
 	
 	private byte[] longToByte(long l) {
@@ -144,7 +137,4 @@ public class TimeSyncer implements Serializable {
 		
 		swSocket.sendData(syncPacket);
 	}
-	
-	
-	
 }

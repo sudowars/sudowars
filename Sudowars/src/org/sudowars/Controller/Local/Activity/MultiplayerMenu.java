@@ -275,7 +275,7 @@ public class MultiplayerMenu extends PoolBinder {
 	@Override
 	public boolean onCreateOptionsMenu (Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.multiplayer_menu, menu);
+		inflater.inflate(R.menu.multiplayer_menu, menu);
 	    
 	    return true;
 	}

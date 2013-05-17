@@ -44,15 +44,7 @@
  ******************************************************************************/
 package org.sudowars.Controller.Remote;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-
-import org.sudowars.DebugHelper;
-
-import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
-import android.graphics.SweepGradient;
 
 /**
  * This class represents a bluetooth server for a client to connect to
@@ -60,20 +52,13 @@ import android.graphics.SweepGradient;
  */
 
 public class BluetoothServer extends BluetoothConnection implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 9091603361363056738L;
-
-	
 	
 	/**
 	 * Creates a new {@link BluetoothServer}
 	 */
 	public BluetoothServer() {
 		super();
-		
 	}
 	
 	/**
@@ -105,8 +90,6 @@ public class BluetoothServer extends BluetoothConnection implements Serializable
 	 */
 	
 	public void stopListening() {
-		
 		//closeConnection();
-		
 	}
 }

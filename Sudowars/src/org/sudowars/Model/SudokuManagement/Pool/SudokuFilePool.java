@@ -105,7 +105,7 @@ public class SudokuFilePool extends Service implements SudokuPool {
 	
 	private static boolean initializing = false;
 	private static PoolInitializer initializer = null;
-	private static Thread initializingThread = null;
+	//private static Thread initializingThread = null;
 
 	/**
 	 * Initializes a new instance of the {@link SudokuFilePool} class.
@@ -131,7 +131,7 @@ public class SudokuFilePool extends Service implements SudokuPool {
 			DebugHelper.log(DebugHelper.PackageName.SudokuFilePool, "Start intizializing");
 			initializer = new PoolInitializer();
 			Thread t = new Thread(initializer);
-			initializingThread = t;
+			//initializingThread = t;
 			t.setPriority(2);
 			t.start();
 		}

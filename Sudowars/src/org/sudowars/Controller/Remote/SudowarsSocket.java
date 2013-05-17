@@ -44,11 +44,7 @@
  ******************************************************************************/
 package org.sudowars.Controller.Remote;
 
-
-
 public interface SudowarsSocket{
-	
-	
 	public abstract void setEventHandler(SocketEvent evtHandler);
 	
 	public abstract boolean listen() ;

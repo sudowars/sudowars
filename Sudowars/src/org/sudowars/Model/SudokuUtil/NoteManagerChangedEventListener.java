@@ -46,8 +46,6 @@ package org.sudowars.Model.SudokuUtil;
 
 import java.util.EventListener;
 
-import org.sudowars.Model.Game.Game;
-
 /**
  * This interface must be implemented to be able to listen to the onGame of {@link NoteManager} instances.
  *
