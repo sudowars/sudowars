@@ -157,6 +157,10 @@ public class SingleplayerPlay extends Play {
 			menu.removeItem(R.id.set_bookmark);
 		}
 		
+		if (!((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled()) {
+			menu.removeItem(R.id.go_back_to_first_error);
+		}
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 	

@@ -100,6 +100,7 @@
     <string name="button_start">Spiel starten</string>
     <string name="button_undo">Undo</string>
     <string name="button_yes">Ja</string>
+    <string name="button_back_to_first_error">Züruck zum ersten Fehler</string>
     
     <!-- Settings -->
     <string name="settings_game_assistant_show_mistakes">Fehler hervorheben</string>

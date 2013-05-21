@@ -102,6 +102,15 @@ public class SingleplayerGameState extends GameState implements Serializable {
 		return this.solveCell;
 	}
 	
+	
+	/**
+	 * Indicates the assistant can be triggered by the player to revert everything to the first error the user made.
+	 * @return {@code true} if so, otherwise {@code false}
+	 */
+	public boolean isBackToFirstErrorEnabled() {
+		return this.backToFirstError;
+	}
+	
 	/**
 	 * Indicates if the player can use the bookmark feature.
 	 * @return {@code true} if so, otherwise {@code false}

@@ -109,6 +109,7 @@
     <string name="button_start">Start game</string>
     <string name="button_undo">Undo</string>
     <string name="button_yes">Yes</string>
+    <string name="button_back_to_first_error">back to my first error</string>
     
     <!-- Settings -->
     <string name="settings_game_assistant_show_mistakes">Highlight mistakes</string>
