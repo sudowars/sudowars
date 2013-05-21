@@ -59,6 +59,7 @@ public class SingleplayerGameState extends GameState implements Serializable {
 	private final boolean obviousMistakes;
 	private final boolean solveCell;
 	private final boolean bookmark;
+	private final boolean backToFirstError;
 	private final DeltaManager deltaManager;
 	
 	/**
@@ -72,7 +73,7 @@ public class SingleplayerGameState extends GameState implements Serializable {
 	 * @throws IllegalArgumentException if either game, difficulty or deltaManager were {@code null}
 	 */
 	public SingleplayerGameState(SingleplayerGame game, Difficulty difficulty,
-			boolean obviousMistakesShown, boolean solveCellAllowed, boolean bookmarkAllowed, DeltaManager deltaManager) 
+			boolean obviousMistakesShown, boolean solveCellAllowed, boolean bookmarkAllowed, boolean backToFirstError, DeltaManager deltaManager) 
 					throws IllegalArgumentException{
 		
 		super(game, difficulty);
@@ -81,6 +82,7 @@ public class SingleplayerGameState extends GameState implements Serializable {
 		this.obviousMistakes = obviousMistakesShown;
 		this.solveCell = solveCellAllowed;
 		this.bookmark = bookmarkAllowed;
+		this.backToFirstError = backToFirstError;
 		this.deltaManager = deltaManager;
 	}
 	

@@ -123,6 +123,7 @@
     <string name="settings_vibrator">Vibration</string>
     <string name="settings_vibrator_text">Enable vibration feedback on game events</string>
     
+    
     <!-- Text messages -->
     <string name="text_about">Adrian Vielsack\nChristof Urbaczek\nFlorian Rosenthal\nMichael Hoff\nMoritz Lüdecke\nPhilip Flohr</string>
     <string name="text_contributions">Thanks to:\nFaenza (the logo is based on the icon archlinux-logo.svg)</string>
