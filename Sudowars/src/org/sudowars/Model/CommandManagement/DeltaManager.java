@@ -48,9 +48,14 @@ import java.io.Serializable;
 import java.util.LinkedList;
 
 import org.sudowars.Model.CommandManagement.GameCommands.GameCommand;
+import org.sudowars.Model.CommandManagement.GameCommands.SetCellValueCommand;
 import org.sudowars.Model.Game.Game;
+import org.sudowars.Model.Game.GameCell;
 import org.sudowars.Model.Game.Player;
+import org.sudowars.Model.Game.PlayerSlot;
 import org.sudowars.Model.Game.SingleplayerGame;
+import org.sudowars.Model.Sudoku.Sudoku;
+import org.sudowars.Model.Sudoku.Field.Cell;
 
 /**
  * The class DeltaManager encapsulates the undo/redo functionality of the last command available in singleplayer games.
@@ -62,22 +67,26 @@ public class DeltaManager implements Serializable {
 	private final CommandInverter inverter;
 	private LinkedList<GameCommand> commands;
 	private LinkedList<GameCommand> commandsToExecuteAfterBookmarkCounterIsZero;
+	private LinkedList<GameCommand> commandsAfterFirstError;
 	private int toBookmarkCounter;
 	private int currentPosInList;
 	private boolean bookmarksEnabled;
 	private final boolean isBackToFirstErrorEnabled;
+	private FakeGame fakeGame;
 	
 
 	/**
 	 * Instantiates a new delta manager.
 	 */
-	public DeltaManager(boolean isBackToFirstErrorEnabled) {
+	public DeltaManager(boolean isBackToFirstErrorEnabled, Sudoku<Cell> sudoku) {
 		inverter = CommandInverter.getInstance();
 		commands = new LinkedList<GameCommand>();
 		commandsToExecuteAfterBookmarkCounterIsZero = new LinkedList<GameCommand>();
 		currentPosInList = commands.size() - 1;
 		bookmarksEnabled = false;
 		this.isBackToFirstErrorEnabled = isBackToFirstErrorEnabled;
+		this.commandsAfterFirstError = null;
+		fakeGame = new FakeGame(sudoku);
 	}
 
 	/**
@@ -175,6 +184,18 @@ public class DeltaManager implements Serializable {
 					commands.remove(commands.size() - 1);
 				}
 			}
+			
+			if (this.isBackToFirstErrorEnabled) {
+				if (c instanceof SetCellValueCommand) {
+					if (commandsAfterFirstError == null && c.execute(fakeGame, null) == false) {
+						//this is the first error, cretae the List etc...
+						this.commandsAfterFirstError = new LinkedList<GameCommand>();
+					}
+				}
+				if (commandsAfterFirstError != null) {
+					commandsAfterFirstError.addLast(c);
+				}
+			}
 		}
 		commands.addLast(c);
 		currentPosInList = commands.size() - 1;
@@ -237,6 +258,63 @@ public class DeltaManager implements Serializable {
 
 	public boolean isBookmarkAvailable() {
 		return this.bookmarksEnabled;
+	}
+	
+	/**
+	 * Back to the first error.
+	 *
+	 * @param game the game
+	 * @param executingPlayer the executing player
+	 * @return true, if successful, false if there was no error
+	 */
+	public boolean backToFirstError(SingleplayerGame game, Player executingPlayer) {
+		if (commandsAfterFirstError == null || isBackToFirstErrorEnabled == false) {
+			return false;
+		}
+		while (commandsAfterFirstError.size() > 0) {
+			if (!commandsAfterFirstError.getLast().getInvertedCommand(game).execute(game, executingPlayer)) {
+				return false;
+			}
+			commandsAfterFirstError.removeLast();
+		}
+		commandsAfterFirstError = null;
+		return true;
+	}
+	
+	
+	private class FakeGame extends Game {
+
+		public FakeGame(Sudoku<Cell> sudoku) throws IllegalArgumentException {
+			super(sudoku);
+		}
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -572255162917478454L;
+
+		@Override
+		protected PlayerSlot createPlayerSlot() {
+			return null;
+		}
+
+		@Override
+		public void abortGame(Player abortingPlayer, long timestamp)
+				throws IllegalArgumentException {
+			
+		}
+
+		
+		@Override
+		public boolean setValue(Player player, GameCell cell, int value,
+				long timestamp) throws IllegalArgumentException {
+			if (this.sudoku.getField().getCell(cell.getIndex()).getValue() == value) {
+				//this checks if the action would be correct
+				return true;
+			}
+			return false;
+		}
+		
 	}
 
 }
