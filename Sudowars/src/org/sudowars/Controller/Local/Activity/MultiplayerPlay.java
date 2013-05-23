@@ -254,8 +254,6 @@ public class MultiplayerPlay extends Play {
 		} else {
 			this.finish();
 		}
-			
-		this.deltaManager = new DeltaManager();
 		
 		this.game.addOnChangeListener(new GameChangedEventListener() {
 				@Override

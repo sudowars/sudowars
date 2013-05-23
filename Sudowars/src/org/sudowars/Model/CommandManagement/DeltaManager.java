@@ -65,17 +65,19 @@ public class DeltaManager implements Serializable {
 	private int toBookmarkCounter;
 	private int currentPosInList;
 	private boolean bookmarksEnabled;
+	private final boolean isBackToFirstErrorEnabled;
 	
 
 	/**
 	 * Instantiates a new delta manager.
 	 */
-	public DeltaManager() {
+	public DeltaManager(boolean isBackToFirstErrorEnabled) {
 		inverter = CommandInverter.getInstance();
 		commands = new LinkedList<GameCommand>();
 		commandsToExecuteAfterBookmarkCounterIsZero = new LinkedList<GameCommand>();
 		currentPosInList = commands.size() - 1;
 		bookmarksEnabled = false;
+		this.isBackToFirstErrorEnabled = isBackToFirstErrorEnabled;
 	}
 
 	/**

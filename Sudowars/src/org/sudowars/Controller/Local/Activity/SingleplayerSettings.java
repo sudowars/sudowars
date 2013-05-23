@@ -202,7 +202,6 @@ public class SingleplayerSettings extends Settings {
 				this.preferences.getBoolean("singleplayer_assistant_solve_cells", true),
 				this.preferences.getBoolean("singleplayer_assistant_bookmark", true),
 				new DeltaManager()));
-		
 		//Debug output
 		int debugAssistants = this.preferences.getBoolean("singleplayer_assistant_obvious_mistakes", true)?4:0;
 		debugAssistants += this.preferences.getBoolean("singleplayer_assistant_solve_cells", true)?2:0;
