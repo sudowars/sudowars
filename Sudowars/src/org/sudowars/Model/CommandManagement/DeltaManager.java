@@ -56,6 +56,7 @@ import org.sudowars.Model.Game.PlayerSlot;
 import org.sudowars.Model.Game.SingleplayerGame;
 import org.sudowars.Model.Sudoku.Sudoku;
 import org.sudowars.Model.Sudoku.Field.Cell;
+import org.sudowars.Model.Sudoku.Field.DataCell;
 
 /**
  * The class DeltaManager encapsulates the undo/redo functionality of the last command available in singleplayer games.
