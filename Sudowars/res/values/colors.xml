@@ -98,7 +98,6 @@
     <color name="sudoku_field_invalid">@color/RED</color>
     <color name="sudoku_field_remote">@color/actionbar_score_remote_background</color>
     <color name="sudoku_field_normal">@color/WHITE</color>
-    <color name="sudoku_field_pending_paint">@color/ORANGE</color>
     <color name="sudoku_field_normal_selected">@color/BLACK</color>
     <color name="sudoku_field_initial">@color/GRAY</color>
     <color name="sudoku_field_normal_invalid">@color/RED</color>

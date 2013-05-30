@@ -75,11 +75,6 @@
         <service android:name=".Model.SudokuManagement.Pool.SudokuFilePool" />
         
         <activity
-            android:name=".Controller.Local.Activity.Manual"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        
-        <activity
             android:name=".Controller.Local.Activity.MainSettings"
             android:label="@string/settings" />
         
