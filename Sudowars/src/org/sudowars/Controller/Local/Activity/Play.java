@@ -219,16 +219,11 @@ public abstract class Play extends PoolBinder {
 		
 	    ActionBar actionBar = getActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
-	    
 	    actionBar.setDisplayShowCustomEnabled(true);
 	    
 		this.constants = new Constants(this);
 		
-		if (this.constants.isLandscapeMode()) {
-			setContentView(R.layout.play_landscape);
-		} else {
-			setContentView(R.layout.play);
-		}
+		setContentView(R.layout.play);
 		
 		this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
@@ -335,13 +330,6 @@ public abstract class Play extends PoolBinder {
 		super.onConfigurationChanged(newConfig);
 		
 		this.constants = new Constants(this);
-		
-		if (this.constants.isLandscapeMode()) {
-			setContentView(R.layout.play_landscape);
-		} else {
-			setContentView(R.layout.play);
-		}
-		
 		this.setupView();
 		
 		if (this.gameState.isFinished()) {
