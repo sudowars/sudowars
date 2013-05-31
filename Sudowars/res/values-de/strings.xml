@@ -51,6 +51,7 @@
     <string name="bluetooth_devices">Bluetoothgeräte</string>
     <string name="get_ready">Mach dich bereit!</string>
     <string name="give_up">Aufgeben</string>
+    <string name="manual">Anleitung</string>
     <string name="multiplayer">Mehrspieler</string>
     <string name="pause">Pause</string>
     <string name="unknown">Unbekannt</string>
@@ -137,23 +138,5 @@
     <string name="notification_cell_is_already_set">Zelle wurde bereits vom Gegenspieler gelöst.</string>
     <string name="notification_initial_field">Eine gesetzte Zelle kann nicht verändert werden.</string>
     <string name="notification_unselected_field">Zunächst eine Zelle auswählen.</string>
-    
-    <!-- Manual titles and bodys -->
-    <string name="manual_title_1">Markieren</string>
-    <string name="manual_body_1">Berühre eine Zelle, um ihren Inhalt bearbeiten zu können.</string>
-    <string name="manual_title_2">Notieren</string>
-    <string name="manual_body_2">Drücke eine Zahl kurz, um die jeweilige Notiz ein- oder auszutragen.</string>
-    <string name="manual_title_3">Lösen</string>
-    <string name="manual_body_3">Drücke eine Zahl lang, um sie als Lösung zu setzen.</string>
-    <string name="manual_title_4">Notieren²</string>
-    <string name="manual_body_4">Raste die Notiz mit einem Doppelklick ein, um sie in mehreren Zellen zu ändern.</string>
-    <string name="manual_title_5">Invertieren</string>
-    <string name="manual_body_5">Der markierte Button löscht alle bestehenden Notizen und fügt die restlichen hinzu.</string>
-    <string name="manual_title_6">Zurücksetzen</string>
-    <string name="manual_body_6">Der markierte Button löscht alle Notizen.</string>
-    <string name="manual_title_7">Zoomen</string>
-    <string name="manual_body_7">Benutze die Zoomgeste, um die Ansicht zu vergrößern oder zu verkleinern.</string>
-    <string name="manual_title_8">Das war\'s, viel Spaß mit Sudowars!</string>
-    <string name="manual_body_8">Tippe auf das Logo, um die Anleitung zu verlassen.</string>
     
 </resources>

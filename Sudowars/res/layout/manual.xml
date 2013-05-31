@@ -43,40 +43,20 @@
   Moritz Lüdecke
   Philip Flohr 
 -->
-<resources>
+
+<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     
-    <string-array name="bluetooth_states">
-        <item>Nicht Verbunden</item>
-        <item>Verbinde</item>
-        <item>Verbunden</item>
-        <item>Unbekannt</item>
-        <item>Warte</item>
-    </string-array>
-    
-    <string-array name="difficulty">
-        <item>Leicht</item>
-        <item>Normal</item>
-        <item>Schwer</item>
-    </string-array>
-    
-    <string-array name="manual_title">
-        <item>Markieren</item>
-        <item>Notieren</item>
-        <item>Lösen</item>
-        <item>Notieren²</item>
-        <item>Invertieren</item>
-        <item>Zurücksetzen</item>
-        <item>Zoomen</item>
-    </string-array>
-    
-    <string-array name="manual_body">
-        <item>Berühre eine Zelle, um ihren Inhalt bearbeiten zu können.</item>
-        <item>Drücke eine Zahl kurz, um die jeweilige Notiz ein- oder auszutragen.</item>
-        <item>Drücke eine Zahl lang, um sie als Lösung zu setzen.</item>
-        <item>Raste die Notiz mit einem Doppelklick ein, um sie in mehreren Zellen zu ändern.</item>
-        <item>Der markierte Button löscht alle bestehenden Notizen und fügt die restlichen hinzu.</item>
-        <item>Der markierte Button löscht alle Notizen.</item>
-        <item>Benutze die Zoomgeste, um die Ansicht zu vergrößern oder zu verkleinern.</item>
-    </string-array>
-    
-</resources>
+    <android.support.v4.view.PagerTitleStrip
+        android:id="@+id/pager_title_strip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@color/HOLO_BLUE_LIGHT"
+        android:textColor="@color/WHITE"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" />
+
+</android.support.v4.view.ViewPager>

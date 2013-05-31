@@ -74,5 +74,25 @@
         <item>9x9</item>
         <item>16x16</item>
     </string-array>
+        
+    <string-array name="manual_title">
+        <item>Select</item>
+        <item>Note</item>
+        <item>Solve</item>
+        <item>Note²</item>
+        <item>Invert</item>
+        <item>Clear</item>
+        <item>Zoom</item>
+    </string-array>
+    
+    <string-array name="manual_body">
+        <item>Touch a cell to modify its content.</item>
+        <item>Simply touch a number to add/remove the particular value as candidate.</item>
+        <item>Touch and hold a number to set your solution.</item>
+        <item>Touch a number twice to change candidates in multiple cells.</item>
+        <item>The marked button removes all present candidates and adds the missing ones.</item>
+        <item>The marked button removes all candidates.</item>
+        <item>Use the zoom gesture to enlarge or shrink the sudoku.</item>
+    </string-array>
     
 </resources>

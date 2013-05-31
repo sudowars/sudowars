@@ -342,9 +342,8 @@ public class MainMenu extends PoolBinder {
 	 * Running on a click on button {@link btnHelp}.
 	 */
 	private void onBtnManualClick () {
-		//TODO
-		//Intent intent = new Intent(this, Manual.class);
-		//startActivity(intent);
+		Intent intent = new Intent(this, Manual.class);
+		startActivity(intent);
 	}
 	
 	/**

@@ -58,6 +58,7 @@
     <string name="bluetooth_devices">Bluetooth Devices</string>
     <string name="get_ready">Get Ready!</string>
     <string name="give_up">Give Up</string>
+    <string name="manual">Manual</string>
     <string name="multiplayer">Multiplayer</string>
     <string name="pause">Pause</string>
     <string name="unknown">Unknown</string>
@@ -154,23 +155,5 @@
     <string name="notification_cell_is_already_set">Cell already set by opponent.</string>
     <string name="notification_initial_field">A set cell cannot be modified.</string>
     <string name="notification_unselected_field">Select a cell first.</string>
-    
-    <!-- Manual titles and bodys -->
-    <string name="manual_title_1">Select</string>
-    <string name="manual_body_1">Touch a cell to modify its content.</string>
-    <string name="manual_title_2">Note</string>
-    <string name="manual_body_2">Simply touch a number to add/remove the particular value as candidate.</string>
-    <string name="manual_title_3">Solve</string>
-    <string name="manual_body_3">Touch and hold a number to set your solution.</string>
-    <string name="manual_title_4">Note²</string>
-    <string name="manual_body_4">Touch a number twice to change candidates in multiple cells.</string>
-    <string name="manual_title_5">Invert</string>
-    <string name="manual_body_5">The marked button removes all present candidates and adds the missing ones.</string>
-    <string name="manual_title_6">Clear</string>
-    <string name="manual_body_6">The marked button removes all candidates.</string>
-    <string name="manual_title_7">Zoom</string>
-    <string name="manual_body_7">Use the zoom gesture to enlarge or shrink the sudoku.</string>
-    <string name="manual_title_8">That\'s it, let\'s play Sudowars!</string>
-    <string name="manual_body_8">Tap anywhere to leave the manual.</string>
-    
+
 </resources>
