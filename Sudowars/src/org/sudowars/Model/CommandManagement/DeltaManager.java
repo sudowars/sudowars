@@ -47,6 +47,7 @@ package org.sudowars.Model.CommandManagement;
 import java.io.Serializable;
 import java.util.LinkedList;
 
+import org.sudowars.Model.CommandManagement.GameCommands.CompositeCommand;
 import org.sudowars.Model.CommandManagement.GameCommands.GameCommand;
 import org.sudowars.Model.CommandManagement.GameCommands.SetCellValueCommand;
 import org.sudowars.Model.Game.Game;
@@ -72,22 +73,18 @@ public class DeltaManager implements Serializable {
 	private int toBookmarkCounter;
 	private int currentPosInList;
 	private boolean bookmarksEnabled;
-	private final boolean isBackToFirstErrorEnabled;
-	private FakeGame fakeGame;
 	
 
 	/**
 	 * Instantiates a new delta manager.
 	 */
-	public DeltaManager(boolean isBackToFirstErrorEnabled, Sudoku<Cell> sudoku) {
+	public DeltaManager() {
 		inverter = CommandInverter.getInstance();
 		commands = new LinkedList<GameCommand>();
 		commandsToExecuteAfterBookmarkCounterIsZero = new LinkedList<GameCommand>();
 		currentPosInList = commands.size() - 1;
 		bookmarksEnabled = false;
-		this.isBackToFirstErrorEnabled = isBackToFirstErrorEnabled;
 		this.commandsAfterFirstError = null;
-		fakeGame = new FakeGame(sudoku);
 	}
 
 	/**
@@ -165,14 +162,14 @@ public class DeltaManager implements Serializable {
 		return false;
 	}
 
-	/**
+	/*
 	 * Adds a command to the delta management and creates the corresponding undo action, if available.
 	 *
 	 * @param c the GameCommand which can be redone.
 	 *
 	 * @throws IllegalArgumentException if given command was <code>null</code>
 	 */
-	public void addDelta(GameCommand c) throws IllegalArgumentException {
+	public void addDelta(GameCommand c, boolean isCorrect) throws IllegalArgumentException {
 		if (hasForwardDelta()) {
 			if (bookmarksEnabled && toBookmarkCounter < 0) {
 				toBookmarkCounter = 0;
@@ -186,23 +183,23 @@ public class DeltaManager implements Serializable {
 				}
 			}
 			
-			if (this.isBackToFirstErrorEnabled) {
-				if (c instanceof SetCellValueCommand) {
-					if (commandsAfterFirstError == null && c.execute(fakeGame, null) == false) {
-						//this is the first error, cretae the List etc...
-						this.commandsAfterFirstError = new LinkedList<GameCommand>();
-					}
-				}
-				if (commandsAfterFirstError != null) {
-					commandsAfterFirstError.addLast(c);
-				}
-			}
 		}
 		commands.addLast(c);
 		currentPosInList = commands.size() - 1;
 		if (bookmarksEnabled) {
 			toBookmarkCounter++;
 		}
+		
+		
+		if (c instanceof CompositeCommand && ((CompositeCommand) c).getCommands().get(1) instanceof SetCellValueCommand) {
+			if (commandsAfterFirstError == null && !isCorrect) {
+				//this is the first error, cretae the List etc...
+				this.commandsAfterFirstError = new LinkedList<GameCommand>();
+			}
+		}
+		if (commandsAfterFirstError != null) {
+			commandsAfterFirstError.addLast(c);
+		}		
 	}
 	
 	private void checkArgumentsForForwardAndBackward(Game game, Player executingPlayer) 
@@ -251,7 +248,7 @@ public class DeltaManager implements Serializable {
 				currentCommand = commandsToExecuteAfterBookmarkCounterIsZero.getFirst();
 				commandsToExecuteAfterBookmarkCounterIsZero.removeFirst();
 				currentCommand.execute(game, executingPlayer);
-				this.addDelta(currentCommand);
+				this.addDelta(currentCommand, true);
 			}
 		}
 		return true;
@@ -269,7 +266,7 @@ public class DeltaManager implements Serializable {
 	 * @return true, if successful, false if there was no error
 	 */
 	public boolean backToFirstError(SingleplayerGame game, Player executingPlayer) {
-		if (commandsAfterFirstError == null || isBackToFirstErrorEnabled == false) {
+		if (commandsAfterFirstError == null) {
 			return false;
 		}
 		while (commandsAfterFirstError.size() > 0) {
@@ -280,42 +277,6 @@ public class DeltaManager implements Serializable {
 		}
 		commandsAfterFirstError = null;
 		return true;
-	}
-	
-	
-	private class FakeGame extends Game {
-
-		public FakeGame(Sudoku<Cell> sudoku) throws IllegalArgumentException {
-			super(sudoku);
-		}
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -572255162917478454L;
-
-		@Override
-		protected PlayerSlot createPlayerSlot() {
-			return null;
-		}
-
-		@Override
-		public void abortGame(Player abortingPlayer, long timestamp)
-				throws IllegalArgumentException {
-			
-		}
-
-		
-		@Override
-		public boolean setValue(Player player, GameCell cell, int value,
-				long timestamp) throws IllegalArgumentException {
-			if (this.sudoku.getField().getCell(cell.getIndex()).getValue() == value) {
-				//this checks if the action would be correct
-				return true;
-			}
-			return false;
-		}
-		
 	}
 
 }

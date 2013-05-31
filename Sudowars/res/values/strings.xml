@@ -112,6 +112,7 @@
     <string name="button_back_to_first_error">back to my first error</string>
     
     <!-- Settings -->
+    <string name="settings_game_assistant_back_to_first_error">Allow return to first error</string>
     <string name="settings_game_assistant_show_mistakes">Highlight mistakes</string>
     <string name="settings_game_assistant_solve_cells">Allow cell solving</string>
     <string name="settings_game_assistant_bookmark">Allow bookmarking</string>

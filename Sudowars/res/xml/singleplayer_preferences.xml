@@ -76,6 +76,11 @@
             android:key="singleplayer_assistant_bookmark"
             android:title="@string/settings_game_assistant_bookmark"
             android:defaultValue="true" />
+        
+        <CheckBoxPreference
+            android:key="singleplayer_assistant_back_to_first_error"
+            android:title="@string/settings_game_assistant_back_to_first_error"
+            android:defaultValue="true" />
     </PreferenceCategory>
     
 </PreferenceScreen>

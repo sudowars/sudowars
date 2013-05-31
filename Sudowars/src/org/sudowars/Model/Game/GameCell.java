@@ -245,7 +245,7 @@ public class GameCell implements Cell {
 	 * Gets the solution of the cell, which is the value of the decorated core cell.
 	 * @return an integer value indicating the solution of the cell
 	 */
-	int getSolution() {
+	public int getSolution() {
 		return getCore().getValue();
 	}
 	

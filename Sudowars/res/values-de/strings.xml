@@ -103,6 +103,7 @@
     <string name="button_back_to_first_error">Züruck zum ersten Fehler</string>
     
     <!-- Settings -->
+    <string name="settings_game_assistant_back_to_first_error">Erlaube zurück zum ersten Fehler</string>
     <string name="settings_game_assistant_show_mistakes">Fehler hervorheben</string>
     <string name="settings_game_assistant_solve_cells">Erlaube Zelle lösen</string>
     <string name="settings_game_assistant_bookmark">Erlaube Lesezeichen</string>

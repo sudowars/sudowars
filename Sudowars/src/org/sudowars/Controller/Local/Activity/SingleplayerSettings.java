@@ -62,21 +62,17 @@ import org.sudowars.Model.SudokuUtil.NoteManager;
 import org.sudowars.Model.SudokuUtil.SingleplayerGameState;
 
 import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.RadioButton;
 
 /**
  * Shows the menu of a new Singleplayer game.
@@ -201,11 +197,14 @@ public class SingleplayerSettings extends Settings {
 				this.preferences.getBoolean("singleplayer_assistant_show_mistakes", true),
 				this.preferences.getBoolean("singleplayer_assistant_solve_cells", true),
 				this.preferences.getBoolean("singleplayer_assistant_bookmark", true),
+				this.preferences.getBoolean("singleplayer_assistant_back_to_first_error", true),
+				sudoku.getField(), 
 				new DeltaManager()));
 		//Debug output
-		int debugAssistants = this.preferences.getBoolean("singleplayer_assistant_obvious_mistakes", true)?4:0;
-		debugAssistants += this.preferences.getBoolean("singleplayer_assistant_solve_cells", true)?2:0;
-		debugAssistants += this.preferences.getBoolean("singleplayer_assistant_bookmark", true)?1:0;
+		int debugAssistants = this.preferences.getBoolean("singleplayer_assistant_obvious_mistakes", true)?8:0;
+		debugAssistants += this.preferences.getBoolean("singleplayer_assistant_solve_cells", true)?4:0;
+		debugAssistants += this.preferences.getBoolean("singleplayer_assistant_bookmark", true)?2:0;
+		debugAssistants += this.preferences.getBoolean("singleplayer_assistant_back_to_first_error", true)?1:0;
 		
 		DebugHelper.log(DebugHelper.PackageName.SingleplayerSettings, "Size: " + size + "x" + size
 				+ " Difficulty: " + difficulty.toString()
