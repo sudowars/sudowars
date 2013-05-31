@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2011 - 2012 Adrian Vielsack, Christof Urbaczek, Florian Rosenthal, Michael Hoff, Moritz Lüdecke, Philip Flohr.
+  
+  This file is part of Sudowars.
+  
+  Sudowars is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  Sudowars is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with Sudowars.  If not, see <http://www.gnu.org/licenses/>.
+  
+  
+  
+  Diese Datei ist Teil von Sudowars.
+  
+  Sudowars ist Freie Software: Sie können es unter den Bedingungen
+  der GNU General Public License, wie von der Free Software Foundation,
+  Version 3 der Lizenz oder (nach Ihrer Option) jeder späteren
+  veröffentlichten Version, weiterverbreiten und/oder modifizieren.
+  
+  Sudowars wird in der Hoffnung, dass es nützlich sein wird, aber
+  OHNE JEDE GEWÄHELEISTUNG, bereitgestellt; sogar ohne die implizite
+  Gewährleistung der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+  Siehe die GNU General Public License für weitere Details.
+  
+  Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
+  Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
+  
+  Contributors:
+  initial API and implementation:
+  Adrian Vielsack
+  Christof Urbaczek
+  Florian Rosenthal
+  Michael Hoff
+  Moritz Lüdecke
+  Philip Flohr 
+-->
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/controls"
+    android:layout_width="fill_parent"
+    android:layout_height="0dip"
+    android:orientation="horizontal"
+    android:shrinkColumns="*"
+    android:stretchColumns="*"
+    android:paddingLeft="2dp"
+    android:layout_weight="1">
+
+    <TableRow android:layout_weight="1">
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key1" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key2" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key3" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key4" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key5" />
+        <ImageButton style="@style/KeypadButton"
+                     android:id="@+id/key_invert"
+                     android:src="@drawable/stat_notify_sync"
+                     android:contentDescription="INV" />
+    </TableRow>
+
+    <TableRow android:layout_weight="1">
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key6" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key7" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key8" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key9" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key10" />
+        <ImageButton style="@style/KeypadButton"
+                     android:id="@+id/button_clear"
+                     android:src="@drawable/ic_input_delete"
+                     android:contentDescription="DEL" />
+    </TableRow>
+
+    <TableRow android:layout_weight="1">
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key11" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key12" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key13" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key14" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key15" />
+        <Button style="@style/KeypadButton"
+                android:id="@+id/key16" />
+    </TableRow>
+    
+</TableLayout>
