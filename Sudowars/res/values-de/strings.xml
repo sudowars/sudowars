@@ -136,6 +136,8 @@
     <string name="text_win_multiplayer">SIEG</string>
     
     <!-- Notifications -->
+    <string name="notification_back_to_first_error_failed">Nothing to do, you had no errors</string>
+    <string name="notification_back_to_first_error_success">Reverted to your first error</string>
     <string name="notification_assistant_failed">Es konnte keine Lösung gefunden werden. Ist Ihre Lösung fehlerhaft?</string>
     <string name="notification_assistant_running">Der Assistant arbeitet. Einen Augenblick Geduld.</string>
     <string name="notification_cell_is_already_set">Zelle wurde bereits vom Gegenspieler gelöst.</string>

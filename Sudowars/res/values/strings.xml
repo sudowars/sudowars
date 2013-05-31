@@ -154,6 +154,8 @@
     <string name="text_win_multiplayer">WIN</string>
     
     <!-- Notifications -->
+    <string name="notification_back_to_first_error_failed">Nothing to do, you had no errors</string>
+    <string name="notification_back_to_first_error_success">Reverted to your first error</string>
     <string name="notification_assistant_failed">Could not find a solution. Did you make a mistake?</string>
     <string name="notification_assistant_running">Please wait until the Assistant finished his work</string>
     <string name="notification_cell_is_already_set">Cell already set by opponent.</string>
