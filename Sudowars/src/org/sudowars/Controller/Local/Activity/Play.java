@@ -56,6 +56,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -180,11 +181,6 @@ public abstract class Play extends PoolBinder {
 	protected DeltaManager deltaManager;
 
 	/**
-	 * the Sudoku table
-	 */
-	protected SymbolTable symbolTable;
-
-	/**
 	 * the note manager of local player
 	 */
 	protected NoteManager noteManager;
@@ -244,7 +240,6 @@ public abstract class Play extends PoolBinder {
 		
 		this.localPlayer = this.game.getPlayers().get(0);
 		this.noteManager = this.game.getNoteManagerOfPlayer(this.localPlayer);
-		this.symbolTable = SymbolTable.getInstance();
 		
 		this.setupView();
 		
@@ -662,7 +657,6 @@ public abstract class Play extends PoolBinder {
 	protected void setupView() {
 		this.sudokuField = (SudokuField) findViewById(R.id.sudokuField);
 		this.sudokuField.showInvalidValues(false);
-		this.sudokuField.setSymbolTable(this.symbolTable);
 		this.sudokuField.setGame(this.game);
 		this.sudokuField.setNoteManager(this.noteManager);
 		this.sudokuField.setOnClickListener(new OnClickListener() {
@@ -689,8 +683,9 @@ public abstract class Play extends PoolBinder {
 	 * Setup buttons
 	 */
 	protected void setupButtons() {
+		Resources res = this.getResources();
 		// Get the screen's density scale
-		final float scale = getResources().getDisplayMetrics().density;
+		final float scale = res.getDisplayMetrics().density;
 		
 		// Convert the dps to pixels, based on density scale
 		int marginvalue = (int) (1.0f * scale + 0.5f);
@@ -731,8 +726,8 @@ public abstract class Play extends PoolBinder {
 		this.btnClear.setPadding(0, 0, 0, 0);
 		this.btnClear.setImageResource(R.drawable.ic_input_delete);
 		this.btnClear.setScaleType(ScaleType.CENTER_INSIDE);
-		this.btnClear.setColorFilter(this.getResources().getColor(R.color.button_clear_normal_foreground));
-		this.btnClear.setBackgroundColor(this.getResources().getColor(R.color.button_clear_normal_background));
+		this.btnClear.setColorFilter(res.getColor(R.color.button_clear_normal_foreground));
+		this.btnClear.setBackgroundColor(res.getColor(R.color.button_clear_normal_background));
 		this.btnClear.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				long now = SystemClock.uptimeMillis();
@@ -765,7 +760,7 @@ public abstract class Play extends PoolBinder {
 		this.btnInvert.setPadding(0, 0, 0, 0);
 		this.btnInvert.setImageResource(R.drawable.stat_notify_sync);
 		this.btnInvert.setScaleType(ScaleType.CENTER_INSIDE);
-		this.btnInvert.setColorFilter(this.getResources().getColor(R.color.button_invert_normal_foreground));
+		this.btnInvert.setColorFilter(res.getColor(R.color.button_invert_normal_foreground));
 		this.btnInvert.setBackgroundColor(this.getResources().getColor(R.color.button_invert_normal_background));
 		this.btnInvert.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -798,12 +793,15 @@ public abstract class Play extends PoolBinder {
 
 		for (int i = 0; i < size; i++) {
 			this.btnSymbols[i] = new Button(this);
-			this.btnSymbols[i].setText(String.valueOf(symbolTable.getSymbol(i + 1)));
+			this.btnSymbols[i].setText(res.getStringArray(R.array.symbols)[i+1]);
+			//TODO
+			
+			
 			this.btnSymbols[i].setLayoutParams(lp);
 			this.btnSymbols[i].setPadding(0, 0, 0, 0);
 			this.btnSymbols[i].setTextSize(buttonHeight * 2 / 5);
-			this.btnSymbols[i].setTextColor(this.getResources().getColor(R.color.button_symbols_normal_foreground));
-			this.btnSymbols[i].setBackgroundColor(this.getResources().getColor(R.color.button_symbols_normal_background));
+			this.btnSymbols[i].setTextColor(res.getColor(R.color.button_symbols_normal_foreground));
+			this.btnSymbols[i].setBackgroundColor(res.getColor(R.color.button_symbols_normal_background));
 
 			final int symbolId = i;
 			this.btnSymbols[i].setOnClickListener(new OnClickListener() {

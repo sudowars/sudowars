@@ -53,7 +53,6 @@ import org.sudowars.Model.Solver.SolverState;
 import org.sudowars.Model.Sudoku.Sudoku;
 import org.sudowars.Model.Sudoku.Field.*;
 import org.sudowars.Model.SudokuUtil.NoteManager;
-import org.sudowars.View.SymbolTable;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -237,17 +236,37 @@ public class DebugHelper {
 	 */
 	private static String getCellLine(DebugHelper.PackageName part, int lineNumber, int totalLines, Cell cell, NoteManager notes) {
 		
-		String result = "";		
-		SymbolTable symbols = SymbolTable.getInstance();
+		String result = "";
 		String emptyLine = repeat(" ", totalLines);
+		//TODO: Use resource...
+		//String[] symbols = Resources.getStringArray(R.array.symbols);
+		String[] symbols = {
+				" ",
+				"1",
+				"2",
+				"3",
+				"4",
+				"5",
+				"6",
+				"7",
+				"8",
+				"9",
+				"0",
+				"a",
+				"b",
+				"c",
+				"d",
+				"e",
+				"f"
+		};
 		
 		if (cell.isInitial() || cell.isSet()) {
 			String mark = (cell.isInitial()) ? "*" : "=";
-			result = (lineNumber == 2) ? mark + String.valueOf(symbols.getSymbol(cell.getValue())) + mark + ((totalLines == 4) ? " " : "") : emptyLine;			
+			result = (lineNumber == 2) ? mark + symbols[cell.getValue()] + mark + ((totalLines == 4) ? " " : "") : emptyLine;			
 		} else {
 			//output notes
 			for (int i = (lineNumber-1)*totalLines + 1; i <= lineNumber*totalLines; i++) {
-				result += (notes.hasNote(cell, i)) ? String.valueOf(symbols.getSymbol(i)) : " "; 
+				result += (notes.hasNote(cell, i)) ? symbols[i] : " "; 
 			}
 		}
 		
