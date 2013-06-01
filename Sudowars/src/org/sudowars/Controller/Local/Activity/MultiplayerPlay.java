@@ -715,10 +715,10 @@ public class MultiplayerPlay extends Play {
 	 * Setup view.
 	 */
 	protected void setupView() {
-		super.setupView();
-		
 		LayoutInflater inflater = LayoutInflater.from(this.getApplicationContext());
 		this.ready = (LinearLayout) inflater.inflate(R.layout.ready, null, false);
+		
+		super.setupView();
 		
 		// Get the screen's density scale
 		final float scale = getResources().getDisplayMetrics().density;
