@@ -51,13 +51,8 @@ import org.sudowars.Model.CommandManagement.GameCommands.CompositeCommand;
 import org.sudowars.Model.CommandManagement.GameCommands.GameCommand;
 import org.sudowars.Model.CommandManagement.GameCommands.SetCellValueCommand;
 import org.sudowars.Model.Game.Game;
-import org.sudowars.Model.Game.GameCell;
 import org.sudowars.Model.Game.Player;
-import org.sudowars.Model.Game.PlayerSlot;
 import org.sudowars.Model.Game.SingleplayerGame;
-import org.sudowars.Model.Sudoku.Sudoku;
-import org.sudowars.Model.Sudoku.Field.Cell;
-import org.sudowars.Model.Sudoku.Field.DataCell;
 
 /**
  * The class DeltaManager encapsulates the undo/redo functionality of the last command available in singleplayer games.
@@ -73,6 +68,7 @@ public class DeltaManager implements Serializable {
 	private int toBookmarkCounter;
 	private int currentPosInList;
 	private boolean bookmarksEnabled;
+	private boolean currentlyReverting;
 	
 
 	/**
@@ -85,6 +81,7 @@ public class DeltaManager implements Serializable {
 		currentPosInList = commands.size() - 1;
 		bookmarksEnabled = false;
 		this.commandsAfterFirstError = null;
+		currentlyReverting = false;
 	}
 
 	/**
@@ -197,7 +194,7 @@ public class DeltaManager implements Serializable {
 				this.commandsAfterFirstError = new LinkedList<GameCommand>();
 			}
 		}
-		if (commandsAfterFirstError != null) {
+		if (commandsAfterFirstError != null && !currentlyReverting) {
 			commandsAfterFirstError.addLast(c);
 		}		
 	}
@@ -269,13 +266,17 @@ public class DeltaManager implements Serializable {
 		if (commandsAfterFirstError == null) {
 			return false;
 		}
+		currentlyReverting = true;
 		while (commandsAfterFirstError.size() > 0) {
 			if (!commandsAfterFirstError.getLast().getInvertedCommand(game).execute(game, executingPlayer)) {
 				return false;
 			}
 			commandsAfterFirstError.removeLast();
+			commands.removeLast();
+			currentPosInList = commands.size() - 1;
 		}
 		commandsAfterFirstError = null;
+		currentlyReverting = false;
 		return true;
 	}
 
