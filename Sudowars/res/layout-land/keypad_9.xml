@@ -50,7 +50,6 @@
     android:orientation="horizontal"
     android:shrinkColumns="*"
     android:stretchColumns="*"
-    android:paddingLeft="2dp"
     android:layout_weight="1">
     
     <TableRow android:layout_weight="1">
@@ -100,6 +99,8 @@
                      android:src="@drawable/ic_input_delete"
                      android:contentDescription="DEL"
                      android:layout_margin="1dp" />
+        <Button android:visibility="invisible"
+                android:layout_margin="1dp" />
     </TableRow>
     
 </TableLayout>

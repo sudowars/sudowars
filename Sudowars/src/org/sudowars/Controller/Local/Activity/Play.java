@@ -594,56 +594,26 @@ public abstract class Play extends PoolBinder {
 		
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
+				LinearLayout.LayoutParams.MATCH_PARENT);
 		lp.weight = 1;
 		int marginvalue = 2;
 		//TODO: Make it nicer
 		lp.setMargins(marginvalue, marginvalue, marginvalue, marginvalue);
 		Display display = getWindowManager().getDefaultDisplay();
 		
-		//int actionBar = this.getActionBar().getHeight();
-		
 		int width;
-		
 		if (this.constants.isLandscapeMode()) {
 			width = display.getWidth() - display.getHeight() + this.constants.getStatusBarHeight() - 2 * marginvalue;
-			//height = display.getHeight() - 2 * actionBar - this.constants.getStatusBarHeight() - 2 * marginvalue;
 		} else {
 			width = display.getWidth();
-			//height = display.getHeight() - display.getWidth() - 2 * marginvalue - this.constants.getStatusBarHeight() - actionBar;
 		}
 		
-		//lblText.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
-		//lblText.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
 		lblText.setLayoutParams(lp);
 		lblText.setTextSize(width / (lblText.getText().length() + 1));
 		lblText.setTextColor(this.getResources().getColor(R.color.text_game_over));
 		lblText.setGravity(Gravity.CENTER);
+		lblText.setAlpha(0f);
 		
-/*		for (int i = 0; i < layKeysLine.length; i++) {
-			final int keyRow = i;
-			final TextView goodbye = lblText;
-			layKeysLine[keyRow].animate()
-					.alpha(0f)
-					.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text))
-					.setListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator animation) {
-						        layKeysLine[keyRow].removeAllViews();
-						        if (keyRow == 1) {
-						        	layKeysLine[keyRow].addView(goodbye);
-						        	layKeysLine[keyRow].animate()
-						    				.alpha(1f)
-						    				.setDuration(Play.this.getResources().getInteger(R.integer.fade_in_game_finish_text))
-						    				.setListener(null);
-						        } else {
-						        	layKeysLine[keyRow].setAlpha(1f);
-						        }
-						}
-					});
-			
-		}
-*/		
 		final View keypad = (View) findViewById(R.id.keypad);
 		final TextView goodbye = lblText;
 		keypad.animate()
