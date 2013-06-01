@@ -224,12 +224,12 @@ public abstract class Play extends PoolBinder {
 	/**
 	 * the root view
 	 */
-	private LinearLayout root;
+	protected LinearLayout root;
 	
 	/**
 	 * the keypad view
 	 */
-	private View keypad;
+	protected View keypad;
 	
 	/**
 	 * the field size
@@ -698,11 +698,11 @@ public abstract class Play extends PoolBinder {
 		
 		LayoutInflater inflater = LayoutInflater.from(this.getApplicationContext());
 		if (size == 9) {
-			keypad = inflater.inflate(R.layout.keypad_9, null, false);
+			this.keypad = inflater.inflate(R.layout.keypad_9, null, false);
 		} else {
-			keypad = inflater.inflate(R.layout.keypad_16, null, false);
+			this.keypad = inflater.inflate(R.layout.keypad_16, null, false);
 		}
-		root = (LinearLayout) this.findViewById(R.id.root);
+		this.root = (LinearLayout) this.findViewById(R.id.root);
 		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		this.sudokuField.setZoomButtonsEnable(settings.getBoolean("zoom_buttons", false));
@@ -714,7 +714,7 @@ public abstract class Play extends PoolBinder {
 	 * Setup buttons
 	 */
 	protected void setupButtons() {
-		this.root.addView(this.keypad);		
+		this.root.addView(this.keypad);
 		this.btnClear = (ImageButton) this.findViewById(R.id.key_clear);
 		this.btnClear.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {

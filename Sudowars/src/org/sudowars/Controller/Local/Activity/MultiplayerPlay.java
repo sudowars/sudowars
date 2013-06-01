@@ -53,6 +53,7 @@ import android.os.Message;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -95,11 +96,6 @@ public class MultiplayerPlay extends Play {
 	 * the remote player
 	 */
 	protected Player remotePlayer;
-	
-	/**
-	 * the layout of sudoku field
-	 */
-	private LinearLayout laySudokuField;
 	
 	/**
 	 * the countdown text, which is show on the screen
@@ -170,6 +166,11 @@ public class MultiplayerPlay extends Play {
 	 * the bluetooth API, to communicate between client and server
 	 */
 	private BluetoothConnection connection;
+	
+	/**
+	 * the ready view
+	 */
+	private View ready;
 	
 	/**
 	 * the Bluetooth handler
@@ -267,8 +268,8 @@ public class MultiplayerPlay extends Play {
 		this.refreshScore();
 
 		this.playerLeftGame = false;
-		this.laySudokuField.removeAllViews();
-		this.laySudokuField.addView(this.lblCountdown);
+		this.root.removeAllViews();
+		this.root.addView(this.lblCountdown);
 		this.startCountDown();
 	}
 	
@@ -687,7 +688,7 @@ public class MultiplayerPlay extends Play {
 	 * Setup the layout of sudoku field
 	 */
 	private void setupSudokuField() {
-		this.laySudokuField.removeAllViews();
+		this.root.removeAllViews();
 		
 		if ((this.game.isPaused() && !this.gameState.isFinished()) || this.counterIsRunning) {
 			if ((this.game.isPaused() && !this.gameState.isFinished() && !this.counterIsRunning) || this.playerLeftGame) {
@@ -702,10 +703,11 @@ public class MultiplayerPlay extends Play {
 				this.lblPauseText.setVisibility(View.GONE);
 			}
 			
-			this.laySudokuField.addView(this.lblPauseText);
-			this.laySudokuField.addView(this.lblCountdown);
+			this.root.addView(this.lblPauseText);
+			this.root.addView(this.lblCountdown);
 		} else {
-			this.laySudokuField.addView(this.sudokuField);
+			//TODO: Use of visibility instead of remove and add view?
+			this.root.addView(this.sudokuField);
 		}
 	}
 	
@@ -715,7 +717,8 @@ public class MultiplayerPlay extends Play {
 	protected void setupView() {
 		super.setupView();
 		
-		this.laySudokuField = (LinearLayout) findViewById(R.id.laySudokuField);
+		LayoutInflater inflater = LayoutInflater.from(this.getApplicationContext());
+		this.ready = (LinearLayout) inflater.inflate(R.layout.ready, null, false);
 		
 		// Get the screen's density scale
 		final float scale = getResources().getDisplayMetrics().density;
@@ -766,16 +769,18 @@ public class MultiplayerPlay extends Play {
 	 */
 	protected void setupButtons() {
 		if (!this.gameState.isFinished()) {
-			LinearLayout layKeysLine[] = {
-					//TODO:
-/*					(LinearLayout) findViewById(R.id.layKeysLine1),
+/*			LinearLayout layKeysLine[] = {
+					TODO:
+					(LinearLayout) findViewById(R.id.layKeysLine1),
 					(LinearLayout) findViewById(R.id.layKeysLine2),
 					(LinearLayout) findViewById(R.id.layKeysLine3)};
-*/					};
+					};
 			for (int i = 0; i < layKeysLine.length; i++) {
 				layKeysLine[i].removeAllViews();
 			}
-			
+*/
+			//TODO: ready buttons....
+			this.root.addView(this.ready);
 			this.tglLocalReady = (ToggleButton) findViewById(R.id.tglLocalReady);
 			this.tglRemoteReady = (ToggleButton) findViewById(R.id.tglRemoteReady);
 			
