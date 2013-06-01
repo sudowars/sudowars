@@ -48,23 +48,12 @@
     android:baselineAligned="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center|top"
     android:orientation="vertical" >
 	
-    <LinearLayout
-        android:id="@+id/laySudokuField"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
-    
-		<org.sudowars.View.SudokuField
-			android:id="@+id/sudokuField"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_margin="2dp" />
-		
-	</LinearLayout>
+	<org.sudowars.View.SudokuField
+		android:id="@+id/sudokuField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     
     <LinearLayout
         android:layout_width="match_parent"

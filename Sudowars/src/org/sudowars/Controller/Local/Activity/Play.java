@@ -588,13 +588,6 @@ public abstract class Play extends PoolBinder {
 	protected void onGameFinished(String text) {
 		sudokuField.setDisabled(true);
 		this.gameState.gameFinished();
-/*		
-		final LinearLayout layKeysLine[] = {
-				(LinearLayout) findViewById(R.id.layKeysLine1),
-				(LinearLayout) findViewById(R.id.layKeysLine2),
-				(LinearLayout) findViewById(R.id.layKeysLine3)};
-*/		
-		final View keypad = (View) findViewById(R.id.keypad);
 		
 		TextView lblText = new TextView(this);
 		lblText.setText(text);
@@ -611,7 +604,6 @@ public abstract class Play extends PoolBinder {
 		//int actionBar = this.getActionBar().getHeight();
 		
 		int width;
-		//int height;
 		
 		if (this.constants.isLandscapeMode()) {
 			width = display.getWidth() - display.getHeight() + this.constants.getStatusBarHeight() - 2 * marginvalue;
@@ -651,25 +643,23 @@ public abstract class Play extends PoolBinder {
 					});
 			
 		}
-*/	
-	
-
-	final TextView goodbye = lblText;
-	keypad.animate()
-		.alpha(0f)
-		.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text))
-		.setListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animation) {
-					root.removeView(keypad);
-					root.addView(goodbye);
-					goodbye.animate()
-			    			.alpha(1f)
-			    			.setDuration(Play.this.getResources().getInteger(R.integer.fade_in_game_finish_text))
-			    			.setListener(null);
-				}
+*/		
+		final View keypad = (View) findViewById(R.id.keypad);
+		final TextView goodbye = lblText;
+		keypad.animate()
+			.alpha(0f)
+			.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text))
+			.setListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+						root.removeView(keypad);
+						root.addView(goodbye);
+						goodbye.animate()
+				    			.alpha(1f)
+				    			.setDuration(Play.this.getResources().getInteger(R.integer.fade_in_game_finish_text))
+				    			.setListener(null);
+					}
 		});
-	
 	}
 	
 	/**
@@ -766,54 +756,7 @@ public abstract class Play extends PoolBinder {
 	 * Setup buttons
 	 */
 	protected void setupButtons() {
-/*
-		Resources res = this.getResources();
-		// Get the screen's density scale
-		final float scale = res.getDisplayMetrics().density;
-		
-		// Convert the dps to pixels, based on density scale
-		int marginvalue = (int) (1.0f * scale + 0.5f);
-		int minButtonWidth = (int) (62.0f * scale + 0.5f);
-		int minButtonHeight = (int) (40.0f * scale + 0.5f);
-		
-		int actionBar = this.getActionBar().getHeight();
-*/
-		this.root.addView(this.keypad);
-/*		
-		Display display = getWindowManager().getDefaultDisplay();
-		
-		int buttonWidth;
-		int buttonHeight;
-		
-		if (this.constants.isLandscapeMode()) {
-			buttonWidth = (display.getWidth() - display.getHeight() + actionBar + this.constants.getStatusBarHeight()) / 3 - 2 * marginvalue;
-			buttonHeight = (display.getHeight() - actionBar - this.constants.getStatusBarHeight()) / (size / 3 + 1) - 2 * marginvalue;
-		
-			if (buttonWidth < minButtonWidth) {
-				buttonWidth = minButtonWidth;
-			}
-		} else {
-			buttonWidth = display.getWidth() / (size / 3 + 1) - 2 * marginvalue;
-			buttonHeight = ((display.getHeight() - display.getWidth()) - actionBar - this.constants.getStatusBarHeight()) / 3 - 2 * marginvalue;
-		
-			if (buttonHeight < minButtonHeight) {
-				buttonHeight = minButtonHeight;
-			}
-		}
-		
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				buttonWidth,
-				buttonHeight);
-		lp.setMargins(marginvalue, marginvalue, marginvalue, marginvalue);
-		
-		this.btnClear = new ImageButton(this);
-		this.btnClear.setLayoutParams(lp);
-		this.btnClear.setPadding(0, 0, 0, 0);
-		this.btnClear.setImageResource(R.drawable.ic_input_delete);
-		this.btnClear.setScaleType(ScaleType.CENTER_INSIDE);
-		this.btnClear.setColorFilter(res.getColor(R.color.button_clear_normal_foreground));
-		this.btnClear.setBackgroundColor(res.getColor(R.color.button_clear_normal_background));
-*/		
+		this.root.addView(this.keypad);		
 		this.btnClear = (ImageButton) this.findViewById(R.id.key_clear);
 		this.btnClear.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -841,7 +784,7 @@ public abstract class Play extends PoolBinder {
 				Play.this.lastTouchTime = now;
 			}
 		});
-/*		
+/*		TODO
 		this.btnInvert = new ImageButton(this);
 		this.btnInvert.setLayoutParams(lp);
 		this.btnInvert.setPadding(0, 0, 0, 0);
@@ -883,7 +826,7 @@ public abstract class Play extends PoolBinder {
 		for (int i = 0; i < size; i++) {
 			this.btnSymbols[i] = (Button) this.findViewById(this.keyIDs[i]);
 			this.btnSymbols[i].setText(this.getResources().getStringArray(R.array.symbols)[i+1]);
-/*			
+/*			TODO
 			this.btnSymbols[i].setLayoutParams(lp);
 			this.btnSymbols[i].setPadding(0, 0, 0, 0);
 			this.btnSymbols[i].setTextSize(buttonHeight * 2 / 5);
@@ -927,28 +870,6 @@ public abstract class Play extends PoolBinder {
 				}
 			});
 		}
-/*		
-		if (this.constants.isLandscapeMode()) {
-			// key column
-			for (int i = 0; i < size; i++) {
-				layKeysLine[i % 3].addView(this.btnSymbols[i]);
-			}
-			
-			//move buttons right
-			int i = size / 16;
-			layKeysLine[i++].addView(this.btnInvert);
-			layKeysLine[i].addView(this.btnClear);
-		} else {
-			// key row
-			for (int i = 0; i < size - 1; i++) {
-				layKeysLine[i / (size / 3)].addView(this.btnSymbols[i]);
-			}
-			
-			layKeysLine[0].addView(this.btnInvert);
-			layKeysLine[1].addView(this.btnClear);
-			layKeysLine[2].addView(this.btnSymbols[size - 1]);
-		}
-*/
 	}
 	
 	/**

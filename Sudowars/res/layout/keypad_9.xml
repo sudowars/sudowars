@@ -55,37 +55,48 @@
 
     <TableRow android:layout_weight="1">
         <Button style="@style/KeypadButton"
-                android:id="@+id/key1" />
+                android:id="@+id/key1"
+                android:layout_margin="1dp" />
         <Button style="@style/KeypadButton"
-                android:id="@+id/key2" />
+                android:id="@+id/key2"
+                android:layout_margin="1dp" />
         <Button style="@style/KeypadButton"
-                android:id="@+id/key3" />
+                android:id="@+id/key3"
+                android:layout_margin="1dp" />
         <ImageButton style="@style/KeypadButton"
                      android:id="@+id/key_invert"
                      android:src="@drawable/stat_notify_sync"
-                     android:contentDescription="INV" />
+                     android:contentDescription="INV"
+                     android:layout_margin="1dp" />
     </TableRow>
 
     <TableRow android:layout_weight="1">
         <Button style="@style/KeypadButton"
-                android:id="@+id/key4" />
+                android:id="@+id/key4"
+                android:layout_margin="1dp" />
         <Button style="@style/KeypadButton"
-                android:id="@+id/key5" />
+                android:id="@+id/key5"
+                android:layout_margin="1dp" />
         <Button style="@style/KeypadButton"
-                android:id="@+id/key6" />
+                android:id="@+id/key6"
+                android:layout_margin="1dp" />
         <ImageButton style="@style/KeypadButton"
                      android:id="@+id/key_clear"
                      android:src="@drawable/ic_input_delete"
-                     android:contentDescription="DEL" />
+                     android:contentDescription="DEL"
+                     android:layout_margin="1dp" />
     </TableRow>
 
     <TableRow android:layout_weight="1">
         <Button style="@style/KeypadButton"
-                android:id="@+id/key7" />
+                android:id="@+id/key7"
+                android:layout_margin="1dp" />
         <Button style="@style/KeypadButton"
-                android:id="@+id/key8" />
+                android:id="@+id/key8"
+                android:layout_margin="1dp" />
         <Button style="@style/KeypadButton"
-                android:id="@+id/key9" />
+                android:id="@+id/key9"
+                android:layout_margin="1dp" />
     </TableRow>
     
 </TableLayout>
