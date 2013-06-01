@@ -44,8 +44,8 @@
   Philip Flohr 
 -->
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/controls"
-    android:layout_width="fill_parent"
+    android:id="@+id/keypad"
+    android:layout_width="match_parent"
     android:layout_height="0dip"
     android:orientation="horizontal"
     android:shrinkColumns="*"
@@ -82,7 +82,7 @@
         <Button style="@style/KeypadButton"
                 android:id="@+id/key10" />
         <ImageButton style="@style/KeypadButton"
-                     android:id="@+id/button_clear"
+                     android:id="@+id/key_clear"
                      android:src="@drawable/ic_input_delete"
                      android:contentDescription="DEL" />
     </TableRow>

@@ -769,10 +769,11 @@ public class MultiplayerPlay extends Play {
 	protected void setupButtons() {
 		if (!this.gameState.isFinished()) {
 			LinearLayout layKeysLine[] = {
-					(LinearLayout) findViewById(R.id.layKeysLine1),
+					//TODO:
+/*					(LinearLayout) findViewById(R.id.layKeysLine1),
 					(LinearLayout) findViewById(R.id.layKeysLine2),
 					(LinearLayout) findViewById(R.id.layKeysLine3)};
-			
+*/					};
 			for (int i = 0; i < layKeysLine.length; i++) {
 				layKeysLine[i].removeAllViews();
 			}
