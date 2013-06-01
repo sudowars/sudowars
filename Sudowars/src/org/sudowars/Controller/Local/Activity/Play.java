@@ -205,6 +205,11 @@ public abstract class Play extends PoolBinder {
 	 */
 	private long lastNotificationTime;
 	
+	/**
+	 * indicates that the assistant is runing (in SPgame). nothing is allowed if this is true
+	 */
+	protected boolean assistantRunning = false;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -637,6 +642,11 @@ public abstract class Play extends PoolBinder {
 
 		if (!error && selectedCell.isInitial()) {
 			this.notificate(R.string.notification_initial_field, Toast.LENGTH_SHORT);
+			error = true;
+		}
+		
+		if (!error && assistantRunning) {
+			this.notificate(R.string.notification_assistant_running, Toast.LENGTH_SHORT);
 			error = true;
 		}
 		
