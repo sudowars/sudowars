@@ -715,8 +715,7 @@ public class MultiplayerPlay extends Play {
 	protected void setupView() {
 		super.setupView();
 		
-		//TODO:
-		this.laySudokuField = null;//(LinearLayout) findViewById(R.id.laySudokuField);
+		this.laySudokuField = (LinearLayout) findViewById(R.id.laySudokuField);
 		
 		// Get the screen's density scale
 		final float scale = getResources().getDisplayMetrics().density;

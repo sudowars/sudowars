@@ -87,8 +87,10 @@
     <string name="button_bluetooth_scan_stop">Stop scanning</string>
     <string name="button_bookmark_get">Open Bookmark</string>
     <string name="button_bookmark_set">Set Bookmark</string>
+    <string name="button_clear">CLR</string>
     <string name="button_exit">Exit</string>
     <string name="button_give_up">Give Up</string>
+    <string name="button_invert">INV</string>
     <string name="button_manual">Manual</string>
     <string name="button_kick">Kick User</string>
     <string name="button_multiplayer">Multiplayer</string>

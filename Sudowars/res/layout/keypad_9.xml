@@ -65,7 +65,7 @@
         <ImageButton style="@style/KeypadButton"
                      android:id="@+id/key_invert"
                      android:src="@drawable/stat_notify_sync"
-                     android:contentDescription="INV"
+                     android:contentDescription="@string/button_invert"
                      android:layout_margin="1dp" />
     </TableRow>
 
@@ -82,7 +82,7 @@
         <ImageButton style="@style/KeypadButton"
                      android:id="@+id/key_clear"
                      android:src="@drawable/ic_input_delete"
-                     android:contentDescription="DEL"
+                     android:contentDescription="@string/button_clear"
                      android:layout_margin="1dp" />
     </TableRow>
 
