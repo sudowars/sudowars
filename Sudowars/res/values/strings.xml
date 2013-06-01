@@ -109,8 +109,10 @@
     <string name="button_start">Start game</string>
     <string name="button_undo">Undo</string>
     <string name="button_yes">Yes</string>
+    <string name="button_back_to_first_error">back to my first error</string>
     
     <!-- Settings -->
+    <string name="settings_game_assistant_back_to_first_error">Allow return to first error</string>
     <string name="settings_game_assistant_show_mistakes">Highlight mistakes</string>
     <string name="settings_game_assistant_solve_cells">Allow cell solving</string>
     <string name="settings_game_assistant_bookmark">Allow bookmarking</string>
@@ -122,6 +124,7 @@
     <string name="settings_show_zoom_buttons_text">Show zoom buttons for the sudoku field</string>
     <string name="settings_vibrator">Vibration</string>
     <string name="settings_vibrator_text">Enable vibration feedback on game events</string>
+    
     
     <!-- Text messages -->
     <string name="text_about">Adrian Vielsack\nChristof Urbaczek\nFlorian Rosenthal\nMichael Hoff\nMoritz Lüdecke\nPhilip Flohr</string>
@@ -151,7 +154,10 @@
     <string name="text_win_multiplayer">WIN</string>
     
     <!-- Notifications -->
+    <string name="notification_back_to_first_error_failed">Nothing to do, you had no errors</string>
+    <string name="notification_back_to_first_error_success">Reverted to your first error</string>
     <string name="notification_assistant_failed">Could not find a solution. Did you make a mistake?</string>
+    <string name="notification_assistant_running">Please wait until the Assistant finished his work</string>
     <string name="notification_cell_is_already_set">Cell already set by opponent.</string>
     <string name="notification_initial_field">A set cell cannot be modified.</string>
     <string name="notification_unselected_field">Select a cell first.</string>

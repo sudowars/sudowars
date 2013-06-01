@@ -49,6 +49,8 @@ import java.io.Serializable;
 import org.sudowars.Model.CommandManagement.DeltaManager;
 import org.sudowars.Model.Difficulty.Difficulty;
 import org.sudowars.Model.Game.SingleplayerGame;
+import org.sudowars.Model.Sudoku.Field.DataCell;
+import org.sudowars.Model.Sudoku.Field.Field;
 
 /**
  * This class encapsulates a snapshot of a running {@link SingleplayerGame}.
@@ -59,6 +61,8 @@ public class SingleplayerGameState extends GameState implements Serializable {
 	private final boolean obviousMistakes;
 	private final boolean solveCell;
 	private final boolean bookmark;
+	private final boolean backToFirstError;
+	private final Field<DataCell> correctSovedField;
 	private final DeltaManager deltaManager;
 	
 	/**
@@ -72,7 +76,7 @@ public class SingleplayerGameState extends GameState implements Serializable {
 	 * @throws IllegalArgumentException if either game, difficulty or deltaManager were {@code null}
 	 */
 	public SingleplayerGameState(SingleplayerGame game, Difficulty difficulty,
-			boolean obviousMistakesShown, boolean solveCellAllowed, boolean bookmarkAllowed, DeltaManager deltaManager) 
+			boolean obviousMistakesShown, boolean solveCellAllowed, boolean bookmarkAllowed, boolean backToFirstError, Field<DataCell> correctSolvedField, DeltaManager deltaManager) 
 					throws IllegalArgumentException{
 		
 		super(game, difficulty);
@@ -81,6 +85,8 @@ public class SingleplayerGameState extends GameState implements Serializable {
 		this.obviousMistakes = obviousMistakesShown;
 		this.solveCell = solveCellAllowed;
 		this.bookmark = bookmarkAllowed;
+		this.backToFirstError = backToFirstError;
+		this.correctSovedField = correctSolvedField;
 		this.deltaManager = deltaManager;
 	}
 	
@@ -100,6 +106,15 @@ public class SingleplayerGameState extends GameState implements Serializable {
 		return this.solveCell;
 	}
 	
+	
+	/**
+	 * Indicates the assistant can be triggered by the player to revert everything to the first error the user made.
+	 * @return {@code true} if so, otherwise {@code false}
+	 */
+	public boolean isBackToFirstErrorEnabled() {
+		return this.backToFirstError;
+	}
+	
 	/**
 	 * Indicates if the player can use the bookmark feature.
 	 * @return {@code true} if so, otherwise {@code false}
@@ -114,5 +129,12 @@ public class SingleplayerGameState extends GameState implements Serializable {
 	 */
 	public DeltaManager getDeltaManager() {
 		return this.deltaManager;
+	}
+	
+	public boolean isCorrectMove(int cellIndex, int solution) {
+		if (correctSovedField.getCell(cellIndex).getValue() == solution) {
+			return true;
+		}
+		return false;
 	}
 }
