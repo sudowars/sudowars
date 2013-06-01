@@ -52,35 +52,26 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.text.Layout;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -263,9 +254,6 @@ public abstract class Play extends PoolBinder {
 	    actionBar.setDisplayShowCustomEnabled(true);
 	    
 		this.constants = new Constants(this);
-		
-		setContentView(R.layout.play);
-		
 		this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
 		this.lastNotificationTime = 0;
@@ -689,6 +677,7 @@ public abstract class Play extends PoolBinder {
 	 * Setup view
 	 */
 	protected void setupView() {
+		setContentView(R.layout.play);
 		this.sudokuField = (SudokuField) findViewById(R.id.sudokuField);
 		this.sudokuField.showInvalidValues(false);
 		this.sudokuField.setGame(this.game);
@@ -708,7 +697,6 @@ public abstract class Play extends PoolBinder {
 		});
 		
 		LayoutInflater inflater = LayoutInflater.from(this.getApplicationContext());
-		
 		if (size == 9) {
 			keypad = inflater.inflate(R.layout.keypad_9, null, false);
 		} else {
@@ -754,15 +742,7 @@ public abstract class Play extends PoolBinder {
 				Play.this.lastTouchTime = now;
 			}
 		});
-/*		TODO
-		this.btnInvert = new ImageButton(this);
-		this.btnInvert.setLayoutParams(lp);
-		this.btnInvert.setPadding(0, 0, 0, 0);
-		this.btnInvert.setImageResource(R.drawable.stat_notify_sync);
-		this.btnInvert.setScaleType(ScaleType.CENTER_INSIDE);
-		this.btnInvert.setColorFilter(res.getColor(R.color.button_invert_normal_foreground));
-		this.btnInvert.setBackgroundColor(this.getResources().getColor(R.color.button_invert_normal_background));
-*/		
+		
 		this.btnInvert = (ImageButton) this.findViewById(R.id.key_invert);
 		this.btnInvert.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -796,13 +776,7 @@ public abstract class Play extends PoolBinder {
 		for (int i = 0; i < size; i++) {
 			this.btnSymbols[i] = (Button) this.findViewById(this.keyIDs[i]);
 			this.btnSymbols[i].setText(this.getResources().getStringArray(R.array.symbols)[i+1]);
-/*			TODO
-			this.btnSymbols[i].setLayoutParams(lp);
-			this.btnSymbols[i].setPadding(0, 0, 0, 0);
-			this.btnSymbols[i].setTextSize(buttonHeight * 2 / 5);
-			this.btnSymbols[i].setTextColor(res.getColor(R.color.button_symbols_normal_foreground));
-			this.btnSymbols[i].setBackgroundColor(res.getColor(R.color.button_symbols_normal_background));
-*/
+			
 			final int symbolId = i;
 			this.btnSymbols[i].setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
