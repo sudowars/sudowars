@@ -781,7 +781,7 @@ public class MultiplayerPlay extends Play {
 */
 			//TODO: ready buttons....
 			this.root.addView(this.ready);
-			this.tglLocalReady = (ToggleButton) findViewById(R.id.tglLocalReady);
+			this.tglLocalReady = (ToggleButton) this.findViewById(R.id.tglLocalReady);
 			this.tglRemoteReady = (ToggleButton) findViewById(R.id.tglRemoteReady);
 			
 			if (this.game.isStarted() && !this.counterIsRunning && !this.playerLeftGame) {

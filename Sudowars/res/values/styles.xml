@@ -1,10 +1,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 	
 	<style name="KeypadButton" parent="android:style/Widget.Button">
-		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">match_parent</item>
-		<item name="android:textSize">20sp</item>
-        <item name="android:padding">0dp</item>
+		<item name="android:textSize">24sp</item>
 		<item name="android:textColor">@color/button_symbols_normal_foreground</item>
 		<item name="android:background">@color/button_symbols_normal_background</item>
 	</style>

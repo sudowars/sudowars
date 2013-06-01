@@ -702,6 +702,7 @@ public abstract class Play extends PoolBinder {
 		} else {
 			this.keypad = inflater.inflate(R.layout.keypad_16, null, false);
 		}
+		
 		this.root = (LinearLayout) this.findViewById(R.id.root);
 		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

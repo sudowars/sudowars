@@ -46,11 +46,11 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/keypad"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="0dip"
     android:orientation="horizontal"
     android:shrinkColumns="*"
     android:stretchColumns="*"
-    android:layout_weight="1">
+    android:layout_weight="1" >
 
     <TableRow android:layout_weight="1">
         <Button style="@style/KeypadButton"
