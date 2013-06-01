@@ -188,14 +188,14 @@ public class BluetoothConnection implements Serializable {
 	 */
 	public BluetoothConnection () {
 		this.state = STATE_NONE;
-		if (btActive != null){
+		if (BluetoothConnection.btActive != null){
 			if (swSocket != null)
 				swSocket.close();
 		}
 		swSocket = new SudowarsBluetoothSocket();
 		swSocket.setEventHandler(sckEvent);
 		this.tsync = new TimeSyncer(this.swSocket);
-		btActive = this;
+		BluetoothConnection.btActive = this;
 		this.deliveredCommand = new LinkedList<BluetoothPacket>();
 		this.currentPacket = new LinkedList<BluetoothPacket>();
 		sentPacket = new ArrayList<BluetoothPacket>(256);
@@ -234,7 +234,7 @@ public class BluetoothConnection implements Serializable {
     }
 	
 	public static BluetoothConnection getActiveBluetoothConnection() {
-		return btActive;
+		return BluetoothConnection.btActive;
 	}
 	
 	/**
@@ -333,7 +333,12 @@ public class BluetoothConnection implements Serializable {
 		setState(STATE_NONE);
 	}
 	
-	private class ConnectedThread extends Thread {
+	private class ConnectedThread extends Thread implements Serializable {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1045077797948108832L;
+
 		private ConnectedThread() {}
 		
 		public void run() {
@@ -541,7 +546,11 @@ public class BluetoothConnection implements Serializable {
 			this.sendQueue.endThread();
 	}
 	
-	private class SendThread extends Thread {
+	private class SendThread extends Thread implements Serializable {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 8412271146846662003L;
 		private BlockingQueue<Command> btPacketsToSend;
 		Boolean EXIT = false;
 		

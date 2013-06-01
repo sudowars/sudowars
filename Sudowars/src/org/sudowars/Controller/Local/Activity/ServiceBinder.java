@@ -55,7 +55,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-public class PoolBinder extends Activity {
+public class ServiceBinder extends Activity {
 	/**
 	 * the pool full of Sudokus
 	 */
@@ -104,8 +104,8 @@ public class PoolBinder extends Activity {
         public void onServiceConnected(ComponentName className, IBinder service) {
             //we've bound to SudokuFilePool, cast the IBinder and get SudokuFilePool instance
             SudokuFilePoolBinder binder = (SudokuFilePoolBinder) service;
-            PoolBinder.this.pool = binder.getService();
-            PoolBinder.this.bound = true;
+            ServiceBinder.this.pool = binder.getService();
+            ServiceBinder.this.bound = true;
         }
         
         /*
@@ -114,7 +114,7 @@ public class PoolBinder extends Activity {
          */
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
-        	PoolBinder.this.bound = false;
+        	ServiceBinder.this.bound = false;
         }
     };
 }

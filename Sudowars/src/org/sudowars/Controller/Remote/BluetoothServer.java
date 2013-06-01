@@ -44,16 +44,19 @@
  ******************************************************************************/
 package org.sudowars.Controller.Remote;
 
-import java.io.Serializable;
 
 /**
  * This class represents a bluetooth server for a client to connect to
  *
  */
 
-public class BluetoothServer extends BluetoothConnection implements Serializable {
-	private static final long serialVersionUID = 9091603361363056738L;
+public class BluetoothServer extends BluetoothConnection {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3717544104436320015L;
+
 	/**
 	 * Creates a new {@link BluetoothServer}
 	 */
@@ -83,13 +86,5 @@ public class BluetoothServer extends BluetoothConnection implements Serializable
 	 */
 	public void ban() {
 		swSocket.ban();
-	}
-	
-	/**
-	 * {@link Deprecated} use closeConnection instead
-	 */
-	
-	public void stopListening() {
-		//closeConnection();
 	}
 }

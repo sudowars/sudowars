@@ -57,6 +57,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -73,11 +75,12 @@ import org.sudowars.Model.SudokuManagement.IO.FileIO;
 import org.sudowars.Controller.Local.BluetoothDeviceList.BluetoothDeviceListAdapter;
 import org.sudowars.Controller.Local.BluetoothDeviceList.BluetoothDeviceListItem;
 import org.sudowars.Controller.Remote.BluetoothConnection;
+import org.sudowars.Controller.Remote.BluetoothServer;
 
 /**
  * Shows the menu for the multiplayer.
  */
-public class MultiplayerMenu extends PoolBinder {
+public class MultiplayerMenu extends ServiceBinder {
 	/**
 	 * Intent request code
 	 */
@@ -114,6 +117,11 @@ public class MultiplayerMenu extends PoolBinder {
 	private BluetoothAdapter bluetoothAdapter;
 	
 	/**
+	 * the bluetooth API, to communicate between client and server
+	 */
+	private BluetoothConnection connection;
+	
+	/**
 	 * Receive events when a new Device was found
 	 */
 	private final BroadcastReceiver bluetoothEvent = new BroadcastReceiver() {
@@ -141,7 +149,7 @@ public class MultiplayerMenu extends PoolBinder {
         			&& MultiplayerMenu.this.lstBluetoothDevices.getFooterViewsCount() > 0) {
         		MultiplayerMenu.this.lstBluetoothDevices.removeFooterView(MultiplayerMenu.scanningItem);
         		MultiplayerMenu.this.btScan.setTitle(getString(R.string.button_bluetooth_scan));
-            }
+            } 
         }
     };
 	
@@ -188,6 +196,34 @@ public class MultiplayerMenu extends PoolBinder {
 				});
 
         this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        
+        this.connection = new BluetoothServer();
+        Handler mHandler = new Handler() {
+        	@Override
+            public void handleMessage(Message msg) {
+            	switch (msg.what) {
+            	case BluetoothConnection.MESSAGE_BT_STATE_CHANGE:
+            		//send settings to client
+        			if (MultiplayerMenu.this.connection.getState() == BluetoothConnection.STATE_CONNECTED) {
+        				if (MultiplayerMenu.this.connection instanceof BluetoothServer) {
+        					//I'm the server
+        					if (MultiplayerMenu.this.savedGames.hasMultiplayerGame()) {
+        						onBtnMultiplayerContinueClick();
+        					} else {
+        						onBtnMultiplayerNewClick();
+        					}
+        				} else {
+        					//I'm client
+        				}
+        			}
+        			break;
+        		default:
+        			break;
+            	}
+        	}
+        };
+		this.connection.setBluetoothEventHandler(mHandler );
+		((BluetoothServer) this.connection).listen();
 	}
 	
 	/*
@@ -330,8 +366,9 @@ public class MultiplayerMenu extends PoolBinder {
 	 */
 	private void onBtnMultiplayerNewClick () {
 		stopScan();
-		
+		connection.setBluetoothEventHandler(null);
 		Intent intent = new Intent(this, MultiplayerSettings.class);
+		intent.putExtra("is_server", true);
 		startActivity(intent);
 	}
 	
@@ -346,11 +383,7 @@ public class MultiplayerMenu extends PoolBinder {
 		stopScan();
 		
 		Intent intent = new Intent(this, MultiplayerSettings.class);
-		Bundle bundle = new Bundle();
-		
-		bundle.putSerializable("gameState", this.savedGames.loadMultiplayerGame());
-		intent.putExtras(bundle);
-		
+		intent.putExtra("is_server", true);
 		startActivity(intent);
 	}
 	
@@ -360,17 +393,10 @@ public class MultiplayerMenu extends PoolBinder {
 	 * @param mac the mac address of the bluetooth device in the list
 	 */
 	private void onLstBluetoothClick(String mac) {
-		BluetoothConnection connection = new BluetoothConnection();
-		
+		connection = new BluetoothConnection();
 		if (connection.connect(mac)) {
-			stopScan();
-			
 			Intent intent = new Intent(this, MultiplayerSettings.class);
-			Bundle bundle = new Bundle();
-			
-			bundle.putSerializable("connection", true);
-			intent.putExtras(bundle);
-			
+			intent.putExtra("is_server", false);
 			startActivity(intent);
 		} else {
 			Toast.makeText(getApplicationContext(), R.string.text_bluetooth_could_not_connect, Toast.LENGTH_LONG).show();

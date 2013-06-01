@@ -110,7 +110,7 @@ public class MultiplayerSettings extends Settings {
     /**
      * To be, or not to be
      */
-    private boolean isClient;
+    private boolean isServer;
     
 	/**
 	 * the preferences
@@ -276,17 +276,18 @@ public class MultiplayerSettings extends Settings {
 		this.settings = new MultiplayerSudokuSettings();
 		
 		Intent intent = getIntent();
-		isClient = intent.hasExtra("connection");
-		
-		if (isClient) {
-			this.connection = (BluetoothConnection) BluetoothConnection.getActiveBluetoothConnection();
-			this.connectionStatus.setTitle(getResources().getStringArray(R.array.bluetooth_states)[1]);
-			
-			this.connection.setBluetoothEventHandler(mHandler);
+		isServer = intent.getBooleanExtra("is_server", false);
+
+		this.connection = BluetoothConnection.getActiveBluetoothConnection();
+		if (this.connection == null) {
+			this.connection = new BluetoothServer();
+			((BluetoothServer) this.connection).listen();
+		}
+		this.connection.setBluetoothEventHandler(mHandler);
+		this.connectionStatus.setTitle(getResources().getStringArray(R.array.bluetooth_states)[BluetoothConnection.getActiveBluetoothConnection().getState()]);
+		if (!isServer) {
 			disableButtons();
 		} else {
-			this.connection = new BluetoothServer();
-			
 			//commence game
 			if (intent.hasExtra("gameState")) {
 				disableButtons();
@@ -315,12 +316,7 @@ public class MultiplayerSettings extends Settings {
 				
 				this.settings.setSettings(size, difficulty, true);
 			}
-			
-			this.connection.setBluetoothEventHandler(mHandler);
-			
-			this.connectionStatus.setTitle(getResources().getStringArray(R.array.bluetooth_states)[0]);
-	    	((BluetoothServer) this.connection).listen();
-			
+				
 			if (this.connection.getState() == BluetoothConnection.STATE_CONNECTED) {
 				RemoteSettingsCommand command = new RemoteSettingsCommand(this.settings);
 				this.connection.sendCommand((Command) command);
@@ -370,7 +366,7 @@ public class MultiplayerSettings extends Settings {
 		super.onStop();
 		
 	    if (this.connection instanceof BluetoothServer) {
-	    	((BluetoothServer)this.connection).stopListening();
+	    	((BluetoothServer)this.connection).closeConnection();
 	    }
 	}
 	
@@ -405,7 +401,7 @@ public class MultiplayerSettings extends Settings {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.multiplayer_settings, menu);
 		
-		if (isClient) {
+		if (!isServer) {
 			menu.removeItem(R.id.btKick);
 			menu.removeItem(R.id.btBan);
 			menu.removeItem(R.id.btVisible);

@@ -339,7 +339,6 @@ public class SudowarsBluetoothSocket implements SudowarsSocket, Serializable {
 	/**
 	 * Accepting Thread
 	 * @author adrian
-	 *
 	 */
 	private class ConnectThread extends Thread {
 		public ConnectThread(BluetoothDevice btDev) throws IOException {

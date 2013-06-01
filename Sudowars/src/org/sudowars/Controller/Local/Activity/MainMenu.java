@@ -77,7 +77,7 @@ import android.widget.Toast;
 /**
  * Shows the main menu.
  */
-public class MainMenu extends PoolBinder {
+public class MainMenu extends ServiceBinder {
 	/**
 	 * Intent request code
 	 */

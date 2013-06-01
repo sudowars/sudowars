@@ -104,7 +104,7 @@ import org.sudowars.View.*;
 /**
  * Shows a running Sudoku game.
  */
-public abstract class Play extends PoolBinder {
+public abstract class Play extends ServiceBinder {
 	/**
 	 * Constants like the height of the status bar
 	 */
