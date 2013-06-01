@@ -73,4 +73,7 @@
         android:id="@+id/get_bookmark"
         android:title="@string/button_bookmark_get"
         android:icon="@drawable/ic_menu_goto"/>
+    <item
+        android:id="@+id/go_back_to_first_error"
+        android:title="@string/button_back_to_first_error"/>
 </menu>

@@ -47,10 +47,17 @@ package org.sudowars.Model.CommandManagement;
 import java.io.Serializable;
 import java.util.LinkedList;
 
+import org.sudowars.Model.CommandManagement.GameCommands.CompositeCommand;
 import org.sudowars.Model.CommandManagement.GameCommands.GameCommand;
+import org.sudowars.Model.CommandManagement.GameCommands.SetCellValueCommand;
 import org.sudowars.Model.Game.Game;
+import org.sudowars.Model.Game.GameCell;
 import org.sudowars.Model.Game.Player;
+import org.sudowars.Model.Game.PlayerSlot;
 import org.sudowars.Model.Game.SingleplayerGame;
+import org.sudowars.Model.Sudoku.Sudoku;
+import org.sudowars.Model.Sudoku.Field.Cell;
+import org.sudowars.Model.Sudoku.Field.DataCell;
 
 /**
  * The class DeltaManager encapsulates the undo/redo functionality of the last command available in singleplayer games.
@@ -62,6 +69,7 @@ public class DeltaManager implements Serializable {
 	private final CommandInverter inverter;
 	private LinkedList<GameCommand> commands;
 	private LinkedList<GameCommand> commandsToExecuteAfterBookmarkCounterIsZero;
+	private LinkedList<GameCommand> commandsAfterFirstError;
 	private int toBookmarkCounter;
 	private int currentPosInList;
 	private boolean bookmarksEnabled;
@@ -76,6 +84,7 @@ public class DeltaManager implements Serializable {
 		commandsToExecuteAfterBookmarkCounterIsZero = new LinkedList<GameCommand>();
 		currentPosInList = commands.size() - 1;
 		bookmarksEnabled = false;
+		this.commandsAfterFirstError = null;
 	}
 
 	/**
@@ -153,14 +162,14 @@ public class DeltaManager implements Serializable {
 		return false;
 	}
 
-	/**
+	/*
 	 * Adds a command to the delta management and creates the corresponding undo action, if available.
 	 *
 	 * @param c the GameCommand which can be redone.
 	 *
 	 * @throws IllegalArgumentException if given command was <code>null</code>
 	 */
-	public void addDelta(GameCommand c) throws IllegalArgumentException {
+	public void addDelta(GameCommand c, boolean isCorrect) throws IllegalArgumentException {
 		if (hasForwardDelta()) {
 			if (bookmarksEnabled && toBookmarkCounter < 0) {
 				toBookmarkCounter = 0;
@@ -173,12 +182,24 @@ public class DeltaManager implements Serializable {
 					commands.remove(commands.size() - 1);
 				}
 			}
+			
 		}
 		commands.addLast(c);
 		currentPosInList = commands.size() - 1;
 		if (bookmarksEnabled) {
 			toBookmarkCounter++;
 		}
+		
+		
+		if (c instanceof CompositeCommand && ((CompositeCommand) c).getCommands().get(1) instanceof SetCellValueCommand) {
+			if (commandsAfterFirstError == null && !isCorrect) {
+				//this is the first error, cretae the List etc...
+				this.commandsAfterFirstError = new LinkedList<GameCommand>();
+			}
+		}
+		if (commandsAfterFirstError != null) {
+			commandsAfterFirstError.addLast(c);
+		}		
 	}
 	
 	private void checkArgumentsForForwardAndBackward(Game game, Player executingPlayer) 
@@ -227,7 +248,7 @@ public class DeltaManager implements Serializable {
 				currentCommand = commandsToExecuteAfterBookmarkCounterIsZero.getFirst();
 				commandsToExecuteAfterBookmarkCounterIsZero.removeFirst();
 				currentCommand.execute(game, executingPlayer);
-				this.addDelta(currentCommand);
+				this.addDelta(currentCommand, true);
 			}
 		}
 		return true;
@@ -235,6 +256,27 @@ public class DeltaManager implements Serializable {
 
 	public boolean isBookmarkAvailable() {
 		return this.bookmarksEnabled;
+	}
+	
+	/**
+	 * Back to the first error.
+	 *
+	 * @param game the game
+	 * @param executingPlayer the executing player
+	 * @return true, if successful, false if there was no error
+	 */
+	public boolean backToFirstError(SingleplayerGame game, Player executingPlayer) {
+		if (commandsAfterFirstError == null) {
+			return false;
+		}
+		while (commandsAfterFirstError.size() > 0) {
+			if (!commandsAfterFirstError.getLast().getInvertedCommand(game).execute(game, executingPlayer)) {
+				return false;
+			}
+			commandsAfterFirstError.removeLast();
+		}
+		commandsAfterFirstError = null;
+		return true;
 	}
 
 }
