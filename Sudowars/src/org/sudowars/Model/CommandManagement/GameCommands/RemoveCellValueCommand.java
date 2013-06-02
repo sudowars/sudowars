@@ -109,8 +109,7 @@ public class RemoveCellValueCommand extends CellCommand {
 
 	@Override
 	public GameCommand getInvertedCommand(Game game) {
-		GameCell cell = getCell(game);
-		return new SetCellValueCommand(cell, getRemovedValue());
+		return (value == 0 ? null : new SetCellValueCommand(getCell(game), value));
 	}
 
 }
