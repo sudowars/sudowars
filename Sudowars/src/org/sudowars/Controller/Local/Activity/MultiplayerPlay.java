@@ -192,7 +192,6 @@ public class MultiplayerPlay extends Play {
 						MultiplayerPlay.this.playerLeftGame = true;
 					}
 					
-        			MultiplayerPlay.this.setupSudokuField();
         			MultiplayerPlay.this.setupButtons();
         			MultiplayerPlay.this.refresh();
 				}
@@ -218,7 +217,6 @@ public class MultiplayerPlay extends Play {
 					} else if (command instanceof MultiplayerPauseCommand) {
 						((MultiplayerPauseCommand) command).execute((MultiplayerGame) game, MultiplayerPlay.this.remotePlayer);
 						MultiplayerPlay.this.counter.stop();
-						MultiplayerPlay.this.setupSudokuField();
 						MultiplayerPlay.this.setupButtons();
 					} else if (command instanceof RemoteReadyCommand) {
         				((RemoteReadyCommand) command).execute(MultiplayerPlay.this);
@@ -268,7 +266,9 @@ public class MultiplayerPlay extends Play {
 		this.refreshScore();
 
 		this.playerLeftGame = false;
-		this.root.removeAllViews();
+		//TODO: Delete Me
+		this.sudokuField.setVisibility(ViewGroup.GONE);
+		this.keypad.setVisibility(ViewGroup.GONE);
 		this.root.addView(this.lblCountdown);
 		this.startCountDown();
 	}
@@ -289,7 +289,6 @@ public class MultiplayerPlay extends Play {
 				command.execute((MultiplayerGame) this.game, this.localPlayer);
 				this.counter.stop();
 				
-				this.setupSudokuField();
 				this.setupButtons();
 			}
 		}
@@ -330,7 +329,6 @@ public class MultiplayerPlay extends Play {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		
-		this.setupSudokuField();
 		this.setupButtons();
 		this.refreshScore();
 	}
@@ -685,12 +683,37 @@ public class MultiplayerPlay extends Play {
 	}
 	
 	/**
-	 * Setup the layout of sudoku field
+	 * Setup view.
 	 */
-	private void setupSudokuField() {
-		this.root.removeAllViews();
+	protected void setupView() {
+		LayoutInflater inflater = LayoutInflater.from(this.getApplicationContext());
+		this.ready = (LinearLayout) inflater.inflate(R.layout.ready, null, false);
+		this.lblPauseText = (TextView) inflater.inflate(R.layout.pause_text, null, false);
+
+		CharSequence textCountdown = "";
+		if (this.lblCountdown != null) {
+			textCountdown = this.lblCountdown.getText();
+		}
+		
+		this.lblCountdown = (TextView) inflater.inflate(R.layout.countdown, null, false);
+		this.lblCountdown.setText(textCountdown);
+		
+		super.setupView();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.sudowars.Controller.Local.Play#setupButtons()
+	 */
+	protected void setupButtons() {
+		//TODO: Sort logical order
+		//this.root.addView(this.lblCountdown);
+		//this.root.addView(this.lblPauseText);
 		
 		if ((this.game.isPaused() && !this.gameState.isFinished()) || this.counterIsRunning) {
+			this.sudokuField.setVisibility(ViewGroup.GONE);
+			this.keypad.setVisibility(ViewGroup.GONE);
+			
 			if ((this.game.isPaused() && !this.gameState.isFinished() && !this.counterIsRunning) || this.playerLeftGame) {
 				this.lblCountdown.setVisibility(View.GONE);
 				this.lblPauseText.setVisibility(View.VISIBLE);
@@ -702,74 +725,15 @@ public class MultiplayerPlay extends Play {
 				this.lblCountdown.setVisibility(View.VISIBLE);
 				this.lblPauseText.setVisibility(View.GONE);
 			}
-			
-			this.root.addView(this.lblPauseText);
-			this.root.addView(this.lblCountdown);
+
 		} else {
-			//TODO: Use of visibility instead of remove and add view?
-			this.root.addView(this.sudokuField);
-		}
-	}
-	
-	/**
-	 * Setup view.
-	 */
-	protected void setupView() {
-		LayoutInflater inflater = LayoutInflater.from(this.getApplicationContext());
-		this.ready = (LinearLayout) inflater.inflate(R.layout.ready, null, false);
-		
-		super.setupView();
-		
-		// Get the screen's density scale
-		final float scale = getResources().getDisplayMetrics().density;
-		
-		// Convert the dps to pixels, based on density scale
-		int textSizeCountdown = (int) (100.0f * scale + 0.5f);
-		int textSizePauseText = (int) (20.0f * scale + 0.5f);
-		int marginvalue = (int) (20.0f * scale + 0.5f);
-		
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT);
-		lp.setMargins(marginvalue, marginvalue, marginvalue, marginvalue);
-		
-		Display display = getWindowManager().getDefaultDisplay();
-		
-		int width = (this.constants.isLandscapeMode())?display.getHeight() - 2 * this.constants.getStatusBarHeight():display.getWidth();
-		
-		CharSequence textCountdown = "";
-		
-		if (this.lblCountdown != null) {
-			textCountdown = this.lblCountdown.getText();
+			this.sudokuField.setVisibility(ViewGroup.VISIBLE);
+			this.keypad.setVisibility(ViewGroup.VISIBLE);
 		}
 		
-		this.lblCountdown = new TextView(this);
-		this.lblCountdown.setLayoutParams(lp);
-		//TODO: Make it variable
-		this.lblCountdown.setWidth(width);
-		this.lblCountdown.setGravity(Gravity.CENTER);
-		this.lblCountdown.setVisibility(View.GONE);
-		this.lblCountdown.setText(textCountdown);
-		this.lblCountdown.setTextSize(textSizeCountdown);
-		this.lblCountdown.setTextColor(this.getResources().getColor(R.color.text_counter));
-		
-		this.lblPauseText = new TextView(this);
-		this.lblPauseText.setLayoutParams(lp);
-		//TODO: Make it variable
-		this.lblPauseText.setWidth(width);
-		this.lblPauseText.setGravity(Gravity.CENTER);
-		this.lblPauseText.setText(this.getResources().getString(R.string.pause));
-		this.lblPauseText.setTextSize(textSizePauseText);
-		this.lblPauseText.setTextColor(this.getResources().getColor(R.color.text_pause));
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sudowars.Controller.Local.Play#setupButtons()
-	 */
-	protected void setupButtons() {
 		if (!this.gameState.isFinished()) {
-/*			LinearLayout layKeysLine[] = {
+/*			TODO: Delte Me
+  			LinearLayout layKeysLine[] = {
 					TODO:
 					(LinearLayout) findViewById(R.id.layKeysLine1),
 					(LinearLayout) findViewById(R.id.layKeysLine2),
@@ -780,9 +744,8 @@ public class MultiplayerPlay extends Play {
 			}
 */
 			//TODO: ready buttons....
-			this.root.addView(this.ready);
-			this.tglLocalReady = (ToggleButton) this.findViewById(R.id.tglLocalReady);
-			this.tglRemoteReady = (ToggleButton) findViewById(R.id.tglRemoteReady);
+			this.tglLocalReady = (ToggleButton) this.ready.findViewById(R.id.tglLocalReady);
+			this.tglRemoteReady = (ToggleButton) this.ready.findViewById(R.id.tglRemoteReady);
 			
 			if (this.game.isStarted() && !this.counterIsRunning && !this.playerLeftGame) {
 				if (this.game.isPaused() && !this.gameState.isFinished()) {
@@ -882,7 +845,6 @@ public class MultiplayerPlay extends Play {
 				
 				MultiplayerPlay.this.counterIsRunning = false;
 				MultiplayerPlay.this.game.startGame();
-				MultiplayerPlay.this.setupSudokuField();
 				MultiplayerPlay.this.setupButtons();
 			}
 		}

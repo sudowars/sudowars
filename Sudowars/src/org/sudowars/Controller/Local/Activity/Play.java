@@ -72,6 +72,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -227,9 +228,9 @@ public abstract class Play extends PoolBinder {
 	protected LinearLayout root;
 	
 	/**
-	 * the keypad view
+	 * the field size
 	 */
-	protected View keypad;
+	protected TableLayout keypad;
 	
 	/**
 	 * the field size
@@ -602,15 +603,14 @@ public abstract class Play extends PoolBinder {
 		lblText.setGravity(Gravity.CENTER);
 		lblText.setAlpha(0f);
 		
-		final View keypad = (View) findViewById(R.id.keypad);
 		final TextView goodbye = lblText;
-		keypad.animate()
+		this.keypad.animate()
 			.alpha(0f)
 			.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text))
 			.setListener(new AnimatorListenerAdapter() {
 				@Override
 				public void onAnimationEnd(Animator animation) {
-						root.removeView(keypad);
+						root.removeView(Play.this.keypad);
 						root.addView(goodbye);
 						goodbye.animate()
 				    			.alpha(1f)
@@ -677,12 +677,13 @@ public abstract class Play extends PoolBinder {
 	 * Setup view
 	 */
 	protected void setupView() {
-		//TODO:
 		if (size == 9) {
 			setContentView(R.layout.play_9);
 		} else {
 			setContentView(R.layout.play_16);
 		}
+		
+		this.keypad = (TableLayout) findViewById(R.id.keypad);
 		this.sudokuField = (SudokuField) findViewById(R.id.sudokuField);
 		this.sudokuField.showInvalidValues(false);
 		this.sudokuField.setGame(this.game);
