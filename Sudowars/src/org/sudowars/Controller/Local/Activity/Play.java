@@ -616,7 +616,7 @@ public abstract class Play extends PoolBinder {
 				    			.alpha(1f)
 				    			.setDuration(Play.this.getResources().getInteger(R.integer.fade_in_game_finish_text))
 				    			.setListener(null);
-					}
+				}
 		});
 	}
 	

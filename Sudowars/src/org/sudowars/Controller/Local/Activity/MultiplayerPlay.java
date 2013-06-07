@@ -266,7 +266,7 @@ public class MultiplayerPlay extends Play {
 		this.refreshScore();
 
 		this.playerLeftGame = false;
-		//TODO: Delete Me
+		
 		this.sudokuField.setVisibility(ViewGroup.GONE);
 		this.keypad.setVisibility(ViewGroup.GONE);
 		this.root.addView(this.lblCountdown);
@@ -727,6 +727,8 @@ public class MultiplayerPlay extends Play {
 			}
 
 		} else {
+			this.lblCountdown.setVisibility(View.GONE);
+			this.lblPauseText.setVisibility(View.GONE);
 			this.sudokuField.setVisibility(ViewGroup.VISIBLE);
 			this.keypad.setVisibility(ViewGroup.VISIBLE);
 		}
