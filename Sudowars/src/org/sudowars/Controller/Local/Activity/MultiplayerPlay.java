@@ -269,7 +269,6 @@ public class MultiplayerPlay extends Play {
 		
 		this.sudokuField.setVisibility(ViewGroup.GONE);
 		this.keypad.setVisibility(ViewGroup.GONE);
-		this.root.addView(this.lblCountdown);
 		this.startCountDown();
 	}
 	
@@ -699,6 +698,9 @@ public class MultiplayerPlay extends Play {
 		this.lblCountdown.setText(textCountdown);
 		
 		super.setupView();
+		
+		this.root.addView(this.lblCountdown);
+		this.root.addView(this.lblPauseText);
 	}
 	
 	/*
@@ -706,10 +708,6 @@ public class MultiplayerPlay extends Play {
 	 * @see org.sudowars.Controller.Local.Play#setupButtons()
 	 */
 	protected void setupButtons() {
-		//TODO: Sort logical order
-		//this.root.addView(this.lblCountdown);
-		//this.root.addView(this.lblPauseText);
-		
 		if ((this.game.isPaused() && !this.gameState.isFinished()) || this.counterIsRunning) {
 			this.sudokuField.setVisibility(ViewGroup.GONE);
 			this.keypad.setVisibility(ViewGroup.GONE);
@@ -734,17 +732,6 @@ public class MultiplayerPlay extends Play {
 		}
 		
 		if (!this.gameState.isFinished()) {
-/*			TODO: Delte Me
-  			LinearLayout layKeysLine[] = {
-					TODO:
-					(LinearLayout) findViewById(R.id.layKeysLine1),
-					(LinearLayout) findViewById(R.id.layKeysLine2),
-					(LinearLayout) findViewById(R.id.layKeysLine3)};
-					};
-			for (int i = 0; i < layKeysLine.length; i++) {
-				layKeysLine[i].removeAllViews();
-			}
-*/
 			//TODO: ready buttons....
 			this.tglLocalReady = (ToggleButton) this.ready.findViewById(R.id.tglLocalReady);
 			this.tglRemoteReady = (ToggleButton) this.ready.findViewById(R.id.tglRemoteReady);
