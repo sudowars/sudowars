@@ -230,7 +230,7 @@ public class MainMenu extends PoolBinder {
         	builder.setIcon(R.drawable.icon);
 			builder.setTitle(R.string.app_name);
 			
-			Spanned text = Html.fromHtml(getString(R.string.version) + " " + getString(R.string.version_number)
+			Spanned text = Html.fromHtml(getString(R.string.version) + " " + getString(R.string.app_version_name)
 					+ "<br /> <br />" + getString(R.string.text_about).replace("\n", "<br />") + "<br /> <br />"
 					+ getString(R.string.text_contributions).replace("\n", "<br />")
 					.replace(getString(R.string.text_contributions_astrid),
