@@ -677,7 +677,12 @@ public abstract class Play extends PoolBinder {
 	 * Setup view
 	 */
 	protected void setupView() {
-		setContentView(R.layout.play);
+		//TODO:
+		if (size == 9) {
+			setContentView(R.layout.play_9);
+		} else {
+			setContentView(R.layout.play_16);
+		}
 		this.sudokuField = (SudokuField) findViewById(R.id.sudokuField);
 		this.sudokuField.showInvalidValues(false);
 		this.sudokuField.setGame(this.game);
@@ -696,13 +701,6 @@ public abstract class Play extends PoolBinder {
 			}
 		});
 		
-		LayoutInflater inflater = LayoutInflater.from(this.getApplicationContext());
-		if (size == 9) {
-			this.keypad = inflater.inflate(R.layout.keypad_9, null, false);
-		} else {
-			this.keypad = inflater.inflate(R.layout.keypad_16, null, false);
-		}
-		
 		this.root = (LinearLayout) this.findViewById(R.id.root);
 		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -715,7 +713,6 @@ public abstract class Play extends PoolBinder {
 	 * Setup buttons
 	 */
 	protected void setupButtons() {
-		this.root.addView(this.keypad);
 		this.btnClear = (ImageButton) this.findViewById(R.id.key_clear);
 		this.btnClear.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
