@@ -59,6 +59,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Point;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -257,7 +258,6 @@ public class MainMenu extends PoolBinder {
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		
         if (requestCode == REQUEST_ENABLE_BT) {
@@ -301,14 +301,14 @@ public class MainMenu extends PoolBinder {
 		if (BluetoothAdapter.getDefaultAdapter() != null) {
 			if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
 				this.btnMultiplayer.setClickable(false);
+				Point size = new Point();
+				getWindowManager().getDefaultDisplay().getSize(size);
 				
-				int rotation = getWindowManager().getDefaultDisplay().getRotation();
-
 				//workaround for Android bug: Dialog is showing multiply by rotating the device
-				if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) {
-					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-				} else {
+				if (size.x < size.y) {
 					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+				} else {
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 				}
 				
 			    startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BT);
