@@ -173,6 +173,11 @@ public class MultiplayerPlay extends Play {
 	private LinearLayout ready;
 	
 	/**
+	 * the multiplayer content
+	 */
+	private LinearLayout play_content;
+	
+	/**
 	 * the Bluetooth handler
 	 */
 	private final Handler mHandler = new Handler() {
@@ -193,7 +198,6 @@ public class MultiplayerPlay extends Play {
 					}
 					
         			MultiplayerPlay.this.setupButtons();
-        			MultiplayerPlay.this.refresh();
 				}
 
 				break;
@@ -392,20 +396,18 @@ public class MultiplayerPlay extends Play {
 		if (!this.counterIsRunning) {
 			if (this.game.isPaused() && !this.gameState.isFinished()) {
 				if (this.playerLeftGame) {
-					this.tglLocalReady.setVisibility(ToggleButton.GONE);
-					this.tglRemoteReady.setVisibility(ToggleButton.GONE);
+					this.ready.setVisibility(View.GONE);
 				} else {
-					this.tglLocalReady.setVisibility(ToggleButton.VISIBLE);
-					this.tglRemoteReady.setVisibility(ToggleButton.VISIBLE);
+					this.ready.setVisibility(View.VISIBLE);
+					this.tglLocalReady.setChecked(!this.game.hasPaused(this.localPlayer));
+					this.tglRemoteReady.setChecked(!this.game.hasPaused(this.remotePlayer));
 				}
-				
-				this.tglLocalReady.setChecked(!this.game.hasPaused(this.localPlayer));
-				this.tglRemoteReady.setChecked(!this.game.hasPaused(this.remotePlayer));
 			} else {
-				this.tglLocalReady.setVisibility(ToggleButton.GONE);
-				this.tglRemoteReady.setVisibility(ToggleButton.GONE);
+				this.ready.setVisibility(View.GONE);
 				super.refresh();
 			}
+		} else {
+			this.ready.setVisibility(View.GONE);
 		}
 	}
 	
@@ -644,8 +646,7 @@ public class MultiplayerPlay extends Play {
 	private void startCountDown() {
 		DebugHelper.log(DebugHelper.PackageName.MultiplayerPlay, "Start countdown.");
 		
-		this.tglLocalReady.setVisibility(View.GONE);
-		this.tglRemoteReady.setVisibility(View.GONE);
+		this.ready.setVisibility(View.GONE);
 		
 		this.counter = new Counter(3999, 1000);
 		this.vibrate(this.getResources().getInteger(R.integer.vibrate_countdown_on_start));
@@ -685,17 +686,23 @@ public class MultiplayerPlay extends Play {
 	 * Setup view.
 	 */
 	protected void setupView() {
-		LayoutInflater inflater = LayoutInflater.from(this.getApplicationContext());
-		this.lblPauseText = (TextView) inflater.inflate(R.layout.pause_text, null, false);
-		this.lblCountdown = (TextView) inflater.inflate(R.layout.countdown, null, false);
-		this.ready = (LinearLayout) inflater.inflate(R.layout.ready, null, false);
-
 		CharSequence textCountdown = "";
 		if (this.lblCountdown != null) {
 			textCountdown = this.lblCountdown.getText();
 		}
-		this.lblCountdown.setText(textCountdown);
 		
+		LayoutInflater inflater = LayoutInflater.from(this.getApplicationContext());
+		this.play_content = (LinearLayout) inflater.inflate(R.layout.play_content, null, false);
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.MATCH_PARENT);
+		this.play_content.setLayoutParams(lp);
+		this.play_content.setVisibility(LinearLayout.GONE);
+		this.lblPauseText = (TextView) play_content.findViewById(R.id.lblPauseText);
+		this.lblCountdown = (TextView) play_content.findViewById(R.id.lblCountdown);
+		this.ready = (LinearLayout) play_content.findViewById(R.id.ready);
+		
+		this.lblCountdown.setText(textCountdown);
 		this.tglLocalReady = (ToggleButton) this.ready.findViewById(R.id.tglLocalReady);
 		this.tglLocalReady.setOnClickListener(
                 new OnClickListener() {
@@ -706,10 +713,7 @@ public class MultiplayerPlay extends Play {
 		this.tglRemoteReady = (ToggleButton) this.ready.findViewById(R.id.tglRemoteReady);
 		
 		super.setupView();
-		
-		this.root.addView(this.lblCountdown);
-		this.root.addView(this.lblPauseText);
-		this.root.addView(this.ready);
+		this.root.addView(this.play_content);
 	}
 	
 	/*
@@ -721,6 +725,7 @@ public class MultiplayerPlay extends Play {
 		if ((this.game.isPaused() && !this.gameState.isFinished()) || this.counterIsRunning) {
 			this.sudokuField.setVisibility(ViewGroup.GONE);
 			this.keypad.setVisibility(ViewGroup.GONE);
+			this.play_content.setVisibility(LinearLayout.VISIBLE);
 			
 			if ((this.game.isPaused() && !this.gameState.isFinished() && !this.counterIsRunning) || this.playerLeftGame) {
 				this.lblCountdown.setVisibility(View.GONE);
@@ -734,29 +739,22 @@ public class MultiplayerPlay extends Play {
 				this.lblPauseText.setVisibility(View.GONE);
 			}
 		} else {
-			this.lblCountdown.setVisibility(View.GONE);
-			this.lblPauseText.setVisibility(View.GONE);
 			this.sudokuField.setVisibility(ViewGroup.VISIBLE);
 			this.keypad.setVisibility(ViewGroup.VISIBLE);
+			this.play_content.setVisibility(LinearLayout.GONE);
+			this.lblCountdown.setVisibility(View.GONE);
+			this.lblPauseText.setVisibility(View.GONE);
 		}
 
 		//Handle ready buttons
-		if (!this.gameState.isFinished()) {
-			if (this.game.isStarted() && !this.counterIsRunning && !this.playerLeftGame) {
-				if (this.game.isPaused() && !this.gameState.isFinished()) {
-					this.ready.setVisibility(View.VISIBLE);
-					this.tglLocalReady.setChecked(!this.game.hasPaused(this.localPlayer));
-					this.tglRemoteReady.setChecked(!this.game.hasPaused(this.remotePlayer));
-				} else {
-					this.ready.setVisibility(View.GONE);
-					
-					super.setupButtons();
-					this.refresh();
-				}
-			}
-		} else {
-			this.ready.setVisibility(View.GONE);
+		if (!this.gameState.isFinished()
+			&& (this.game.isStarted() && !this.counterIsRunning && !this.playerLeftGame)
+			&& (!this.game.isPaused() || this.gameState.isFinished())) {
+			
+			super.setupButtons();
 		}
+
+		this.refresh();
 	}
 	
 	/**
