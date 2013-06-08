@@ -86,7 +86,7 @@
         v1.1\n * Add Holo Theme support\n
                * Add "Back to First Error" feature\n
                * Add new manual\n
-               * Some code revision\n
+               * Some code refactoring\n
         v1.0\n * First release
     </string>
     
