@@ -213,8 +213,8 @@ public class MultiplayerSettings extends Settings {
         		}
     			
     			if (MultiplayerSettings.this.connection instanceof BluetoothServer
-    					&& MultiplayerSettings.this.connection.getState() == BluetoothConnection.STATE_NONE) {
-    					((BluetoothServer) MultiplayerSettings.this.connection).listen();
+    				&& MultiplayerSettings.this.connection.getState() == BluetoothConnection.STATE_NONE) {
+    				((BluetoothServer) MultiplayerSettings.this.connection).listen();
     			}
 
         		String states[] = getResources().getStringArray(R.array.bluetooth_states);
@@ -717,6 +717,7 @@ public class MultiplayerSettings extends Settings {
 		this.connectionStatus = findPreference("multiplayer_connection_status");
 		
 		this.tglLocalReady = (ToggleButton) findViewById(R.id.tglLocalReady);
+		this.tglLocalReady.setEnabled(false);
 		this.tglLocalReady.setOnClickListener(
                 new OnClickListener() {
                 	public void onClick(View v) {
