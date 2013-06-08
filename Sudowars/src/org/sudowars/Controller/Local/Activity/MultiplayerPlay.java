@@ -170,7 +170,7 @@ public class MultiplayerPlay extends Play {
 	/**
 	 * the ready view
 	 */
-	private View ready;
+	private LinearLayout ready;
 	
 	/**
 	 * the Bluetooth handler
@@ -686,21 +686,30 @@ public class MultiplayerPlay extends Play {
 	 */
 	protected void setupView() {
 		LayoutInflater inflater = LayoutInflater.from(this.getApplicationContext());
-		this.ready = (LinearLayout) inflater.inflate(R.layout.ready, null, false);
 		this.lblPauseText = (TextView) inflater.inflate(R.layout.pause_text, null, false);
+		this.lblCountdown = (TextView) inflater.inflate(R.layout.countdown, null, false);
+		this.ready = (LinearLayout) inflater.inflate(R.layout.ready, null, false);
 
 		CharSequence textCountdown = "";
 		if (this.lblCountdown != null) {
 			textCountdown = this.lblCountdown.getText();
 		}
-		
-		this.lblCountdown = (TextView) inflater.inflate(R.layout.countdown, null, false);
 		this.lblCountdown.setText(textCountdown);
+		
+		this.tglLocalReady = (ToggleButton) this.ready.findViewById(R.id.tglLocalReady);
+		this.tglLocalReady.setOnClickListener(
+                new OnClickListener() {
+                	public void onClick(View v) {
+                		MultiplayerPlay.this.onTglLocalReadyToggle();
+                    }
+                });
+		this.tglRemoteReady = (ToggleButton) this.ready.findViewById(R.id.tglRemoteReady);
 		
 		super.setupView();
 		
 		this.root.addView(this.lblCountdown);
 		this.root.addView(this.lblPauseText);
+		this.root.addView(this.ready);
 	}
 	
 	/*
@@ -708,6 +717,7 @@ public class MultiplayerPlay extends Play {
 	 * @see org.sudowars.Controller.Local.Play#setupButtons()
 	 */
 	protected void setupButtons() {
+		//Handle countdown, pause text, Sudoku field and keypad
 		if ((this.game.isPaused() && !this.gameState.isFinished()) || this.counterIsRunning) {
 			this.sudokuField.setVisibility(ViewGroup.GONE);
 			this.keypad.setVisibility(ViewGroup.GONE);
@@ -723,43 +733,29 @@ public class MultiplayerPlay extends Play {
 				this.lblCountdown.setVisibility(View.VISIBLE);
 				this.lblPauseText.setVisibility(View.GONE);
 			}
-
 		} else {
 			this.lblCountdown.setVisibility(View.GONE);
 			this.lblPauseText.setVisibility(View.GONE);
 			this.sudokuField.setVisibility(ViewGroup.VISIBLE);
 			this.keypad.setVisibility(ViewGroup.VISIBLE);
 		}
-		
+
+		//Handle ready buttons
 		if (!this.gameState.isFinished()) {
-			//TODO: ready buttons....
-			this.tglLocalReady = (ToggleButton) this.ready.findViewById(R.id.tglLocalReady);
-			this.tglRemoteReady = (ToggleButton) this.ready.findViewById(R.id.tglRemoteReady);
-			
 			if (this.game.isStarted() && !this.counterIsRunning && !this.playerLeftGame) {
 				if (this.game.isPaused() && !this.gameState.isFinished()) {
-					this.tglLocalReady.setVisibility(View.VISIBLE);
+					this.ready.setVisibility(View.VISIBLE);
 					this.tglLocalReady.setChecked(!this.game.hasPaused(this.localPlayer));
-					this.tglLocalReady.setOnClickListener(
-			                new OnClickListener() {
-			                	public void onClick(View v) {
-			                		MultiplayerPlay.this.onTglLocalReadyToggle();
-			                    }
-			                });
-					
-					this.tglRemoteReady.setVisibility(View.VISIBLE);
 					this.tglRemoteReady.setChecked(!this.game.hasPaused(this.remotePlayer));
 				} else {
-					this.tglLocalReady.setVisibility(View.GONE);
-					this.tglRemoteReady.setVisibility(View.GONE);
+					this.ready.setVisibility(View.GONE);
 					
 					super.setupButtons();
 					this.refresh();
 				}
 			}
 		} else {
-			this.tglLocalReady.setVisibility(View.GONE);
-			this.tglRemoteReady.setVisibility(View.GONE);
+			this.ready.setVisibility(View.GONE);
 		}
 	}
 	
