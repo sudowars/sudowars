@@ -67,7 +67,8 @@ public class DeltaManager implements Serializable {
 	private LinkedList<GameCommand> commandsAfterFirstError;
 	private int toBookmarkCounter;
 	private int currentPosInList;
-	private boolean bookmarksEnabled;
+	private boolean bookmarkAvailable;
+	private boolean backToFirstErrorAvailable;
 	private boolean currentlyReverting;
 	
 
@@ -79,7 +80,8 @@ public class DeltaManager implements Serializable {
 		commands = new LinkedList<GameCommand>();
 		commandsToExecuteAfterBookmarkCounterIsZero = new LinkedList<GameCommand>();
 		currentPosInList = commands.size() - 1;
-		bookmarksEnabled = false;
+		bookmarkAvailable = false;
+		backToFirstErrorAvailable = false;
 		this.commandsAfterFirstError = null;
 		currentlyReverting = false;
 	}
@@ -127,7 +129,7 @@ public class DeltaManager implements Serializable {
 		}
 		
 		if (commands.get(currentPosInList + 1).execute(game, executingPlayer)) {
-			if (bookmarksEnabled) {
+			if (bookmarkAvailable) {
 				toBookmarkCounter++;
 			}
 			currentPosInList++;
@@ -151,7 +153,7 @@ public class DeltaManager implements Serializable {
 		
 		if (inverter.getInvertedCommand(commands.get(currentPosInList), game).execute(game, executingPlayer)) {
 			currentPosInList--;
-			if (bookmarksEnabled) {
+			if (bookmarkAvailable) {
 				toBookmarkCounter--;
 			}
 			return true;
@@ -167,8 +169,10 @@ public class DeltaManager implements Serializable {
 	 * @throws IllegalArgumentException if given command was <code>null</code>
 	 */
 	public void addDelta(GameCommand c, boolean isCorrect) throws IllegalArgumentException {
+		backToFirstErrorAvailable = true;
+		
 		if (hasForwardDelta()) {
-			if (bookmarksEnabled && toBookmarkCounter < 0) {
+			if (bookmarkAvailable && toBookmarkCounter < 0) {
 				toBookmarkCounter = 0;
 				while (currentPosInList < commands.size() - 1) {
 					commandsToExecuteAfterBookmarkCounterIsZero.addFirst(commands.get(commands.size() - 1));
@@ -183,10 +187,9 @@ public class DeltaManager implements Serializable {
 		}
 		commands.addLast(c);
 		currentPosInList = commands.size() - 1;
-		if (bookmarksEnabled) {
+		if (bookmarkAvailable) {
 			toBookmarkCounter++;
 		}
-		
 		
 		if (c instanceof CompositeCommand && ((CompositeCommand) c).getCommands().get(1) instanceof SetCellValueCommand) {
 			if (commandsAfterFirstError == null && !isCorrect) {
@@ -194,6 +197,7 @@ public class DeltaManager implements Serializable {
 				this.commandsAfterFirstError = new LinkedList<GameCommand>();
 			}
 		}
+		
 		if (commandsAfterFirstError != null && !currentlyReverting) {
 			commandsAfterFirstError.addLast(c);
 		}		
@@ -216,7 +220,7 @@ public class DeltaManager implements Serializable {
 	 * Sets the bookmark. It's later possible to go back to the current state by calling backToBookmark function
 	 */
 	public void setBookmark() {
-		bookmarksEnabled = true;
+		bookmarkAvailable = true;
 		toBookmarkCounter = 0;
 		commandsToExecuteAfterBookmarkCounterIsZero.clear();
 	}
@@ -250,9 +254,23 @@ public class DeltaManager implements Serializable {
 		}
 		return true;
 	}
-
+	
+	/**
+	 * Returns if a bookmark is available
+	 * 
+	 * @return if a bookmark is available
+	 */
 	public boolean isBookmarkAvailable() {
-		return this.bookmarksEnabled;
+		return this.bookmarkAvailable;
+	}
+	
+	/**
+	 * Returns if Back to First Error feature is available
+	 * 
+	 * @return if Back to First Error feature is available
+	 */
+	public boolean isBackToFirstErrorAvailable() {
+		return this.backToFirstErrorAvailable;
 	}
 	
 	/**
@@ -263,6 +281,9 @@ public class DeltaManager implements Serializable {
 	 * @return true, if successful, false if there was no error
 	 */
 	public boolean backToFirstError(SingleplayerGame game, Player executingPlayer) {
+		bookmarkAvailable = false;
+		backToFirstErrorAvailable = false;
+		
 		if (commandsAfterFirstError == null) {
 			return false;
 		}

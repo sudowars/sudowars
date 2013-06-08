@@ -205,7 +205,7 @@ public class SingleplayerPlay extends Play {
 			}
 			
 			if (((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled()) {
-				menu.findItem(R.id.go_back_to_first_error).setEnabled(true);
+				menu.findItem(R.id.go_back_to_first_error).setEnabled(this.deltaManager.isBackToFirstErrorAvailable());
 			}
 			
 		} else {
@@ -260,7 +260,8 @@ public class SingleplayerPlay extends Play {
 			}
 			return true;
 		} else if (item.getItemId() == R.id.go_back_to_first_error) {
-			if (((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled() && !this.game.isPaused() && !this.gameState.isFinished()) {
+			if (((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled()
+					&& !this.game.isPaused() && !this.gameState.isFinished()) {
 				if (this.deltaManager.backToFirstError((SingleplayerGame) this.game, this.localPlayer)) {
 					//there was something to do
 					notificate(R.string.notification_back_to_first_error_success, Toast.LENGTH_LONG);
