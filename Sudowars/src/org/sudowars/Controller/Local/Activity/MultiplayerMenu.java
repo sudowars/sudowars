@@ -47,6 +47,7 @@ package org.sudowars.Controller.Local.Activity;
 import java.util.ArrayList;
 import java.util.Set;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -61,9 +62,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -83,16 +82,6 @@ public class MultiplayerMenu extends PoolBinder {
 	 * Intent request code
 	 */
     private static final int REQUEST_ENABLE_BT = 3;
-    
-	/**
-	 * Button to open a new multiplayer game
-	 */
-	private Button btnMultiplayerNew;
-	
-	/**
-	 * Button to continue the last unfinished multiplayer game
-	 */
-	private Button btnMultiplayerContinue;
 	
 	/**
 	 * List with all bluetooth devices, which lstBluetoothDevices uses
@@ -168,9 +157,10 @@ public class MultiplayerMenu extends PoolBinder {
 		
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.multiplayer_menu);
+	    ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
 		
-		this.setupButtons();
+		setContentView(R.layout.multiplayer_menu);
 		
 		try {
 			this.savedGames = new FileIO(this.getApplicationContext());
@@ -206,12 +196,6 @@ public class MultiplayerMenu extends PoolBinder {
 	 */
 	protected void onResume() {
 		super.onResume();
-		
-		if (!this.savedGames.hasMultiplayerGame()) {
-			this.btnMultiplayerContinue.setVisibility(View.GONE);
-		} else {
-			this.btnMultiplayerContinue.setVisibility(View.VISIBLE);
-		}
 		
 		this.activateBluetooth();
 		
@@ -277,6 +261,10 @@ public class MultiplayerMenu extends PoolBinder {
 	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.multiplayer_menu, menu);
 	    
+		if (!this.savedGames.hasMultiplayerGame()) {
+			menu.removeItem(R.id.btMultiplayerContinue);
+		}
+		
 	    return true;
 	}
 	
@@ -288,7 +276,7 @@ public class MultiplayerMenu extends PoolBinder {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		
-	    this.btScan = menu.findItem(R.id.btScan);
+	    this.btScan = (MenuItem) menu.findItem(R.id.btScan);
 	    this.btScan.setEnabled(BluetoothAdapter.getDefaultAdapter().isEnabled());
 	    
 		return true;
@@ -300,7 +288,16 @@ public class MultiplayerMenu extends PoolBinder {
 	 */
 	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
-		if (item.getItemId() == R.id.btScan) {
+		if (item.getItemId() == android.R.id.home) {
+			this.onBackPressed();
+			return true;
+		} else if (item.getItemId() == R.id.btMultiplayerNew) {
+			onBtnMultiplayerNewClick();
+			return true;
+		} else if (item.getItemId() == R.id.btMultiplayerContinue) {
+			onBtnMultiplayerContinueClick();
+			return true;
+		} else if (item.getItemId() == R.id.btScan) {
 			if (this.bluetoothAdapter.isDiscovering()) {
     			stopScan();
             } else {
@@ -423,28 +420,4 @@ public class MultiplayerMenu extends PoolBinder {
 		    		new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BT);
         }
 	}
-	
-    /**
-	 * Setup buttons
-	 */
-	private void setupButtons() {
-		this.btnMultiplayerNew = (Button) findViewById(R.id.btnMultiplayerNew);
-		this.btnMultiplayerContinue = (Button) findViewById(R.id.btnMultiplayerContinue);
-		
-		this.btnMultiplayerNew.setOnClickListener(
-                new OnClickListener() {
-                	public void onClick(View v) {
-                        onBtnMultiplayerNewClick();
-                    }
-
-                });
-		
-		this.btnMultiplayerContinue.setOnClickListener(
-                new OnClickListener() {
-                	public void onClick(View v) {
-                        onBtnMultiplayerContinueClick();
-                    }
-
-                });
-    }
 }

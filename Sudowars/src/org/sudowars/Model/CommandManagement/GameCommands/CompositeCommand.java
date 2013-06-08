@@ -164,7 +164,9 @@ public class CompositeCommand extends BaseCommand implements GameCommand {
 		GameCommand currentCommand = null;
 		for (int i = this.commands.size() - 1; i > -1; --i) {
 			currentCommand = this.commands.get(i);
-			invertedCommand.pushCommand(currentCommand.getInvertedCommand(game));
+			if (currentCommand.getInvertedCommand(game) != null) {
+				invertedCommand.pushCommand(currentCommand.getInvertedCommand(game));
+			}
 		}
 		return invertedCommand;
 	}

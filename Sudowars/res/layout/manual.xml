@@ -43,50 +43,20 @@
   Moritz Lüdecke
   Philip Flohr 
 -->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     
-    <RelativeLayout
-        android:layout_width="fill_parent"
+    <android.support.v4.view.PagerTitleStrip
+        android:id="@+id/pager_title_strip"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:paddingTop="3dip"
-        android:paddingBottom="3dip"
-        android:background="@color/manual_indicator_bar"
-        android:gravity="center_vertical" >
-        
-        <com.viewpagerindicator.CirclePageIndicator
-            android:id="@+id/indicator"
-            android:padding="15dip"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            style="@style/CirclePageIndicator" />
-        
-        <TextView
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dip"
-            android:text="@string/button_next"
-            android:textColor="@color/manual_next_button"
-            android:textSize="20dip"
-            android:textStyle="bold"
-            android:paddingRight="10dip"
-            android:shadowRadius="2"
-            android:shadowDy="1"
-            android:shadowColor="@color/manual_next_button_shadow" /> 
-            
-    </RelativeLayout>
-    
-</RelativeLayout>
+        android:layout_gravity="top"
+        android:background="@color/HOLO_BLUE_LIGHT"
+        android:textColor="@color/WHITE"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" />
+
+</android.support.v4.view.ViewPager>

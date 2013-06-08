@@ -45,6 +45,11 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/time"
+        android:title="@string/menu_playtime"
+        android:showAsAction="always"
+        android:actionLayout="@layout/time" />
+    <item
         android:id="@+id/assistant"
         android:title="@string/button_assistant"
         android:icon="@drawable/ic_menu_edit"/>
@@ -68,4 +73,7 @@
         android:id="@+id/get_bookmark"
         android:title="@string/button_bookmark_get"
         android:icon="@drawable/ic_menu_goto"/>
+    <item
+        android:id="@+id/go_back_to_first_error"
+        android:title="@string/button_back_to_first_error"/>
 </menu>

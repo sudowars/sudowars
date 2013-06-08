@@ -45,10 +45,12 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.sudowars"
-      android:versionCode="1"
-      android:versionName="1.0">
+      android:versionCode="2"
+      android:versionName="@string/app_version_name">
 
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk
+        android:minSdkVersion="12"
+        android:targetSdkVersion="17" />
     
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -56,30 +58,23 @@
     
     <application
         android:icon="@drawable/icon"
-        android:label="@string/app_name">
+        android:label="@string/app_name"
+        android:allowBackup="true"
+        android:theme="@android:style/Theme.Holo" >
         
         <activity
             android:name=".Controller.Local.Activity.MainMenu"
             android:label="@string/app_name" >
-            
             <intent-filter>
-                
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                
             </intent-filter>
-            
         </activity>
         
         <service android:name=".Model.SudokuManagement.Pool.SudokuFilePool" />
         
         <activity
-            android:name=".Controller.Local.Activity.Manual"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" />
-        
-        <activity
-            android:name=".Controller.Local.Activity.Settings"
+            android:name=".Controller.Local.Activity.MainSettings"
             android:label="@string/settings" />
         
         <activity
@@ -87,22 +82,27 @@
             android:label="@string/singleplayer" />
         
         <activity
+            android:name=".Controller.Local.Activity.Manual"
+            android:label="@string/manual" />
+        
+        <activity
             android:name=".Controller.Local.Activity.MultiplayerMenu"
-            android:label="@string/multiplayer" 
+            android:label="@string/multiplayer"
             android:configChanges="orientation" />
         
         <activity
             android:name=".Controller.Local.Activity.MultiplayerSettings"
-            android:label="@string/multiplayer" 
-            android:configChanges="orientation|keyboard|keyboardHidden" />
+            android:label="@string/multiplayer"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden" />
+        
         <activity
             android:name=".Controller.Local.Activity.SingleplayerPlay" 
-            android:configChanges="orientation|uiMode" />
+            android:configChanges="orientation|screenSize|uiMode" />
             
         
         <activity
-            android:name=".Controller.Local.Activity.MultiplayerPlay" 
-            android:configChanges="orientation|keyboard|keyboardHidden|uiMode" />
+            android:name=".Controller.Local.Activity.MultiplayerPlay"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|uiMode" />
         
     </application>
     

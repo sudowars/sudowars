@@ -55,6 +55,7 @@ import android.widget.Toast;
 
 import org.sudowars.DebugHelper;
 import org.sudowars.R;
+import org.sudowars.Model.CommandManagement.Command;
 import org.sudowars.Model.CommandManagement.GameCommands.*;
 import org.sudowars.Model.Game.GameCell;
 import org.sudowars.Model.Game.SingleplayerGame;
@@ -87,9 +88,10 @@ public class SingleplayerPlay extends Play {
 		this.deltaManager = ((SingleplayerGameState) this.gameState).getDeltaManager();
 		
 		//Debug output
-		int debugAssistants = ((SingleplayerGameState) this.gameState).isShowObviousMistakesEnabled()?4:0;
-		debugAssistants += ((SingleplayerGameState) this.gameState).isSolveCellEnabled()?2:0;
-		debugAssistants += ((SingleplayerGameState) this.gameState).isBookmarkEnabled()?1:0;
+		int debugAssistants = ((SingleplayerGameState) this.gameState).isShowObviousMistakesEnabled()?8:0;
+		debugAssistants += ((SingleplayerGameState) this.gameState).isSolveCellEnabled()?4:0;
+		debugAssistants += ((SingleplayerGameState) this.gameState).isBookmarkEnabled()?2:0;
+		debugAssistants += ((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled()?1:0;
 		
 		DebugHelper.log(DebugHelper.PackageName.SingleplayerPlay, "Assistants: " + debugAssistants);
 		assistantHandler = new Handler() {
@@ -105,7 +107,9 @@ public class SingleplayerPlay extends Play {
 	        		SetCellValueCommand command = new SetCellValueCommand(gameState.getGame().getSudoku().getField().getCell(inputMessage.arg1), 
 	        				inputMessage.arg2);
 	        		if (command.execute(game, localPlayer)) {
-						deltaManager.addDelta((GameCommand) command);
+						deltaManager.addDelta((GameCommand) command, 
+								isCommandCorrect(command, gameState.getGame().getSudoku().getField().getCell(inputMessage.arg1), 
+								inputMessage.arg2));
 					}
 	        	} else {
 					Toast.makeText(getApplicationContext(), R.string.notification_assistant_failed, Toast.LENGTH_LONG).show();
@@ -157,7 +161,11 @@ public class SingleplayerPlay extends Play {
 			menu.removeItem(R.id.set_bookmark);
 		}
 		
-		return true;
+		if (!((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled()) {
+			menu.removeItem(R.id.go_back_to_first_error);
+		}
+		
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	/*
@@ -195,6 +203,11 @@ public class SingleplayerPlay extends Play {
 				menu.findItem(R.id.get_bookmark).setEnabled(this.deltaManager.isBookmarkAvailable());
 				menu.findItem(R.id.set_bookmark).setEnabled(true);
 			}
+			
+			if (((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled()) {
+				menu.findItem(R.id.go_back_to_first_error).setEnabled(true);
+			}
+			
 		} else {
 			menu.findItem(R.id.undo).setEnabled(false);
 			menu.findItem(R.id.redo).setEnabled(false);
@@ -206,6 +219,10 @@ public class SingleplayerPlay extends Play {
 			if (((SingleplayerGameState) this.gameState).isBookmarkEnabled()) {
 				menu.findItem(R.id.get_bookmark).setEnabled(false);
 				menu.findItem(R.id.set_bookmark).setEnabled(false);
+			}
+			
+			if (((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled()) {
+				menu.findItem(R.id.go_back_to_first_error).setEnabled(false);
 			}
 		}
 		
@@ -242,7 +259,21 @@ public class SingleplayerPlay extends Play {
 				this.deltaManager.forward(this.game, this.localPlayer);
 			}
 			return true;
-		} else {
+		} else if (item.getItemId() == R.id.go_back_to_first_error) {
+			if (((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled() && !this.game.isPaused() && !this.gameState.isFinished()) {
+				if (this.deltaManager.backToFirstError((SingleplayerGame) this.game, this.localPlayer)) {
+					//there was something to do
+					notificate(R.string.notification_back_to_first_error_success, Toast.LENGTH_LONG);
+					return true;
+				} else {
+					//there was no error
+					notificate(R.string.notification_back_to_first_error_failed, Toast.LENGTH_LONG);
+					return false;
+				}
+			}
+			return true;
+		}
+		else {
 			return super.onOptionsItemSelected(item);
 		}
 	}
@@ -273,7 +304,7 @@ public class SingleplayerPlay extends Play {
 				}
 			}
 			if (command.execute(this.game, this.localPlayer)) {
-				this.deltaManager.addDelta(command);
+				this.deltaManager.addDelta(command, true);
 			} else {
 				error = true;
 			}
@@ -310,7 +341,7 @@ public class SingleplayerPlay extends Play {
 			}
 			
 			if (!error && command.execute(this.game, this.localPlayer)) {
-				this.deltaManager.addDelta(command);
+				this.deltaManager.addDelta(command, isCommandCorrect(command, selectedCell, symbolId + 1));
 			} else {
 				error = true;
 			}
@@ -330,7 +361,7 @@ public class SingleplayerPlay extends Play {
 			InvertCellCommand command = new InvertCellCommand(this.sudokuField.getSelectedCell());
 			
 			if (command.execute(this.game, this.localPlayer)) {
-				this.deltaManager.addDelta(command);
+				this.deltaManager.addDelta(command, true);
 			} else {
 				error = true;
 			}
@@ -351,7 +382,7 @@ public class SingleplayerPlay extends Play {
 			ClearCellCommand command = new ClearCellCommand(selectedCell);
 			
 			if (command.execute(this.game, this.localPlayer)) {
-				this.deltaManager.addDelta(command);
+				this.deltaManager.addDelta(command, true);
 			} else {
 				error = true;
 			}
@@ -401,5 +432,15 @@ public class SingleplayerPlay extends Play {
 		super.setupView();
 
 		this.sudokuField.showInvalidValues(((SingleplayerGameState) this.gameState).isShowObviousMistakesEnabled());
+	}
+	
+	private boolean isCommandCorrect(Command c, GameCell selectedCell, int value) {
+		if (c instanceof CompositeCommand && ((CompositeCommand) c).getCommands().get(1) instanceof SetCellValueCommand) {
+			if (selectedCell.getSolution() == value) {
+				return true;
+			}
+			return false;
+		}
+		return true;
 	}
 }

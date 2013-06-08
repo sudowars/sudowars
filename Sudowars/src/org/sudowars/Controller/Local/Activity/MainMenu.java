@@ -166,8 +166,8 @@ public class MainMenu extends PoolBinder {
 		} else if (!this.savedGames.hasSingleplayerGame() && this.layBtnSingleplayer.getChildCount() == 2) {
 			this.layBtnSingleplayer.removeView(this.btnSingleplayerContinue);
 			this.btnSingleplayer.setLayoutParams(new LinearLayout.LayoutParams(
-					LinearLayout.MarginLayoutParams.FILL_PARENT,
-					LinearLayout.MarginLayoutParams.FILL_PARENT));
+					LinearLayout.MarginLayoutParams.MATCH_PARENT,
+					LinearLayout.MarginLayoutParams.MATCH_PARENT));
 			this.btnSingleplayer.setText(getString(R.string.button_singleplayer));
 		}
 	}
@@ -205,15 +205,15 @@ public class MainMenu extends PoolBinder {
 	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
 		if (item.getItemId() == R.id.btSettings) {
-			Intent intent = new Intent(this, Settings.class);
+			Intent intent = new Intent(this, MainSettings.class);
 			startActivity(intent);
 			return true;
 		} else if (item.getItemId() == R.id.btAbout) {
 			showDialog(1);
 			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
-		
-		return true;
 	}
 	
 	/*
@@ -230,7 +230,7 @@ public class MainMenu extends PoolBinder {
         	builder.setIcon(R.drawable.icon);
 			builder.setTitle(R.string.app_name);
 			
-			Spanned text = Html.fromHtml(getString(R.string.version) + " " + getString(R.string.version_number)
+			Spanned text = Html.fromHtml(getString(R.string.version) + " " + getString(R.string.app_version_name)
 					+ "<br /> <br />" + getString(R.string.text_about).replace("\n", "<br />") + "<br /> <br />"
 					+ getString(R.string.text_contributions).replace("\n", "<br />")
 					.replace(getString(R.string.text_contributions_astrid),

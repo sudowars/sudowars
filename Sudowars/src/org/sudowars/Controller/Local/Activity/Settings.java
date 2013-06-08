@@ -44,9 +44,11 @@
  ******************************************************************************/
 package org.sudowars.Controller.Local.Activity;
 
-import org.sudowars.R;
 import org.sudowars.Model.SudokuManagement.Pool.SudokuFilePool;
+import org.sudowars.Model.SudokuManagement.Pool.SudokuFilePool.SudokuFilePoolBinder;
+import org.sudowars.Model.SudokuManagement.Pool.SudokuPool;
 
+import android.app.ActionBar;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -54,11 +56,14 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceActivity;
+import android.view.MenuItem;
 
-/**
- * Shows the game settings. 
- */
 public class Settings extends PreferenceActivity {
+	/**
+	 * the pool full of Sudokus
+	 */
+	protected SudokuPool pool;
+	
 	/**
 	 * tricker, if this activity is bound to the pool
 	 */
@@ -101,6 +106,8 @@ public class Settings extends PreferenceActivity {
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             //we've bound to SudokuFilePool, cast the IBinder and get SudokuFilePool instance
+            SudokuFilePoolBinder binder = (SudokuFilePoolBinder) service;
+            Settings.this.pool = binder.getService();
             Settings.this.bound = true;
         }
         
@@ -120,6 +127,22 @@ public class Settings extends PreferenceActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.preferences);
+		
+	    ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			this.onBackPressed();
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
 	}
 }

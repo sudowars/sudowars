@@ -47,6 +47,9 @@ package org.sudowars.Controller.Local.Activity;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -57,22 +60,19 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,6 +103,25 @@ import org.sudowars.View.*;
  * Shows a running Sudoku game.
  */
 public abstract class Play extends PoolBinder {
+	private final int[] keyIDs = {
+			R.id.key1,
+			R.id.key2,
+			R.id.key3,
+			R.id.key4,
+			R.id.key5,
+			R.id.key6,
+			R.id.key7,
+			R.id.key8,
+			R.id.key9,
+			R.id.key10,
+			R.id.key11,
+			R.id.key12,
+			R.id.key13,
+			R.id.key14,
+			R.id.key15,
+			R.id.key16
+	};
+	
 	/**
 	 * Constants like the height of the status bar
 	 */
@@ -179,11 +198,6 @@ public abstract class Play extends PoolBinder {
 	protected DeltaManager deltaManager;
 
 	/**
-	 * the Sudoku table
-	 */
-	protected SymbolTable symbolTable;
-
-	/**
 	 * the note manager of local player
 	 */
 	protected NoteManager noteManager;
@@ -209,6 +223,21 @@ public abstract class Play extends PoolBinder {
 	private long lastNotificationTime;
 	
 	/**
+	 * the root view
+	 */
+	protected LinearLayout root;
+	
+	/**
+	 * the field size
+	 */
+	protected TableLayout keypad;
+	
+	/**
+	 * the field size
+	 */
+	private int size;
+	
+	/*
 	 * indicates that the assistant is runing (in SPgame). nothing is allowed if this is true
 	 */
 	protected boolean assistantRunning = false;
@@ -221,16 +250,11 @@ public abstract class Play extends PoolBinder {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+	    ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+	    actionBar.setDisplayShowCustomEnabled(true);
+	    
 		this.constants = new Constants(this);
-		
-		if (this.constants.isLandscapeMode()) {
-			setContentView(R.layout.play_landscape);
-		} else {
-			setContentView(R.layout.play);
-		}
-		
 		this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
 		this.lastNotificationTime = 0;
@@ -250,7 +274,7 @@ public abstract class Play extends PoolBinder {
 		
 		this.localPlayer = this.game.getPlayers().get(0);
 		this.noteManager = this.game.getNoteManagerOfPlayer(this.localPlayer);
-		this.symbolTable = SymbolTable.getInstance();
+		this.size = this.game.getSudoku().getField().getStructure().getHeight();
 		
 		this.setupView();
 		
@@ -336,18 +360,23 @@ public abstract class Play extends PoolBinder {
 		super.onConfigurationChanged(newConfig);
 		
 		this.constants = new Constants(this);
-		
-		if (this.constants.isLandscapeMode()) {
-			setContentView(R.layout.play_landscape);
-		} else {
-			setContentView(R.layout.play);
-		}
-		
 		this.setupView();
 		
 		if (this.gameState.isFinished()) {
 			this.onGameFinished(getString(R.string.text_game_over));
 		}
+    }
+	
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
+    public boolean onCreateOptionsMenu(Menu menu) {
+        View view = (View) menu.findItem(R.id.time).getActionView();
+		this.lblTime = (TextView) view.findViewById(R.id.lblTime);
+		this.refreshTime(this.game.getGameTime());
+		
+        return super.onCreateOptionsMenu(menu);
     }
 	
 	/*
@@ -371,8 +400,11 @@ public abstract class Play extends PoolBinder {
 	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
 	 */
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {		
-		if (item.getItemId() == R.id.give_up) {
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			this.onBackPressed();
+			return true;
+		} else if (item.getItemId() == R.id.give_up) {
 			if (!this.game.isPaused() && !this.gameState.isFinished()) {
 				showDialog(1);
 			}
@@ -476,7 +508,7 @@ public abstract class Play extends PoolBinder {
 	 * @param elapsedMilliseconds the play time in milliseconds
 	 */
 	private void refreshTime(long elapsedMilliseconds) {
-		if (Play.this.lblTime != null) {
+		if (this.lblTime != null) {
 			final DecimalFormat format = new DecimalFormat("00");
 			
 			byte seconds = (byte) ((elapsedMilliseconds / 1000) % 60);
@@ -500,7 +532,7 @@ public abstract class Play extends PoolBinder {
 			
 			text += String.format("%s", format.format(seconds));
 			
-			Play.this.lblTime.setText(text);
+			this.lblTime.setText(text);
 		}
 	}
 	
@@ -546,79 +578,46 @@ public abstract class Play extends PoolBinder {
 		sudokuField.setDisabled(true);
 		this.gameState.gameFinished();
 		
-		final LinearLayout layKeysLine[] = {
-				(LinearLayout) findViewById(R.id.layKeysLine1),
-				(LinearLayout) findViewById(R.id.layKeysLine2),
-				(LinearLayout) findViewById(R.id.layKeysLine3)};
-		
 		TextView lblText = new TextView(this);
 		lblText.setText(text);
 		
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT);
+		lp.weight = 1;
 		int marginvalue = 2;
+		//TODO: Make it nicer
 		lp.setMargins(marginvalue, marginvalue, marginvalue, marginvalue);
 		Display display = getWindowManager().getDefaultDisplay();
 		
-		// Convert the dps to pixels, based on density scale
-		//TODO: make action bar variable with min height of 40 dp
-		int actionBar = ((LinearLayout) findViewById(R.id.layActionBar)).getLayoutParams().height;
-		
 		int width;
-		int height;
-		
 		if (this.constants.isLandscapeMode()) {
 			width = display.getWidth() - display.getHeight() + this.constants.getStatusBarHeight() - 2 * marginvalue;
-			height = display.getHeight() - 2 * actionBar - this.constants.getStatusBarHeight() - 2 * marginvalue;
-			
-			int actionBarWidth = findViewById(R.id.layActionBar).getWidth();
-			
-			if (width < actionBarWidth) {
-				width = actionBarWidth;
-			}
 		} else {
 			width = display.getWidth();
-			height = display.getHeight() - display.getWidth() - 2 * marginvalue - this.constants.getStatusBarHeight() - actionBar;
 		}
 		
-		lblText.setWidth(width);
-		lblText.setHeight(height);
 		lblText.setLayoutParams(lp);
 		lblText.setTextSize(width / (lblText.getText().length() + 1));
 		lblText.setTextColor(this.getResources().getColor(R.color.text_game_over));
 		lblText.setGravity(Gravity.CENTER);
+		lblText.setAlpha(0f);
 		
-		AlphaAnimation fadeIn = new AlphaAnimation(0, 1);
-		fadeIn.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text));
-		lblText.setAnimation(fadeIn);
-		
-		for (int i = 0; i < layKeysLine.length; i++) {
-			AlphaAnimation fadeOut = new AlphaAnimation(1, 0);
-			fadeOut.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text));
-			layKeysLine[i].setAnimation(fadeOut);
-			final int keyRow = i;
-			final TextView goodbye = lblText;
-			fadeOut.setAnimationListener(new AnimationListener() {
+		final TextView goodbye = lblText;
+		this.keypad.animate()
+			.alpha(0f)
+			.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text))
+			.setListener(new AnimatorListenerAdapter() {
 				@Override
-				public void onAnimationEnd(Animation animation) {
-				        layKeysLine[keyRow].removeAllViews();
-				        if (keyRow == 1) {
-				        	layKeysLine[1].addView(goodbye);
-				        }
+				public void onAnimationEnd(Animator animation) {
+						root.removeView(Play.this.keypad);
+						root.addView(goodbye);
+						goodbye.animate()
+				    			.alpha(1f)
+				    			.setDuration(Play.this.getResources().getInteger(R.integer.fade_in_game_finish_text))
+				    			.setListener(null);
 				}
-
-				@Override
-				public void onAnimationRepeat(Animation animation) {
-				        // TODO Auto-generated method stub
-				}
-
-				@Override
-				public void onAnimationStart(Animation animation) {
-				        // TODO Auto-generated method stub
-				}
-			});
-		}
+		});
 	}
 	
 	/**
@@ -678,9 +677,15 @@ public abstract class Play extends PoolBinder {
 	 * Setup view
 	 */
 	protected void setupView() {
+		if (size == 9) {
+			setContentView(R.layout.play_9);
+		} else {
+			setContentView(R.layout.play_16);
+		}
+		
+		this.keypad = (TableLayout) findViewById(R.id.keypad);
 		this.sudokuField = (SudokuField) findViewById(R.id.sudokuField);
 		this.sudokuField.showInvalidValues(false);
-		this.sudokuField.setSymbolTable(this.symbolTable);
 		this.sudokuField.setGame(this.game);
 		this.sudokuField.setNoteManager(this.noteManager);
 		this.sudokuField.setOnClickListener(new OnClickListener() {
@@ -697,17 +702,10 @@ public abstract class Play extends PoolBinder {
 			}
 		});
 		
+		this.root = (LinearLayout) this.findViewById(R.id.root);
+		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		this.sudokuField.setZoomButtonsEnable(settings.getBoolean("zoom_buttons", false));
-		
-		String time = "0:00";
-		
-		if (this.lblTime != null) {
-			time = (String) this.lblTime.getText();
-		}
-		
-		this.lblTime = (TextView) findViewById(R.id.lblTime);
-		this.lblTime.setText(time);
 		
 		setupButtons();
 	}
@@ -716,50 +714,7 @@ public abstract class Play extends PoolBinder {
 	 * Setup buttons
 	 */
 	protected void setupButtons() {
-		// Get the screen's density scale
-		final float scale = getResources().getDisplayMetrics().density;
-		
-		// Convert the dps to pixels, based on density scale
-		int marginvalue = (int) (1.0f * scale + 0.5f);
-		int minButtonWidth = (int) (62.0f * scale + 0.5f);
-		int minButtonHeight = (int) (40.0f * scale + 0.5f);
-
-		//TODO: make action bar variable with min height of 40 dp
-		int actionBar = ((LinearLayout) findViewById(R.id.layActionBar)).getLayoutParams().height;
-		int size = this.game.getSudoku().getField().getStructure().getHeight();
-		
-		Display display = getWindowManager().getDefaultDisplay();
-		int buttonWidth;
-		int buttonHeight;
-		
-		if (this.constants.isLandscapeMode()) {
-			buttonWidth = (display.getWidth() - display.getHeight() + this.constants.getStatusBarHeight()) / 3 - 2 * marginvalue;
-			buttonHeight = (display.getHeight() - actionBar - this.constants.getStatusBarHeight()) / (size / 3 + 1) - 2 * marginvalue;
-		
-			if (buttonWidth < minButtonWidth) {
-				buttonWidth = minButtonWidth;
-			}
-		} else {
-			buttonWidth = display.getWidth() / (size / 3 + 1) - 2 * marginvalue;
-			buttonHeight = ((display.getHeight() - display.getWidth()) - actionBar - this.constants.getStatusBarHeight()) / 3 - 2 * marginvalue;
-		
-			if (buttonHeight < minButtonHeight) {
-				buttonHeight = minButtonHeight;
-			}
-		}
-		
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				buttonWidth,
-				buttonHeight);
-		lp.setMargins(marginvalue, marginvalue, marginvalue, marginvalue);
-		
-		this.btnClear = new ImageButton(this);
-		this.btnClear.setLayoutParams(lp);
-		this.btnClear.setPadding(0, 0, 0, 0);
-		this.btnClear.setImageResource(R.drawable.ic_input_delete);
-		this.btnClear.setScaleType(ScaleType.CENTER_INSIDE);
-		this.btnClear.setColorFilter(this.getResources().getColor(R.color.button_clear_normal_foreground));
-		this.btnClear.setBackgroundColor(this.getResources().getColor(R.color.button_clear_normal_background));
+		this.btnClear = (ImageButton) this.findViewById(R.id.key_clear);
 		this.btnClear.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				long now = SystemClock.uptimeMillis();
@@ -787,13 +742,7 @@ public abstract class Play extends PoolBinder {
 			}
 		});
 		
-		this.btnInvert = new ImageButton(this);
-		this.btnInvert.setLayoutParams(lp);
-		this.btnInvert.setPadding(0, 0, 0, 0);
-		this.btnInvert.setImageResource(R.drawable.stat_notify_sync);
-		this.btnInvert.setScaleType(ScaleType.CENTER_INSIDE);
-		this.btnInvert.setColorFilter(this.getResources().getColor(R.color.button_invert_normal_foreground));
-		this.btnInvert.setBackgroundColor(this.getResources().getColor(R.color.button_invert_normal_background));
+		this.btnInvert = (ImageButton) this.findViewById(R.id.key_invert);
 		this.btnInvert.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				long now = SystemClock.uptimeMillis();
@@ -822,16 +771,11 @@ public abstract class Play extends PoolBinder {
 		});
 		
 		this.btnSymbols = new Button[size];
-
+		
 		for (int i = 0; i < size; i++) {
-			this.btnSymbols[i] = new Button(this);
-			this.btnSymbols[i].setText(String.valueOf(symbolTable.getSymbol(i + 1)));
-			this.btnSymbols[i].setLayoutParams(lp);
-			this.btnSymbols[i].setPadding(0, 0, 0, 0);
-			this.btnSymbols[i].setTextSize(buttonHeight * 2 / 5);
-			this.btnSymbols[i].setTextColor(this.getResources().getColor(R.color.button_symbols_normal_foreground));
-			this.btnSymbols[i].setBackgroundColor(this.getResources().getColor(R.color.button_symbols_normal_background));
-
+			this.btnSymbols[i] = (Button) this.findViewById(this.keyIDs[i]);
+			this.btnSymbols[i].setText(this.getResources().getStringArray(R.array.symbols)[i+1]);
+			
 			final int symbolId = i;
 			this.btnSymbols[i].setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
@@ -868,32 +812,6 @@ public abstract class Play extends PoolBinder {
 					return true;
 				}
 			});
-		}
-		
-		LinearLayout layKeysLine[] = {
-				(LinearLayout) findViewById(R.id.layKeysLine1),
-				(LinearLayout) findViewById(R.id.layKeysLine2),
-				(LinearLayout) findViewById(R.id.layKeysLine3)};
-		
-		if (this.constants.isLandscapeMode()) {
-			// key column
-			for (int i = 0; i < size; i++) {
-				layKeysLine[i % 3].addView(this.btnSymbols[i]);
-			}
-			
-			//move buttons right
-			int i = size / 16;
-			layKeysLine[i++].addView(this.btnInvert);
-			layKeysLine[i].addView(this.btnClear);
-		} else {
-			// key row
-			for (int i = 0; i < size - 1; i++) {
-				layKeysLine[i / (size / 3)].addView(this.btnSymbols[i]);
-			}
-			
-			layKeysLine[0].addView(this.btnInvert);
-			layKeysLine[1].addView(this.btnClear);
-			layKeysLine[2].addView(this.btnSymbols[size - 1]);
 		}
 	}
 	

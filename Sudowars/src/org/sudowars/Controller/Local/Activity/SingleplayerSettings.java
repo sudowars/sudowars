@@ -61,49 +61,32 @@ import org.sudowars.Model.SudokuManagement.IO.FileIO;
 import org.sudowars.Model.SudokuUtil.NoteManager;
 import org.sudowars.Model.SudokuUtil.SingleplayerGameState;
 
-import android.content.Context;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.RadioButton;
 
 /**
  * Shows the menu of a new Singleplayer game.
  */
-public class SingleplayerSettings extends PoolBinder {
-	/**
-	 * the RadioButton array for size
-	 */
-	private RadioButton[] rbtField_size;
-	
-	/**
-	 * the RadioButton array for difficulty
-	 */
-	private RadioButton[] rbtDifficulty;
-	
-	/**
-	 * state of showing obvious mistakes
-	 */
-	private CheckBox cbtAssistantObviousMistakes;
-	
-	/**
-	 * show option menu entry to solving cells
-	 */
-	private CheckBox cbtAssistantSolveCells;
-	
-	/**
-	 * show option menu entry to solving cells
-	 */
-	private CheckBox cbtAssistantBookmark;
-	
+public class SingleplayerSettings extends Settings {
 	/**
 	 * the start button to start a new Sudoku game
 	 */
 	private Button btnStart;
+	
+	/**
+	 * the preferences
+	 */
+	protected SharedPreferences preferences;
 	
 	/*
 	 * (non-Javadoc)
@@ -113,70 +96,86 @@ public class SingleplayerSettings extends PoolBinder {
 	public void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.singleplayer_settings);
-		setupButtons();
+	    ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+	    
+		addPreferencesFromResource(R.xml.singleplayer_preferences);
 		
-		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-		int size = preferences.getInt("size", 0);
-		int difficulty = preferences.getInt("difficulty", 1);
+		this.preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		
-		this.cbtAssistantObviousMistakes.setChecked(preferences.getBoolean("assistantObviousMistakes", false));
-		this.cbtAssistantSolveCells.setChecked(preferences.getBoolean("assistantSolveCells", false));
-		this.cbtAssistantBookmark.setChecked(preferences.getBoolean("assistantBookmark", false));
-		
-		if (size < 0 || size > 1) {
-			size = 0;
-		}
-		
-		if (difficulty < 0 || difficulty > 2) {
-			difficulty = 1;
-		}
-		
-		this.rbtField_size[size].setChecked(true);
-		this.rbtDifficulty[difficulty].setChecked(true);
+		ListPreference size = (ListPreference) findPreference("singleplayer_field_size");
+		size.setSummary(size.getEntry());
+		size.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            public boolean onPreferenceChange(Preference pref, Object obj) {
+            	if (obj instanceof String) {
+	            	int i = Integer.parseInt((String) obj);
+	            	i = (i == 9)?0:1;
+	            	pref.setSummary(((ListPreference) pref).getEntries()[i]);
+            	}
+                return true;
+            }
+        });
+
+		ListPreference diff = (ListPreference) findPreference("singleplayer_difficulty");
+		diff.setSummary(diff.getEntry());
+		diff.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference pref, Object obj) {
+            	if (obj instanceof String) {
+	            	int i = Integer.parseInt((String) obj);
+	            	pref.setSummary(((ListPreference) pref).getEntries()[i]);
+            	}
+				return true;
+			}
+        });
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.sudowars.Controller.Local.PoolBinder#onStop()
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	 */
-	protected void onStop() {
-		super.onStop();
-		
-		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = preferences.edit();
-		
-		int difficulty;
-		
-		if (this.rbtDifficulty[0].isChecked() == true) {
-			difficulty = 0;
-		} else if (this.rbtDifficulty[1].isChecked() == true) {
-			difficulty = 1;
+	@Override
+	public boolean onCreateOptionsMenu (Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.singleplayer_settings, menu);
+	    return true;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			this.onBackPressed();
+			return true;
+		} else if (item.getItemId() == R.id.btStart) {
+			onBtnStartClick ();
+			return true;
 		} else {
-			difficulty = 2;
+			return super.onOptionsItemSelected(item);
 		}
-		
-		editor.putInt("size", (this.rbtField_size[0].isChecked() == true)?0:1);
-		editor.putInt("difficulty", difficulty);
-		editor.putBoolean("assistantObviousMistakes", this.cbtAssistantObviousMistakes.isChecked());
-		editor.putBoolean("assistantSolveCells", this.cbtAssistantSolveCells.isChecked());
-		editor.putBoolean("assistantBookmark", this.cbtAssistantBookmark.isChecked());
-		
-		editor.commit();
 	}
 	
 	/**
 	 * Running on a click on button {@link btnStart}.
 	 */
 	private void onBtnStartClick () {
-		this.btnStart.setClickable(false);
-		
-		int size = (this.rbtField_size[0].isChecked() == true)?9:16;
+		if (this.btnStart != null)
+			this.btnStart.setClickable(false);
+
 		Difficulty difficulty;
 		
-		if (this.rbtDifficulty[0].isChecked() == true) {
+		/* Ugly Android bug...
+		 * see https://code.google.com/p/android/issues/detail?id=2096
+		 */
+		int size = Integer.parseInt(this.preferences.getString("singleplayer_field_size", "9"));
+		String diff = this.preferences.getString("singleplayer_difficulty", "0");
+		
+		if (diff.equals("0")) {
 			difficulty = new DifficultyEasy();
-		} else if (this.rbtDifficulty[1].isChecked() == true) {
+		} else if (diff.equals("1")) {
 			difficulty = new DifficultyMedium();
 		} else {
 			difficulty = new DifficultyHard();
@@ -195,15 +194,17 @@ public class SingleplayerSettings extends PoolBinder {
 		FileIO savedGames = new FileIO(this.getApplicationContext());
 		savedGames.saveSingleplayerGame(new SingleplayerGameState(game,
 				difficulty,
-				this.cbtAssistantObviousMistakes.isChecked(),
-				this.cbtAssistantSolveCells.isChecked(),
-				this.cbtAssistantBookmark.isChecked(),
+				this.preferences.getBoolean("singleplayer_assistant_show_mistakes", true),
+				this.preferences.getBoolean("singleplayer_assistant_solve_cells", true),
+				this.preferences.getBoolean("singleplayer_assistant_bookmark", true),
+				this.preferences.getBoolean("singleplayer_assistant_back_to_first_error", true),
+				sudoku.getField(), 
 				new DeltaManager()));
-		
 		//Debug output
-		int debugAssistants = this.cbtAssistantObviousMistakes.isChecked()?4:0;
-		debugAssistants += this.cbtAssistantSolveCells.isChecked()?2:0;
-		debugAssistants += this.cbtAssistantBookmark.isChecked()?1:0;
+		int debugAssistants = this.preferences.getBoolean("singleplayer_assistant_obvious_mistakes", true)?8:0;
+		debugAssistants += this.preferences.getBoolean("singleplayer_assistant_solve_cells", true)?4:0;
+		debugAssistants += this.preferences.getBoolean("singleplayer_assistant_bookmark", true)?2:0;
+		debugAssistants += this.preferences.getBoolean("singleplayer_assistant_back_to_first_error", true)?1:0;
 		
 		DebugHelper.log(DebugHelper.PackageName.SingleplayerSettings, "Size: " + size + "x" + size
 				+ " Difficulty: " + difficulty.toString()
@@ -212,30 +213,5 @@ public class SingleplayerSettings extends PoolBinder {
 		Intent intent = new Intent(this, SingleplayerPlay.class);
 		startActivity(intent);
 		finish();
-	}
-	
-	/**
-	 * Setup buttons
-	 */
-	private void setupButtons() {
-		this.rbtField_size = new RadioButton[2];
-		this.rbtField_size[0] = (RadioButton) findViewById(R.id.rbtField_size_9x9);
-		this.rbtField_size[1] = (RadioButton) findViewById(R.id.rbtField_size_16x16);
-		
-		this.rbtDifficulty = new RadioButton[3];
-		this.rbtDifficulty[0] = (RadioButton) findViewById(R.id.rbtDifficulty_easy);
-		this.rbtDifficulty[1] = (RadioButton) findViewById(R.id.rbtDifficulty_medium);
-		this.rbtDifficulty[2] = (RadioButton) findViewById(R.id.rbtDifficulty_hard);
-		this.cbtAssistantObviousMistakes = (CheckBox) findViewById(R.id.cbtAssistant_obvious_mistakes);
-		this.cbtAssistantSolveCells = (CheckBox) findViewById(R.id.cbtAssistant_solve_cells);
-		this.cbtAssistantBookmark = (CheckBox) findViewById(R.id.cbtAssistant_bookmark);
-		
-		this.btnStart = (Button) findViewById(R.id.btnStart);
-		this.btnStart.setOnClickListener(
-                new OnClickListener() {
-                	public void onClick(View v) {
-                		SingleplayerSettings.this.onBtnStartClick();
-                    }
-                });
 	}
 }

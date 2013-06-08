@@ -204,7 +204,7 @@ public class SudokuField extends View {
 	/**
 	 * The Sudoku symbol table
 	 */
-	private SymbolTable symbols;
+	private String[] symbols;
 	
 	/**
 	 * The game
@@ -304,6 +304,8 @@ public class SudokuField extends View {
 		
 		this.noticePaintSelected = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.noticePaintSelected.setColor(this.getResources().getColor(R.color.sudoku_field_notice_selected));
+	
+		this.symbols = this.getResources().getStringArray(R.array.symbols);
 	}
 
 	/**
@@ -329,7 +331,7 @@ public class SudokuField extends View {
 	}
 	
 	/**
-	 * Private helber function to draw a centered Char
+	 * Private helper function to draw a centered Char
 	 * @param c char to draw
 	 * @param p font to draw with
 	 * @param x destination center
@@ -454,9 +456,10 @@ public class SudokuField extends View {
 				GameCell gc = (GameCell) this.game.getSudoku().getField().getCell(x, y);
 				if (gc.getValue() != 0) {
 					tmpPaint = getPaintForCell(gc, x, y, activeCellInvalid);
-					drawCentered(this.symbols.getSymbol(gc.getValue()), tmpPaint, x * this.squareSize + (this.squareSize / 2), y * this.squareSize + (this.squareSize / 2), canvas);
+					drawCentered(this.symbols[gc.getValue()].charAt(0), tmpPaint, x * this.squareSize + (this.squareSize / 2), y * this.squareSize + (this.squareSize / 2), canvas);
 					
-				} else {	//Not set yet, check for notices
+				} else {
+					//Not set yet, check for notices
 					if (this.noteManager != null) {
 						try {
 							notes = this.noteManager.getNotes(gc);
@@ -471,13 +474,14 @@ public class SudokuField extends View {
 							Iterator<Integer> iter= notes.iterator();
 							while (iter.hasNext()) {
 								int note = iter.next();
+								char symbol = symbols[note].charAt(0);
 								if (x == this.selectedFieldX && y == this.selectedFieldY)
-									drawCentered(symbols.getSymbol(note), this.noticePaintSelected, 
+									drawCentered(symbol, this.noticePaintSelected, 
 											x * this.squareSize + (int)((this.squareSize / (blockSize * 2)) * 1) + ((note - 1) % blockSize) * ((this.squareSize) / blockSize), 
 											y * this.squareSize + 1 + (int)((this.squareSize / (blockSize * 2)) * 1) + (Math.round((note - 1) / blockSize)) * ((this.squareSize - blockSize) / blockSize), 
 											canvas);
 								else
-									drawCentered(symbols.getSymbol(note), this.noticePaint, 
+									drawCentered(symbol, this.noticePaint, 
 											x * this.squareSize + (int)((this.squareSize / (blockSize * 2))) + ((note - 1) % blockSize) * ((this.squareSize) / blockSize), 
 											y * this.squareSize + 1 + (int)((this.squareSize / (blockSize * 2)) * 1) + (Math.round((note - 1) / blockSize)) * ((this.squareSize - blockSize) / blockSize), 
 											canvas);
@@ -645,7 +649,7 @@ public class SudokuField extends View {
 		zbc = new ZoomButtonsController(this);
 		zbc.setOnZoomListener(new ZoomButtonHandler());
 		zbc.setAutoDismissed(true);
-		this.zbc.setVisible(false);
+		zbc.setVisible(false);
 		zbc.setZoomInEnabled(true);
 		zbc.setZoomOutEnabled(true);
 		}
@@ -764,15 +768,6 @@ public class SudokuField extends View {
 	 */
 	public void refresh() {
 		//invalidate();
-	}
-	
-	/**
-	 * Set the symboltable
-	 * @param st instance of symbolTable
-	 */
-	
-	public void setSymbolTable(SymbolTable st) {
-		this.symbols = st;
 	}
 	
 	/**

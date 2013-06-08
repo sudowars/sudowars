@@ -49,26 +49,32 @@
     <string name="assistants">Hilfen</string>
     <string name="bluetooth_connection_status">Verbindungsstatus</string>
     <string name="bluetooth_devices">Bluetoothgeräte</string>
-    <string name="client">Client</string>
-    <string name="difficulty">Schwierigkeitsgrad</string>
-    <string name="field_size">Feldgröße</string>
     <string name="get_ready">Mach dich bereit!</string>
     <string name="give_up">Aufgeben</string>
+    <string name="manual">Anleitung</string>
     <string name="multiplayer">Mehrspieler</string>
     <string name="pause">Pause</string>
     <string name="unknown">Unbekannt</string>
     <string name="scanning">Scanne…</string>
-    <string name="server">Server</string>
     <string name="settings">Einstellungen</string>
     <string name="singleplayer">Einzelspieler</string>
     <string name="warning">Warnung</string>
     <string name="version">version</string>
     
+    <!-- Menu -->
+    <string name="menu_playtime">Spielzeit</string>
+    <string name="menu_score_local">Eigene Punkte</string>
+    <string name="menu_score_remote">Gegnerische Punkte</string>
+    
     <!-- Buttons -->
     <string name="button_about">Über</string>
     <string name="button_assistant">Assistent</string>
+    <string name="button_ban">Verbanne Benutzer</string>
     <string name="button_bluetooth_activate">Aktiviere Bluetooth</string>
     <string name="button_bluetooth_make_visible">Gerät sichtbar machen</string>
+    <string name="button_bluetooth_make_visible_active">Zeige verbleibende Sekunden an</string>
+    <string name="button_bluetooth_is_visible_before">Das Gerät ist noch</string>
+    <string name="button_bluetooth_is_visible_after">Sekunden sichtbar.</string>
     <string name="button_bluetooth_scan">Scannen</string>
     <string name="button_bluetooth_scan_stop">Scannen abbrechen</string>
     <string name="button_bookmark_get">Öffne Lesezeichen</string>
@@ -76,10 +82,10 @@
     <string name="button_exit">Beenden</string>
     <string name="button_give_up">Aufgeben</string>
     <string name="button_manual">Anleitung</string>
-    <string name="button_kick">Kick</string>
+    <string name="button_kick">Kicke Benuzter</string>
     <string name="button_multiplayer">Mehrspieler</string>
-    <string name="button_multiplayer_continue">↷</string>
-    <string name="button_multiplayer_new">Neues Spiel erstellen</string>
+    <string name="button_multiplayer_continue">Fortsetzen</string>
+    <string name="button_multiplayer_new">Neues Spiel</string>
     <string name="button_next">weiter</string>
     <string name="button_no">Nein</string>
     <string name="button_ok">OK</string>
@@ -94,8 +100,15 @@
     <string name="button_start">Spiel starten</string>
     <string name="button_undo">Undo</string>
     <string name="button_yes">Ja</string>
+    <string name="button_back_to_first_error">Zurück zum ersten Fehler</string>
     
     <!-- Settings -->
+    <string name="settings_game_assistant_back_to_first_error">Erlaube zurück zum ersten Fehler</string>
+    <string name="settings_game_assistant_show_mistakes">Fehler hervorheben</string>
+    <string name="settings_game_assistant_solve_cells">Erlaube Zelle lösen</string>
+    <string name="settings_game_assistant_bookmark">Erlaube Lesezeichen</string>
+    <string name="settings_game_difficulty">Schwierigkeitsgrad</string>
+    <string name="settings_game_field_size">Feldgröße</string>
     <string name="settings_notifications">Benachrichtigungen</string>
     <string name="settings_notifications_text">Benachrichtigungen im Spiel anzeigen</string>
     <string name="settings_show_zoom_buttons">Zoomknöpfe</string>
@@ -103,18 +116,9 @@
     <string name="settings_vibrator">Vibration</string>
     <string name="settings_vibrator_text">Vibration bei Spielereignissen erlauben</string>
     
-    <string name="check_box_assistant_obvious_mistakes">Offensichtliche Fehler anzeigen</string>
-    <string name="check_box_assistant_solve_cells">Erlaube das Lösen von Zellen</string>
-    <string name="check_box_assistant_bookmark">Erlaube Lesezeichen</string>
-    <string name="radio_button_difficulty_easy">Leicht</string>
-    <string name="radio_button_difficulty_medium">Normal</string>
-    <string name="radio_button_difficulty_hard">Schwer</string>
-    <string name="radio_button_field_size_9x9">9x9</string>
-    <string name="radio_button_field_size_16x16">16x16</string>
-    
     <!-- Text messages -->
     <string name="text_about">Adrian Vielsack\nChristof Urbaczek\nFlorian Rosenthal\nMichael Hoff\nMoritz Lüdecke\nPhilip Flohr</string>
-    <string name="text_contributions">Dank geht an:\nViewPagerIndicator,\nFaenza (das Logo beruht auf dem Icon archlinux-logo.svg),\nOpenSudoku und\nAstrid (für Code-Beispiele)</string>
+    <string name="text_contributions">Dank geht an:\nFaenza (das Logo beruht auf dem Icon archlinux-logo.svg)</string>
     <string name="text_aborted_multiplayer">Der Gegner hat aufgegeben.</string>
     <string name="text_ban">Benutzer wurde gebannt.</string>
     <string name="text_banned">Du wurdest gebannt!</string>
@@ -132,28 +136,12 @@
     <string name="text_win_multiplayer">SIEG</string>
     
     <!-- Notifications -->
+    <string name="notification_back_to_first_error_failed">Es gab keine Fehler</string>
+    <string name="notification_back_to_first_error_success">Zurück beim ersten Fehler</string>
     <string name="notification_assistant_failed">Es konnte keine Lösung gefunden werden. Ist Ihre Lösung fehlerhaft?</string>
     <string name="notification_assistant_running">Der Assistant arbeitet. Einen Augenblick Geduld.</string>
     <string name="notification_cell_is_already_set">Zelle wurde bereits vom Gegenspieler gelöst.</string>
     <string name="notification_initial_field">Eine gesetzte Zelle kann nicht verändert werden.</string>
     <string name="notification_unselected_field">Zunächst eine Zelle auswählen.</string>
-    
-    <!-- Manual titles and bodys -->
-    <string name="manual_title_1">Markieren</string>
-    <string name="manual_body_1">Berühre eine Zelle, um ihren Inhalt bearbeiten zu können.</string>
-    <string name="manual_title_2">Notieren</string>
-    <string name="manual_body_2">Drücke eine Zahl kurz, um die jeweilige Notiz ein- oder auszutragen.</string>
-    <string name="manual_title_3">Lösen</string>
-    <string name="manual_body_3">Drücke eine Zahl lang, um sie als Lösung zu setzen.</string>
-    <string name="manual_title_4">Notieren²</string>
-    <string name="manual_body_4">Raste die Notiz mit einem Doppelklick ein, um sie in mehreren Zellen zu ändern.</string>
-    <string name="manual_title_5">Invertieren</string>
-    <string name="manual_body_5">Der markierte Button löscht alle bestehenden Notizen und fügt die restlichen hinzu.</string>
-    <string name="manual_title_6">Zurücksetzen</string>
-    <string name="manual_body_6">Der markierte Button löscht alle Notizen.</string>
-    <string name="manual_title_7">Zoomen</string>
-    <string name="manual_body_7">Benutze die Zoomgeste, um die Ansicht zu vergrößern oder zu verkleinern.</string>
-    <string name="manual_title_8">Das war\'s, viel Spaß mit Sudowars!</string>
-    <string name="manual_body_8">Tippe auf das Logo, um die Anleitung zu verlassen.</string>
     
 </resources>

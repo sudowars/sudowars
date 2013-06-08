@@ -68,6 +68,7 @@ import org.sudowars.Model.Difficulty.DifficultyEasy;
 import org.sudowars.Model.Difficulty.DifficultyHard;
 import org.sudowars.Model.Difficulty.DifficultyMedium;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
@@ -79,62 +80,61 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.Surface;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.widget.RadioButton;
-import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.Button;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.os.CountDownTimer;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.widget.ToggleButton;
 
 /**
  * Shows the settings menu of a new multiplayer game.
  */
-public class MultiplayerSettings extends PoolBinder {
+public class MultiplayerSettings extends Settings {
 	/**
 	 * Intent request code
 	 */
     private static final int REQUEST_DISCOVERABLE = 3;
     
+    /**
+     * Counter how long the device is still visible
+     */
+    private int visibleCounter;
+    
+    /**
+     * To be, or not to be
+     */
+    private boolean isClient;
+    
 	/**
-	 * the size of the game
+	 * the preferences
 	 */
-	RadioGroup rgrSize;
-	
-	/**
-	 * the difficulty of the game
-	 */
-	RadioGroup rgrDifficulty;
-	
-	/**
-	 * the RadioButton array for size
-	 */
-	private RadioButton[] rbtField_size;
-	
-	/**
-	 * the RadioButton array for difficulty
-	 */
-	private RadioButton[] rbtDifficulty;
-	
-	/**
-	 * button to make the bluetooth device visible for other devices
-	 */
-	private ToggleButton tglBtVisible;
+	protected SharedPreferences preferences;
 	
 	/**
 	 * the button to kick a connected player
 	 */
-	private Button btnKick;
+	private MenuItem btKick;
 	
+	/**
+	 * the button to ban a connected player
+	 */
+	private MenuItem btBan;
+
+	/**
+	 * the button to make the device visible
+	 */
+	private MenuItem btVisible;
 	/**
 	 * current connection status
 	 */
-	private TextView lblConnectionStatus;
+	private Preference connectionStatus;
 	
 	/**
 	 * the ready button of the local player
@@ -196,23 +196,29 @@ public class MultiplayerSettings extends PoolBinder {
     				if (MultiplayerSettings.this.connection instanceof BluetoothServer) {
     					RemoteSettingsCommand command = new RemoteSettingsCommand(MultiplayerSettings.this.settings);
     					MultiplayerSettings.this.connection.sendCommand((Command) command);
-    					MultiplayerSettings.this.btnKick.setEnabled(true);
+    					if (MultiplayerSettings.this.btKick != null && MultiplayerSettings.this.btBan != null) {
+	    					MultiplayerSettings.this.btKick.setEnabled(true);
+	    					MultiplayerSettings.this.btBan.setEnabled(true);
+    					}
     				}
     				
         			tglLocalReady.setEnabled(true);
         		} else {
-        			MultiplayerSettings.this.btnKick.setEnabled(false);
+        			if (MultiplayerSettings.this.btKick != null && MultiplayerSettings.this.btBan != null) {
+	        			MultiplayerSettings.this.btKick.setEnabled(false);
+						MultiplayerSettings.this.btBan.setEnabled(false);
+        			}
         			MultiplayerSettings.this.tglLocalReady.setChecked(false);
         			MultiplayerSettings.this.tglLocalReady.setEnabled(false);
         		}
     			
     			if (MultiplayerSettings.this.connection instanceof BluetoothServer
-    					&& MultiplayerSettings.this.connection.getState() == BluetoothConnection.STATE_NONE) {
-    					((BluetoothServer) MultiplayerSettings.this.connection).listen();
+    				&& MultiplayerSettings.this.connection.getState() == BluetoothConnection.STATE_NONE) {
+    				((BluetoothServer) MultiplayerSettings.this.connection).listen();
     			}
 
         		String states[] = getResources().getStringArray(R.array.bluetooth_states);
-        		MultiplayerSettings.this.lblConnectionStatus.setText(states[MultiplayerSettings.this.connection.getState()]);
+        		MultiplayerSettings.this.connectionStatus.setTitle(states[MultiplayerSettings.this.connection.getState()]);
         		
         		break;
         	case BluetoothConnection.MESSAGE_NEW_DATA:
@@ -258,31 +264,32 @@ public class MultiplayerSettings extends PoolBinder {
 	public void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.multiplayer_settings);
+	    ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
 		
+		setContentView(R.layout.multiplayer_settings);
+		addPreferencesFromResource(R.xml.multiplayer_preferences);
+
+		this.preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		this.visibleCounter = -1;
 		this.setupButtons();
 		this.settings = new MultiplayerSudokuSettings();
 		
 		Intent intent = getIntent();
+		isClient = intent.hasExtra("connection");
 		
-		//local is client
-		if (intent.hasExtra("connection")) {
-			this.setTitle(this.getTitle() + String.format(" (%s)", getString(R.string.client)));
-			
+		if (isClient) {
 			this.connection = (BluetoothConnection) BluetoothConnection.getActiveBluetoothConnection();
-			this.tglBtVisible.setEnabled(false);
-			this.lblConnectionStatus.setText(getResources().getStringArray(R.array.bluetooth_states)[1]);
+			this.connectionStatus.setTitle(getResources().getStringArray(R.array.bluetooth_states)[1]);
 			
 			this.connection.setBluetoothEventHandler(mHandler);
-			
-		//local is server
+			disableButtons();
 		} else {
-			this.setTitle(this.getTitle() + String.format(" (%s)", getString(R.string.server)));
-			
 			this.connection = new BluetoothServer();
 			
 			//commence game
 			if (intent.hasExtra("gameState")) {
+				disableButtons();
 				this.gameState = (GameState) intent.getExtras().getSerializable("gameState");
 				this.game = (MultiplayerGame) this.gameState.getGame();
 				
@@ -299,43 +306,31 @@ public class MultiplayerSettings extends PoolBinder {
 			//new game
 			} else {
 				this.settings.setIsNewGame(true);
-				
-				for (int i = 0; i < this.rgrDifficulty.getChildCount(); i++) {
-					this.rgrDifficulty.getChildAt(i).setEnabled(true);
-				}
-				
-				for (int i = 0; i < this.rgrSize.getChildCount(); i++) {
-					this.rgrSize.getChildAt(i).setEnabled(true);
-				}
-				
-				SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-				int size = preferences.getInt("size", 0);
-				int difficulty = preferences.getInt("difficulty", 1);
-				
-				if (size < 0 || size > 1) {
-					size = 0;
-				}
-				
-				if (difficulty < 0 || difficulty > 2) {
+				int size = Integer.parseInt(preferences.getString("multiplayer_field_size", "9"));
+            	int difficulty = Integer.parseInt(preferences.getString("multiplayer_difficulty", "0"));
+            	
+            	size = (size == 9)?0:1;
+				if (difficulty < 0 || difficulty > 2)
 					difficulty = 1;
-				}
 				
 				this.settings.setSettings(size, difficulty, true);
 			}
 			
 			this.connection.setBluetoothEventHandler(mHandler);
 			
-			this.lblConnectionStatus.setText(getResources().getStringArray(R.array.bluetooth_states)[0]);
+			this.connectionStatus.setTitle(getResources().getStringArray(R.array.bluetooth_states)[0]);
 	    	((BluetoothServer) this.connection).listen();
-			
-			this.rbtField_size[(this.settings.getSize() == 0)?0:1].setChecked(true);
-			this.rbtDifficulty[this.settings.getDifficulty()].setChecked(true);
 			
 			if (this.connection.getState() == BluetoothConnection.STATE_CONNECTED) {
 				RemoteSettingsCommand command = new RemoteSettingsCommand(this.settings);
 				this.connection.sendCommand((Command) command);
 			}
 		}
+		
+		if (this.settings.isNewGame())
+			this.setTitle(String.format(getString(R.string.button_multiplayer_new)));
+		else
+			this.setTitle(String.format(getString(R.string.button_multiplayer_continue)));
 	}
     
 	/*
@@ -377,14 +372,6 @@ public class MultiplayerSettings extends PoolBinder {
 	    if (this.connection instanceof BluetoothServer) {
 	    	((BluetoothServer)this.connection).stopListening();
 	    }
-	    
-		SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = preferences.edit();
-		
-		editor.putInt("size", this.settings.getSize());
-		editor.putInt("difficulty", this.settings.getDifficulty());
-		
-		editor.commit();
 	}
 	
 	/*
@@ -398,13 +385,59 @@ public class MultiplayerSettings extends PoolBinder {
 		
 		if (requestCode == REQUEST_DISCOVERABLE) {
 	        if (resultCode == Activity.RESULT_CANCELED) {
-	        	this.tglBtVisible.setClickable(true);
-				this.tglBtVisible.setChecked(false);
+	        	if (this.btVisible != null) {
+	        		this.btVisible.setEnabled(true);
+	        	}
 				Toast.makeText(getApplicationContext(), R.string.text_bluetooth_discoverable_failed, Toast.LENGTH_SHORT).show();
 			} else {
 				this.counter = new Counter(resultCode * 1000, 1000);
 				this.counter.start();
 			}
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
+	@Override
+	public boolean onCreateOptionsMenu (Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.multiplayer_settings, menu);
+		
+		if (isClient) {
+			menu.removeItem(R.id.btKick);
+			menu.removeItem(R.id.btBan);
+			menu.removeItem(R.id.btVisible);
+		} else {
+			this.btKick = (MenuItem) menu.findItem(R.id.btKick);
+			this.btBan = (MenuItem) menu.findItem(R.id.btBan);
+			this.btVisible = (MenuItem) menu.findItem(R.id.btVisible);
+		}
+		
+	    return true;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			this.onBackPressed();
+			return true;
+		} else if (item.getItemId() == R.id.btKick) {
+			onBtKickClick();
+			return true;
+		} else if (item.getItemId() == R.id.btBan) {
+			onBtBanClick();
+			return true;
+		} else if (item.getItemId() == R.id.btVisible) {
+			onBtVisibleClick();
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -413,8 +446,13 @@ public class MultiplayerSettings extends PoolBinder {
 	 */
 	private void refresh() {
 		if (!(this.connection instanceof BluetoothServer)) {
-			this.rbtField_size[this.settings.getSize()].setChecked(true);
-			this.rbtDifficulty[this.settings.getDifficulty()].setChecked(true);
+			ListPreference size = (ListPreference) findPreference("multiplayer_field_size");
+			size.setValueIndex(this.settings.getSize());
+			size.setSummary(size.getEntries()[this.settings.getSize()]);
+			
+			ListPreference diff = (ListPreference) findPreference("multiplayer_difficulty");
+			diff.setValueIndex(this.settings.getDifficulty());
+			diff.setSummary(diff.getEntries()[this.settings.getDifficulty()]);
 		}
 		
 		if (this.connection != null && this.connection instanceof BluetoothServer && this.connection.getState() == BluetoothConnection.STATE_CONNECTED) {
@@ -444,34 +482,29 @@ public class MultiplayerSettings extends PoolBinder {
 	}
 
 	/**
-	 * Running on a click on button {@link tglBtVisible}.
+	 * Running on a click on button {@link BtnVisible}.
 	 */
-	private void onTglBtVisibleToggle() {
-		if (this.connection instanceof BluetoothServer && BluetoothAdapter.getDefaultAdapter().isEnabled()) {
-        	this.tglBtVisible.setClickable(false);
-        	
-			int rotation = getWindowManager().getDefaultDisplay().getRotation();
-
-			//workaround for Android bug: Dialog is showing multiply by rotating the device
-			if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-			} else {
-				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-			}
-			
+	private void onBtVisibleClick() {
+		if (this.visibleCounter <= 0
+				&& this.connection instanceof BluetoothServer
+				&& BluetoothAdapter.getDefaultAdapter().isEnabled()) {	
 			DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Make bluetooth device discoverable.");
 			
 			Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 			discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,
 					this.getResources().getInteger(R.integer.bluetooth_discoverable_duration));
 			startActivityForResult(discoverableIntent, REQUEST_DISCOVERABLE);
+		} else {
+			Toast.makeText(getApplicationContext(), this.getString(R.string.button_bluetooth_is_visible_before)+" "
+									+this.visibleCounter+" "+this.getString(R.string.button_bluetooth_is_visible_after),
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	/**
 	 * Running on a click on button {@link btnKick}.
 	 */
-	private void onBtnKickClick() {
+	private void onBtKickClick() {
 		if (this.connection instanceof BluetoothServer && connection.getState() == BluetoothConnection.STATE_CONNECTED) {
 			KickMultiplayerClientCommand command = new KickMultiplayerClientCommand(KickStatus.KICK);
 			((BluetoothServer) this.connection).sendCommandAsync((Command) command);
@@ -485,9 +518,9 @@ public class MultiplayerSettings extends PoolBinder {
 	}
 
 	/**
-	 * Running on a click on button {@link btnKick}.
+	 * Running on a click on button {@link btnBan}.
 	 */
-	private void onBtnKickLongClick() {
+	private void onBtBanClick() {
 		if (this.connection instanceof BluetoothServer && connection.getState() == BluetoothConnection.STATE_CONNECTED) {
 			KickMultiplayerClientCommand command = new KickMultiplayerClientCommand(KickStatus.KICKBAN);
 			((BluetoothServer) this.connection).sendCommandAsync((Command) command);
@@ -651,82 +684,40 @@ public class MultiplayerSettings extends PoolBinder {
 	 * Setup buttons
 	 */
 	private void setupButtons() {
-		this.rbtField_size = new RadioButton[2];
-		this.rbtField_size[0] = (RadioButton) findViewById(R.id.rbtField_size_9x9);
-		this.rbtField_size[1] = (RadioButton) findViewById(R.id.rbtField_size_16x16);
-		
-		this.rbtDifficulty = new RadioButton[3];
-		this.rbtDifficulty[0] = (RadioButton) findViewById(R.id.rbtDifficulty_easy);
-		this.rbtDifficulty[1] = (RadioButton) findViewById(R.id.rbtDifficulty_medium);
-		this.rbtDifficulty[2] = (RadioButton) findViewById(R.id.rbtDifficulty_hard);
-		
-		this.rgrSize = (RadioGroup) findViewById(R.id.rgrSize);
-		this.rgrSize.setOnCheckedChangeListener(
-				new OnCheckedChangeListener() {
-					int size;
-					
-					public void onCheckedChanged(RadioGroup group, int checkedId) {
-						if (checkedId == MultiplayerSettings.this.rbtField_size[0].getId()) {
-							size = 0;
-						} else if (checkedId == MultiplayerSettings.this.rbtField_size[1].getId()) {
-							size = 1;
-						} else {
-							throw new IllegalArgumentException("Illegal size.");
-						}
-						
-						MultiplayerSettings.this.settings.setSize(size);
-						refresh();
-					}
-				});
-		
-		this.rgrDifficulty = (RadioGroup) findViewById(R.id.rgrDifficulty);
-		this.rgrDifficulty.setOnCheckedChangeListener(
-				new OnCheckedChangeListener() {
-					public void onCheckedChanged(RadioGroup group, int checkedId) {
-						int difficulty;
-						
-						if (checkedId == MultiplayerSettings.this.rbtDifficulty[0].getId()) {
-							difficulty = 0;
-						} else if (checkedId == MultiplayerSettings.this.rbtDifficulty[1].getId()) {
-							difficulty = 1;
-						} else if (checkedId == MultiplayerSettings.this.rbtDifficulty[2].getId()) {
-							difficulty = 2;
-						} else {
-							throw new IllegalArgumentException("Illegal difficulty.");
-						}
+		ListPreference size = (ListPreference) findPreference("multiplayer_field_size");
+		size.setSummary(size.getEntry());
+		size.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            public boolean onPreferenceChange(Preference pref, Object obj) {
+            	if (obj instanceof String) {
+	            	int size = Integer.parseInt((String) obj);
+	            	size = (size == 9)?0:1;
+	            	pref.setSummary(((ListPreference) pref).getEntries()[size]);
+					MultiplayerSettings.this.settings.setSize(size);
+					refresh();
+            	}
+                return true;
+            }
+        });
 
-						MultiplayerSettings.this.settings.setDifficulty(difficulty);
-						refresh();
-					}
-				});
-
-		this.tglBtVisible = (ToggleButton) findViewById(R.id.tglBtVisible);
-		this.tglBtVisible.setOnClickListener(
-                new OnClickListener() {
-                	public void onClick(View v) {
-                    	onTglBtVisibleToggle();
-                    }
-                });
+		ListPreference diff = (ListPreference) findPreference("multiplayer_difficulty");
+		diff.setSummary(diff.getEntry());
+		diff.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference pref, Object obj) {
+            	if (obj instanceof String) {
+	            	int difficulty = Integer.parseInt((String) obj);
+	            	pref.setSummary(((ListPreference) pref).getEntries()[difficulty]);
+					MultiplayerSettings.this.settings.setDifficulty(difficulty);
+					refresh();
+            	}
+				return true;
+			}
+        });
 		
-		this.btnKick = (Button) findViewById(R.id.btnKick);
-		this.btnKick.setOnClickListener(
-                new OnClickListener() {
-                	public void onClick(View v) {
-                		onBtnKickClick();
-                    }
-                });
-		this.btnKick.setOnLongClickListener(
-                new OnLongClickListener() {
-                	public boolean onLongClick(View v) {
-                		onBtnKickLongClick();
-                		
-                		return true;
-                    }
-                });
-		
-		this.lblConnectionStatus = (TextView) findViewById(R.id.lblConnectionStatus);
+		this.connectionStatus = findPreference("multiplayer_connection_status");
 		
 		this.tglLocalReady = (ToggleButton) findViewById(R.id.tglLocalReady);
+		this.tglLocalReady.setEnabled(false);
 		this.tglLocalReady.setOnClickListener(
                 new OnClickListener() {
                 	public void onClick(View v) {
@@ -754,6 +745,7 @@ public class MultiplayerSettings extends PoolBinder {
 		 */
 		public Counter(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);
+			MultiplayerSettings.this.btVisible.setTitle(R.string.button_bluetooth_make_visible_active);
 		}
 		
 		/*
@@ -761,10 +753,11 @@ public class MultiplayerSettings extends PoolBinder {
 		 * @see android.os.CountDownTimer#onFinish()
 		 */
 		@Override
-		public void onFinish() {			
-			MultiplayerSettings.this.tglBtVisible.setTextOn(getString(R.string.button_bluetooth_make_visible));
-			MultiplayerSettings.this.tglBtVisible.setChecked(false);
-			MultiplayerSettings.this.tglBtVisible.setClickable(true);
+		public void onFinish() {
+			MultiplayerSettings.this.visibleCounter = -1;
+			if (MultiplayerSettings.this.btVisible != null) {
+				MultiplayerSettings.this.btVisible.setTitle(R.string.button_bluetooth_make_visible);
+			}
 		}
 		
 		/*
@@ -773,7 +766,14 @@ public class MultiplayerSettings extends PoolBinder {
 		 */
 		@Override
 		public void onTick(long millisUntilFinished) {
-			MultiplayerSettings.this.tglBtVisible.setText(millisUntilFinished/1000+"");
+			MultiplayerSettings.this.visibleCounter = (int) (millisUntilFinished / 1000);
 		}
+	}
+	
+	private void disableButtons() {
+		findPreference("multiplayer_field_size").setEnabled(false);
+		findPreference("multiplayer_field_size").setSelectable(false);
+		findPreference("multiplayer_difficulty").setEnabled(false);
+		findPreference("multiplayer_difficulty").setSelectable(false);
 	}
 }
