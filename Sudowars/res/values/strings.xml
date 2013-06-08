@@ -83,8 +83,10 @@
     <string name="about_thanks_summary">Faenza Icon Theme, HoloKen and OpenSudoku</string>
     <string name="about_changelog_title">Changelog</string>
     <string name="about_changelog_summary">
-        v1.1\n * TODO1\n
-               * TODO2\n
+        v1.1\n * Add Holo Theme support\n
+               * Add "Back to First Error" feature\n
+               * Add new manual\n
+               * Some code revision\n
         v1.0\n * First release
     </string>
     
