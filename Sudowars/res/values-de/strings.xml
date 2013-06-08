@@ -61,6 +61,22 @@
     <string name="warning">Warnung</string>
     <string name="version">version</string>
     
+    <!-- About -->
+    <string name="about_title">Über</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_license_title">Lizenz</string>
+    <string name="about_website_title">Website</string>
+    <string name="about_developers_title">Entwickler</string>
+    <string name="about_developers_summary">Adrian Vielsack, Christof Urbaczek, Florian Rosenthal, Michael Hoff, Moritz Lüdecke und Philip Flohr</string>
+    <string name="about_thanks_title">Dank an</string>
+    <string name="about_thanks_summary">Faenza Icon Theme, HoloKen und OpenSudoku</string>
+    <string name="about_changelog_title">Änderungshistorie</string>
+    <string name="about_changelog_summary">
+        v1.1\n * TODO1\n
+               * TODO2\n
+        v1.0\n * Erste Veröffentlichung
+    </string>
+    
     <!-- Menu -->
     <string name="menu_playtime">Spielzeit</string>
     <string name="menu_score_local">Eigene Punkte</string>
@@ -117,8 +133,6 @@
     <string name="settings_vibrator_text">Vibration bei Spielereignissen erlauben</string>
     
     <!-- Text messages -->
-    <string name="text_about">Adrian Vielsack\nChristof Urbaczek\nFlorian Rosenthal\nMichael Hoff\nMoritz Lüdecke\nPhilip Flohr</string>
-    <string name="text_contributions">Dank geht an:\nFaenza (das Logo beruht auf dem Icon archlinux-logo.svg)</string>
     <string name="text_aborted_multiplayer">Der Gegner hat aufgegeben.</string>
     <string name="text_ban">Benutzer wurde gebannt.</string>
     <string name="text_banned">Du wurdest gebannt!</string>

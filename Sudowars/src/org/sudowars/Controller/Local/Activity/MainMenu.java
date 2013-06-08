@@ -63,6 +63,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -71,6 +72,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -209,7 +211,7 @@ public class MainMenu extends PoolBinder {
 			startActivity(intent);
 			return true;
 		} else if (item.getItemId() == R.id.btAbout) {
-			showDialog(1);
+			onAboutDialog();
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
@@ -217,56 +219,36 @@ public class MainMenu extends PoolBinder {
 	}
 	
 	/*
-	 * (non-Javadoc)
-	 * @see android.app.Activity#onCreateDialog(int)
+	 * Create an about dialog
 	 */
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		AlertDialog alert;
+	private void onAboutDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		
-        switch(id) {
-        case 1:
-        	builder.setIcon(R.drawable.icon);
-			builder.setTitle(R.string.app_name);
-			
-			Spanned text = Html.fromHtml(getString(R.string.version) + " " + getString(R.string.app_version_name)
-					+ "<br /> <br />" + getString(R.string.text_about).replace("\n", "<br />") + "<br /> <br />"
-					+ getString(R.string.text_contributions).replace("\n", "<br />")
-					.replace(getString(R.string.text_contributions_astrid),
-							"<a href=" + getString(R.string.text_contributions_astrid_link) 
-							+ ">" + getString(R.string.text_contributions_astrid) + "</a>")
-					.replace(getString(R.string.text_contributions_faenza),
-							"<a href=" + getString(R.string.text_contributions_faenza_link) 
-							+ ">" + getString(R.string.text_contributions_faenza) + "</a>")
-					.replace(getString(R.string.text_contributions_openSudoku),
-							"<a href=" + getString(R.string.text_contributions_openSudoku_link) 
-							+ ">" + getString(R.string.text_contributions_openSudoku) + "</a>")
-					.replace(getString(R.string.text_contributions_viewPagerIndicator),
-							"<a href=" + getString(R.string.text_contributions_viewPagerIndicator_link) 
-							+ ">" + getString(R.string.text_contributions_viewPagerIndicator) + "</a>"));
-	        TextView textView = new TextView(this);
-	        textView.setText(text);
-	        textView.setMovementMethod(LinkMovementMethod.getInstance());
-	        textView.setPadding(5, 0, 5, 0);
-			
-	        builder.setView(textView);
-			
-			alert = builder.create();
-			break;
-        case 2:
-			builder.setTitle(getString(R.string.warning));
-        	builder.setMessage(getString(R.string.text_bluetooth_not_available));
-        	builder.setNegativeButton(getString(R.string.button_ok), new DialogInterface.OnClickListener() {
-        			public void onClick(DialogInterface dialog, int id) {
-        				return;
-        			} }); 
-        	 alert = builder.create();
-        	 break;
-        default:
-            alert = null;
-        }
-        return alert;
+		LayoutInflater inflater = LayoutInflater.from(MainMenu.this);
+        View layout = inflater.inflate(R.layout.about, (ScrollView) findViewById(R.id.about));
+    	
+		builder.setTitle(R.string.about_title)
+			.setView(layout)
+			.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+				}
+			}).show();
+	}
+	
+	/*
+	 * Create a dialog to allow bluetooth activation
+	 */
+	private void onBluetoothActivationDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		builder.setTitle(getString(R.string.warning))
+    		.setMessage(getString(R.string.text_bluetooth_not_available))
+    		.setNegativeButton(getString(R.string.button_ok), new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					return;
+				}
+    		}).show(); 
     }
 	
 	/*
@@ -334,7 +316,7 @@ public class MainMenu extends PoolBinder {
 				startMultiplayerMenu();
 			}
 		} else {
-			showDialog(2);
+			onBluetoothActivationDialog();
 		}
 	}
 

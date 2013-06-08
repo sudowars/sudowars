@@ -69,6 +69,25 @@
     <string name="warning">Warning</string>
     <string name="version">version</string>
     
+    <!-- About -->
+    <string name="about_title">About</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_version_summary">@string/app_version_name</string>
+    <string name="about_license_title">License</string>
+    <string name="about_license_summary">GNU General Public License v3</string>
+    <string name="about_website_title">Website</string>
+    <string name="about_website_summary"><a href="http://sudowars.org">http://sudowars.org</a></string>
+    <string name="about_developers_title">Developer</string>
+    <string name="about_developers_summary">Adrian Vielsack, Christof Urbaczek, Florian Rosenthal, Michael Hoff, Moritz Lüdecke and Philip Flohr</string>
+    <string name="about_thanks_title">Thanks To</string>
+    <string name="about_thanks_summary">Faenza Icon Theme, HoloKen and OpenSudoku</string>
+    <string name="about_changelog_title">Changelog</string>
+    <string name="about_changelog_summary">
+        v1.1\n * TODO1\n
+               * TODO2\n
+        v1.0\n * First release
+    </string>
+    
     <!-- Menu -->
     <string name="menu_playtime">Playtime</string>
     <string name="menu_score_local">Own points</string>
@@ -129,16 +148,6 @@
     
     
     <!-- Text messages -->
-    <string name="text_about">Adrian Vielsack\nChristof Urbaczek\nFlorian Rosenthal\nMichael Hoff\nMoritz Lüdecke\nPhilip Flohr</string>
-    <string name="text_contributions">Thanks to:\nFaenza (the logo is based on the icon archlinux-logo.svg)</string>
-    <string name="text_contributions_astrid">Astrid</string>
-    <string name="text_contributions_astrid_link">https://github.com/todoroo/astrid</string>
-    <string name="text_contributions_faenza">Faenza</string>
-    <string name="text_contributions_faenza_link">http://gnome-look.org/content/show.php/Faenza?content=128143</string>
-    <string name="text_contributions_openSudoku">OpenSudoku</string>
-    <string name="text_contributions_openSudoku_link">http://code.google.com/p/opensudoku-android</string>
-    <string name="text_contributions_viewPagerIndicator">ViewPagerIndicator</string>
-    <string name="text_contributions_viewPagerIndicator_link">http://viewpagerindicator.com</string>
     <string name="text_aborted_multiplayer">Opponent surrendered.</string>
     <string name="text_ban">User has been banned.</string>
     <string name="text_banned">You have been banned!</string>
