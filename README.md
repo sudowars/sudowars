@@ -2,24 +2,22 @@ Sudowars
 ========
 
 Changelog
-=========
+---------
 
-v1.1
-----
+v1.1:
 * Add Holo Theme support
 * Add "Back to First Error" feature
 * Add new manual
 * Some code refactoring
 * Many minor bugs fixed
 
-v1.0
-----
+v1.0:
 *  First release
 
 About
-=====
+-----
 
-* Website: http://sudowars.org | Google Play: https://play.google.com/store/apps/details?id=org.sudowars
+Website: http://sudowars.org | Google Play: https://play.google.com/store/apps/details?id=org.sudowars
 
 Sudowars is a Sudoku app which enables you to play Sudoku in multiplayer mode
 over Bluetooth against another person. In addition to that there is also a
@@ -32,7 +30,7 @@ was to create a Sudoku application for android phones.
 
 
 License
-=======
+-------
 
 Copyright (c) 2011 - 2013 Adrian Vielsack, Christof Urbaczek, Florian Rosenthal, Michael Hoff, Moritz Lüdecke and Philip Flohr.
 
