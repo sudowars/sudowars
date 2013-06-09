@@ -1,6 +1,17 @@
 Sudowars
 ========
 
+Website: http://sudowars.org | Google Play: https://play.google.com/store/apps/details?id=org.sudowars
+
+Sudowars is a Sudoku app which enables you to play Sudoku in multiplayer mode
+over Bluetooth against another person. In addition to that there is also a
+trainings mode, where you can play alone. In the trainings mode you can ask for
+assistance through the game.
+
+About us: We are a team of german students at the Karlsruher Institute of
+Technology. Our task in the context of the module practical software development
+was to create a Sudoku application for android phones.
+
 Changelog
 ---------
 
@@ -13,21 +24,6 @@ v1.1:
 
 v1.0:
 *  First release
-
-About
------
-
-Website: http://sudowars.org | Google Play: https://play.google.com/store/apps/details?id=org.sudowars
-
-Sudowars is a Sudoku app which enables you to play Sudoku in multiplayer mode
-over Bluetooth against another person. In addition to that there is also a
-trainings mode, where you can play alone. In the trainings mode you can ask for
-assistance through the game.
-
-About us: We are a team of german students at the Karlsruher Institute of
-Technology. Our task in the context of the module practical software development
-was to create a Sudoku application for android phones.
-
 
 License
 -------
