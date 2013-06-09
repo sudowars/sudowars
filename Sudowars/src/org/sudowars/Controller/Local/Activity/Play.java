@@ -56,6 +56,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -79,6 +80,7 @@ import android.widget.Toast;
 import org.sudowars.DebugHelper;
 import org.sudowars.R;
 import org.sudowars.Controller.Local.Constants;
+import org.sudowars.Controller.Local.FontFitTextView;
 import org.sudowars.Model.CommandManagement.*;
 import org.sudowars.Model.CommandManagement.GameCommands.GiveUpCommand;
 import org.sudowars.Model.Game.Game;
@@ -578,27 +580,16 @@ public abstract class Play extends PoolBinder {
 		sudokuField.setDisabled(true);
 		this.gameState.gameFinished();
 		
-		TextView lblText = new TextView(this);
+		FontFitTextView lblText = new FontFitTextView(this);
 		lblText.setText(text);
 		
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT);
 		lp.weight = 1;
-		int marginvalue = 2;
-		//TODO: Make it nicer
-		lp.setMargins(marginvalue, marginvalue, marginvalue, marginvalue);
-		Display display = getWindowManager().getDefaultDisplay();
-		
-		int width;
-		if (this.constants.isLandscapeMode()) {
-			width = display.getWidth() - display.getHeight() + this.constants.getStatusBarHeight() - 2 * marginvalue;
-		} else {
-			width = display.getWidth();
-		}
 		
 		lblText.setLayoutParams(lp);
-		lblText.setTextSize(width / (lblText.getText().length() + 1));
+		lblText.setPadding(16, 16, 16, 16);
 		lblText.setTextColor(this.getResources().getColor(R.color.text_game_over));
 		lblText.setGravity(Gravity.CENTER);
 		lblText.setAlpha(0f);

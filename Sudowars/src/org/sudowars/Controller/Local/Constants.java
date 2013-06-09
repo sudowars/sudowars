@@ -49,6 +49,7 @@ import java.lang.reflect.Method;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
@@ -96,7 +97,9 @@ public class Constants {
 		}
     	
     	Display display = activity.getWindowManager().getDefaultDisplay();
-    	this.landscapeMode = display.getWidth() > display.getHeight() ? true : false;
+    	Point size = new Point();
+		display.getSize(size);
+    	this.landscapeMode = (size.x > size.y) ? true : false;
 	}
 	
 	/**
