@@ -164,11 +164,12 @@ public class DeltaManager implements Serializable {
 	/*
 	 * Adds a command to the delta management and creates the corresponding undo action, if available.
 	 *
+	 * @param game the game which is used
 	 * @param c the GameCommand which can be redone.
 	 *
 	 * @throws IllegalArgumentException if given command was <code>null</code>
 	 */
-	public void addDelta(GameCommand c, boolean isCorrect) throws IllegalArgumentException {
+	public void addDelta(Game game, GameCommand c) throws IllegalArgumentException {
 		backToFirstErrorAvailable = true;
 		
 		if (hasForwardDelta()) {
@@ -191,16 +192,21 @@ public class DeltaManager implements Serializable {
 			toBookmarkCounter++;
 		}
 		
-		if (c instanceof CompositeCommand && ((CompositeCommand) c).getCommands().get(1) instanceof SetCellValueCommand) {
-			if (commandsAfterFirstError == null && !isCorrect) {
-				//this is the first error, cretae the List etc...
-				this.commandsAfterFirstError = new LinkedList<GameCommand>();
+		if (game.getIncorrectCellsSize() == 0) {
+			//No more error left
+			commandsAfterFirstError = null;
+		} else {
+			if (c instanceof CompositeCommand && ((CompositeCommand) c).getCommands().get(1) instanceof SetCellValueCommand) {
+				if (commandsAfterFirstError == null) {
+					//This is the first error, create the List etc...
+					this.commandsAfterFirstError = new LinkedList<GameCommand>();
+				}
+				
+				if (commandsAfterFirstError != null && !currentlyReverting) {
+					commandsAfterFirstError.addLast(c);
+				}
 			}
 		}
-		
-		if (commandsAfterFirstError != null && !currentlyReverting) {
-			commandsAfterFirstError.addLast(c);
-		}		
 	}
 	
 	private void checkArgumentsForForwardAndBackward(Game game, Player executingPlayer) 
@@ -249,7 +255,7 @@ public class DeltaManager implements Serializable {
 				currentCommand = commandsToExecuteAfterBookmarkCounterIsZero.getFirst();
 				commandsToExecuteAfterBookmarkCounterIsZero.removeFirst();
 				currentCommand.execute(game, executingPlayer);
-				this.addDelta(currentCommand, true);
+				this.addDelta(game, currentCommand);
 			}
 		}
 		return true;
@@ -300,5 +306,4 @@ public class DeltaManager implements Serializable {
 		currentlyReverting = false;
 		return true;
 	}
-
 }

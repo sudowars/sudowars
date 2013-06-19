@@ -107,9 +107,7 @@ public class SingleplayerPlay extends Play {
 	        		SetCellValueCommand command = new SetCellValueCommand(gameState.getGame().getSudoku().getField().getCell(inputMessage.arg1), 
 	        				inputMessage.arg2);
 	        		if (command.execute(game, localPlayer)) {
-						deltaManager.addDelta((GameCommand) command, 
-								isCommandCorrect(command, gameState.getGame().getSudoku().getField().getCell(inputMessage.arg1), 
-								inputMessage.arg2));
+						deltaManager.addDelta(gameState.getGame(), (GameCommand) command);
 					}
 	        	} else {
 					Toast.makeText(getApplicationContext(), R.string.notification_assistant_failed, Toast.LENGTH_LONG).show();
@@ -305,7 +303,7 @@ public class SingleplayerPlay extends Play {
 				}
 			}
 			if (command.execute(this.game, this.localPlayer)) {
-				this.deltaManager.addDelta(command, true);
+				this.deltaManager.addDelta(this.game, command);
 			} else {
 				error = true;
 			}
@@ -342,7 +340,7 @@ public class SingleplayerPlay extends Play {
 			}
 			
 			if (!error && command.execute(this.game, this.localPlayer)) {
-				this.deltaManager.addDelta(command, isCommandCorrect(command, selectedCell, symbolId + 1));
+				this.deltaManager.addDelta(this.game, command);
 			} else {
 				error = true;
 			}
@@ -362,7 +360,7 @@ public class SingleplayerPlay extends Play {
 			InvertCellCommand command = new InvertCellCommand(this.sudokuField.getSelectedCell());
 			
 			if (command.execute(this.game, this.localPlayer)) {
-				this.deltaManager.addDelta(command, true);
+				this.deltaManager.addDelta(this.game, command);
 			} else {
 				error = true;
 			}
@@ -383,7 +381,7 @@ public class SingleplayerPlay extends Play {
 			ClearCellCommand command = new ClearCellCommand(selectedCell);
 			
 			if (command.execute(this.game, this.localPlayer)) {
-				this.deltaManager.addDelta(command, true);
+				this.deltaManager.addDelta(this.game, command);
 			} else {
 				error = true;
 			}
@@ -433,15 +431,5 @@ public class SingleplayerPlay extends Play {
 		super.setupView();
 
 		this.sudokuField.showInvalidValues(((SingleplayerGameState) this.gameState).isShowObviousMistakesEnabled());
-	}
-	
-	private boolean isCommandCorrect(Command c, GameCell selectedCell, int value) {
-		if (c instanceof CompositeCommand && ((CompositeCommand) c).getCommands().get(1) instanceof SetCellValueCommand) {
-			if (selectedCell.getSolution() == value) {
-				return true;
-			}
-			return false;
-		}
-		return true;
 	}
 }

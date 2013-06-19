@@ -596,4 +596,22 @@ public abstract class Game implements Serializable {
 			this.tickCount--;
 		}
 	}
+	
+	/**
+	 * Returns number of incorrect filled cells
+	 * 
+	 * @return number of incorrect filled cells
+	 */
+	public int getIncorrectCellsSize() {
+		int mistakes = 0;
+		List<GameCell> cells = this.sudoku.getField().getCells();
+		
+		for (GameCell c : cells) {
+			if (c.isSet() && c.getValue() != c.getSolution()) {
+				mistakes++;
+			}
+		}
+		
+		return mistakes;
+	}
 }
