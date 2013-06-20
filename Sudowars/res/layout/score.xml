@@ -43,32 +43,30 @@
   Moritz Lüdecke
   Philip Flohr 
 -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:baselineAligned="false"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:layout_marginLeft="2dp"
-    android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp" >
+    android:gravity="center"
+    android:orientation="vertical" >
     
     <TextView
         android:id="@+id/lblScore"
-        android:layout_width="52dp"
+        android:layout_width="64dp"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_margin="8dp"
         android:gravity="center"
         android:textSize="20sp"
         android:textStyle="bold" />
     
     <TextView
         android:id="@+id/lblOldScore"
-        android:layout_width="52dp"
-        android:layout_height="match_parent" 
-        android:layout_gravity="center"
+        android:layout_width="64dp"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
         android:gravity="center"
         android:textSize="20sp"
         android:textStyle="bold"
         android:visibility="invisible" />
      
-</FrameLayout>
+</RelativeLayout>

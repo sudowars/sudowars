@@ -255,6 +255,7 @@ public abstract class Play extends PoolBinder {
 	    ActionBar actionBar = getActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
 	    actionBar.setDisplayShowCustomEnabled(true);
+	    actionBar.setDisplayShowTitleEnabled(false);
 	    
 		this.constants = new Constants(this);
 		this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

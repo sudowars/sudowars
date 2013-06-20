@@ -45,14 +45,10 @@
 package org.sudowars.Controller.Local.Activity;
 
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
-import android.util.TypedValue;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -63,8 +59,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -306,14 +302,14 @@ public class MultiplayerPlay extends Play {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.multiplayer_play, menu);
 		
-    	FrameLayout localScoreView = (FrameLayout) menu.findItem(R.id.score_local).getActionView();
+    	RelativeLayout localScoreView = (RelativeLayout) menu.findItem(R.id.score_local).getActionView();
     	localScoreView.setBackgroundColor(this.getResources().getColor(R.color.actionbar_score_local_background));
 		this.lblLocalScore = (TextView) localScoreView.findViewById(R.id.lblScore);
 		this.lblLocalScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_local_foreground));
 		this.lblLocalOldScore = (TextView) localScoreView.findViewById(R.id.lblOldScore);
 		this.lblLocalOldScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_local_foreground));
 		
-        FrameLayout remoteScoreView = (FrameLayout) menu.findItem(R.id.score_remote).getActionView();
+		RelativeLayout remoteScoreView = (RelativeLayout) menu.findItem(R.id.score_remote).getActionView();
         remoteScoreView.setBackgroundColor(this.getResources().getColor(R.color.actionbar_score_remote_background));
 		this.lblRemoteScore = (TextView) remoteScoreView.findViewById(R.id.lblScore);
 		this.lblRemoteScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_remote_foreground));
