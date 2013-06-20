@@ -269,11 +269,11 @@ public class DeltaManager implements Serializable {
 	public boolean backToFirstError(SingleplayerGame game, Player executingPlayer) {
 		backToFirstErrorAvailable = false;
 		
-		if (game.getIncorrectCellsSize() == 0) {
+		if (!game.hasIncorrectCells()) {
 				return false;
 		}
 		
-		while (game.getIncorrectCellsSize() > 0) {
+		while (game.hasIncorrectCells()) {
 			if (!backward(game, executingPlayer)) {
 				return true;
 			}

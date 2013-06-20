@@ -614,4 +614,21 @@ public abstract class Game implements Serializable {
 		
 		return mistakes;
 	}
+	
+	/**
+	 * Returns <code>true</code> if the sudoku has incorrect filled cells, otherwise <code>false</code>
+	 * 
+	 * @return <code>true</code> if the sudoku has incorrect filled cells, otherwise <code>false</code>
+	 */
+	public boolean hasIncorrectCells() {
+		List<GameCell> cells = this.sudoku.getField().getCells();
+		
+		for (GameCell c : cells) {
+			if (c.isSet() && c.getValue() != c.getSolution()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
