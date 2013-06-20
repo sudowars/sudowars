@@ -47,9 +47,7 @@ package org.sudowars.Model.CommandManagement;
 import java.io.Serializable;
 import java.util.LinkedList;
 
-import org.sudowars.Model.CommandManagement.GameCommands.CompositeCommand;
 import org.sudowars.Model.CommandManagement.GameCommands.GameCommand;
-import org.sudowars.Model.CommandManagement.GameCommands.SetCellValueCommand;
 import org.sudowars.Model.Game.Game;
 import org.sudowars.Model.Game.Player;
 import org.sudowars.Model.Game.SingleplayerGame;
@@ -64,12 +62,10 @@ public class DeltaManager implements Serializable {
 	private final CommandInverter inverter;
 	private LinkedList<GameCommand> commands;
 	private LinkedList<GameCommand> commandsToExecuteAfterBookmarkCounterIsZero;
-	private LinkedList<GameCommand> commandsAfterFirstError;
 	private int toBookmarkCounter;
 	private int currentPosInList;
 	private boolean bookmarkAvailable;
 	private boolean backToFirstErrorAvailable;
-	private boolean currentlyReverting;
 	
 
 	/**
@@ -82,8 +78,6 @@ public class DeltaManager implements Serializable {
 		currentPosInList = commands.size() - 1;
 		bookmarkAvailable = false;
 		backToFirstErrorAvailable = false;
-		this.commandsAfterFirstError = null;
-		currentlyReverting = false;
 	}
 
 	/**
@@ -186,26 +180,12 @@ public class DeltaManager implements Serializable {
 			}
 			
 		}
+		
 		commands.addLast(c);
 		currentPosInList = commands.size() - 1;
+		
 		if (bookmarkAvailable) {
 			toBookmarkCounter++;
-		}
-		
-		if (game.getIncorrectCellsSize() == 0) {
-			//No more error left
-			commandsAfterFirstError = null;
-		} else {
-			if (c instanceof CompositeCommand && ((CompositeCommand) c).getCommands().get(1) instanceof SetCellValueCommand) {
-				if (commandsAfterFirstError == null) {
-					//This is the first error, create the List etc...
-					this.commandsAfterFirstError = new LinkedList<GameCommand>();
-				}
-				
-				if (commandsAfterFirstError != null && !currentlyReverting) {
-					commandsAfterFirstError.addLast(c);
-				}
-			}
 		}
 	}
 	
@@ -287,23 +267,18 @@ public class DeltaManager implements Serializable {
 	 * @return true, if successful, false if there was no error
 	 */
 	public boolean backToFirstError(SingleplayerGame game, Player executingPlayer) {
-		bookmarkAvailable = false;
 		backToFirstErrorAvailable = false;
 		
-		if (commandsAfterFirstError == null) {
-			return false;
-		}
-		currentlyReverting = true;
-		while (commandsAfterFirstError.size() > 0) {
-			if (!commandsAfterFirstError.getLast().getInvertedCommand(game).execute(game, executingPlayer)) {
+		if (game.getIncorrectCellsSize() == 0) {
 				return false;
-			}
-			commandsAfterFirstError.removeLast();
-			commands.removeLast();
-			currentPosInList = commands.size() - 1;
 		}
-		commandsAfterFirstError = null;
-		currentlyReverting = false;
+		
+		while (game.getIncorrectCellsSize() > 0) {
+			if (!backward(game, executingPlayer)) {
+				return true;
+			}
+		}
+		
 		return true;
 	}
 }
