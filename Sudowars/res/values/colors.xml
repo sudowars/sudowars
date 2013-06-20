@@ -52,18 +52,17 @@
     <color name="GRAY">#888888</color>
     <color name="LTGRAY">#CCCCCC</color>
     <color name="WHITE">@android:color/white</color>
-    <color name="RED">#FF0000</color>
-    <color name="CYAN">#00FFFF</color>
-    <color name="YELLOW">#C8C800</color>
+    <color name="RED">#FF4444</color>
+    <color name="RED_DARK">#CC0000</color>
+    <color name="BLUE">#33B5E5</color>
     <color name="HOLO_BLUE_BRIGHT">@android:public/color/holo_blue_bright</color>
     <color name="HOLO_BLUE_LIGHT">@android:public/color/holo_blue_light</color>
     
-    
     <!-- Player colors -->
     <color name="actionbar_score_local_foreground">@color/WHITE</color>
-    <color name="actionbar_score_local_background">#000060</color>
-    <color name="actionbar_score_remote_foreground">@color/BLACK</color>
-    <color name="actionbar_score_remote_background">@color/YELLOW</color>
+    <color name="actionbar_score_local_background">@color/BLUE</color>
+    <color name="actionbar_score_remote_foreground">@color/WHITE</color>
+    <color name="actionbar_score_remote_background">@color/RED</color>
     
     <!-- Buttons colors -->
     <color name="button_clear_normal_foreground">@color/WHITE</color>
@@ -96,7 +95,7 @@
     <color name="sudoku_field_bold_line">@color/WHITE</color>
     <color name="sudoku_field_normal_line">@color/WHITE</color>
     <color name="sudoku_field_selected">@color/HOLO_BLUE_BRIGHT</color>
-    <color name="sudoku_field_invalid">@color/RED</color>
+    <color name="sudoku_field_invalid">@color/RED_DARK</color>
     <color name="sudoku_field_remote">@color/actionbar_score_remote_background</color>
     <color name="sudoku_field_normal">@color/WHITE</color>
     <color name="sudoku_field_normal_selected">@color/BLACK</color>
@@ -106,18 +105,5 @@
     <color name="sudoku_field_notice">@color/WHITE</color>
     <color name="sudoku_field_notice_selected">@color/BLACK</color>
     <color name="sudoku_field_pending_paint">@color/actionbar_score_local_background</color>
-    
-    
-    
-    <!-- Manual colors -->
-    <color name="manual_page_background">@color/LTGRAY</color>
-    <color name="manual_title">@color/DKGRAY</color>
-    <color name="manual_title_shadow">@color/WHITE</color>
-    <color name="manual_body">@color/DKGRAY</color>
-    <color name="manual_body_shadow">@color/WHITE</color>
-    <color name="manual_indicator_bar">#66000000</color>
-    <color name="manual_indicator_circle">#FF222222</color>
-    <color name="manual_next_button">#FF222222</color>
-    <color name="manual_next_button_shadow">@color/GRAY</color>
     
 </resources>
