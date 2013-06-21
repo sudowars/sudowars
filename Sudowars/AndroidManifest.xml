@@ -45,7 +45,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.sudowars"
-      android:versionCode="2"
+      android:versionCode="5"
       android:versionName="@string/app_version_name">
 
     <uses-sdk
