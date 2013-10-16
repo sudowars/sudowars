@@ -46,7 +46,7 @@
 <resources>
     
     <string name="app_name">Sudowars</string>
-    <string name="app_version_name">1.1</string>
+    <string name="app_version_name">1.2 alpha</string>
     
     <!-- Debug (not really used) -->
     <string name="bluetooth_devices_paired">Paired</string>
