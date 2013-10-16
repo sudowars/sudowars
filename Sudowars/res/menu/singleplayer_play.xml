@@ -48,7 +48,7 @@
         android:id="@+id/menu_time"
         android:title="@string/menu_playtime"
         android:showAsAction="always"
-        android:actionLayout="@layout/time" />
+        android:actionLayout="@layout/play_time" />
     <item
         android:id="@+id/menu_assistant"
         android:title="@string/button_assistant"

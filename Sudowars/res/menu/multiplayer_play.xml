@@ -48,17 +48,17 @@
         android:id="@+id/menu_time"
         android:title="@string/menu_playtime"
         android:showAsAction="always"
-        android:actionLayout="@layout/time" />
+        android:actionLayout="@layout/play_time" />
     <item
         android:id="@+id/menu_score_local"
         android:title="@string/menu_score_local"
         android:showAsAction="always"
-        android:actionLayout="@layout/score" />
+        android:actionLayout="@layout/play_score" />
     <item
         android:id="@+id/menu_score_remote"
         android:title="@string/menu_score_remote"
         android:showAsAction="always"
-        android:actionLayout="@layout/score" />
+        android:actionLayout="@layout/play_score" />
     <item
         android:id="@+id/menu_pause"
         android:title="@string/button_pause"
