@@ -45,26 +45,26 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/time"
+        android:id="@+id/menu_time"
         android:title="@string/menu_playtime"
         android:showAsAction="always"
         android:actionLayout="@layout/time" />
     <item
-        android:id="@+id/score_local"
+        android:id="@+id/menu_score_local"
         android:title="@string/menu_score_local"
         android:showAsAction="always"
         android:actionLayout="@layout/score" />
     <item
-        android:id="@+id/score_remote"
+        android:id="@+id/menu_score_remote"
         android:title="@string/menu_score_remote"
         android:showAsAction="always"
         android:actionLayout="@layout/score" />
     <item
-        android:id="@+id/pause"
+        android:id="@+id/menu_pause"
         android:title="@string/button_pause"
         android:icon="@drawable/ic_menu_pause" />
     <item
-        android:id="@+id/give_up"
+        android:id="@+id/menu_give_up"
         android:title="@string/button_give_up"
         android:icon="@drawable/ic_menu_myplaces" />
 </menu>

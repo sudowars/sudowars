@@ -45,35 +45,35 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/time"
+        android:id="@+id/menu_time"
         android:title="@string/menu_playtime"
         android:showAsAction="always"
         android:actionLayout="@layout/time" />
     <item
-        android:id="@+id/assistant"
+        android:id="@+id/menu_assistant"
         android:title="@string/button_assistant"
         android:icon="@drawable/ic_menu_edit"/>
     <item
-        android:id="@+id/give_up"
+        android:id="@+id/menu_give_up"
         android:title="@string/button_give_up"
         android:icon="@drawable/ic_menu_myplaces"/>
     <item
-        android:id="@+id/undo"
+        android:id="@+id/menu_undo"
         android:title="@string/button_undo"
         android:icon="@drawable/ic_menu_revert"/>
     <item
-        android:id="@+id/redo"
+        android:id="@+id/menu_redo"
         android:title="@string/button_redo"
         android:icon="@drawable/ic_menu_repeat"/>
     <item
-        android:id="@+id/set_bookmark"
+        android:id="@+id/menu_set_bookmark"
         android:title="@string/button_bookmark_set"
         android:icon="@drawable/ic_menu_mark"/>
     <item
-        android:id="@+id/get_bookmark"
+        android:id="@+id/menu_get_bookmark"
         android:title="@string/button_bookmark_get"
         android:icon="@drawable/ic_menu_goto"/>
     <item
-        android:id="@+id/go_back_to_first_error"
+        android:id="@+id/menu_go_back_to_first_error"
         android:title="@string/button_back_to_first_error"/>
 </menu>

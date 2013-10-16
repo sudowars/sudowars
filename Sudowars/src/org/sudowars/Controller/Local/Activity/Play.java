@@ -56,14 +56,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.view.Display;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -227,12 +224,12 @@ public abstract class Play extends PoolBinder {
 	/**
 	 * the root view
 	 */
-	protected LinearLayout root;
+	protected LinearLayout rootView;
 	
 	/**
 	 * the field size
 	 */
-	protected TableLayout keypad;
+	protected TableLayout keypadView;
 	
 	/**
 	 * the field size
@@ -375,7 +372,7 @@ public abstract class Play extends PoolBinder {
 	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	 */
     public boolean onCreateOptionsMenu(Menu menu) {
-        View view = (View) menu.findItem(R.id.time).getActionView();
+        View view = (View) menu.findItem(R.id.menu_time).getActionView();
 		this.lblTime = (TextView) view.findViewById(R.id.lblTime);
 		this.refreshTime(this.game.getGameTime());
 		
@@ -390,9 +387,9 @@ public abstract class Play extends PoolBinder {
 		super.onPrepareOptionsMenu(menu);
 		
 		if (!this.game.isPaused() && !this.gameState.isFinished()) {
-			menu.findItem(R.id.give_up).setEnabled(true);
+			menu.findItem(R.id.menu_give_up).setEnabled(true);
 		} else {
-			menu.findItem(R.id.give_up).setEnabled(false);
+			menu.findItem(R.id.menu_give_up).setEnabled(false);
 		}
 		
 		return true;
@@ -407,7 +404,7 @@ public abstract class Play extends PoolBinder {
 		if (item.getItemId() == android.R.id.home) {
 			this.onBackPressed();
 			return true;
-		} else if (item.getItemId() == R.id.give_up) {
+		} else if (item.getItemId() == R.id.menu_give_up) {
 			if (!this.game.isPaused() && !this.gameState.isFinished()) {
 				showDialog(1);
 			}
@@ -543,7 +540,6 @@ public abstract class Play extends PoolBinder {
 	 * Running on a click on one button of the symbol buttons.
 	 * 
 	 * @param symbolId the id of the symbol
-	 * @param state the state of the button
 	 * 
 	 * @return true, if the execution was successful
 	 */
@@ -596,14 +592,14 @@ public abstract class Play extends PoolBinder {
 		lblText.setAlpha(0f);
 		
 		final TextView goodbye = lblText;
-		this.keypad.animate()
+		this.keypadView.animate()
 			.alpha(0f)
 			.setDuration(this.getResources().getInteger(R.integer.fade_in_game_finish_text))
 			.setListener(new AnimatorListenerAdapter() {
 				@Override
 				public void onAnimationEnd(Animator animation) {
-						root.removeView(Play.this.keypad);
-						root.addView(goodbye);
+						rootView.removeView(Play.this.keypadView);
+						rootView.addView(goodbye);
 						goodbye.animate()
 				    			.alpha(1f)
 				    			.setDuration(Play.this.getResources().getInteger(R.integer.fade_in_game_finish_text))
@@ -622,8 +618,6 @@ public abstract class Play extends PoolBinder {
 	
 	/**
 	 * Running on finished game
-	 * 
-	 * @param abortingPlayer the aborting player
 	 */
 	protected void onGameAborted() {
 		this.onGameFinished(getString(R.string.text_game_over));
@@ -660,8 +654,6 @@ public abstract class Play extends PoolBinder {
 	/**
 	 * Save the game, if the game is not finished,
 	 * otherwise delete the game
-	 * 
-	 * @param savedGames the saved games
 	 */
 	abstract protected void saveGame();
 	
@@ -675,7 +667,7 @@ public abstract class Play extends PoolBinder {
 			setContentView(R.layout.play_16);
 		}
 		
-		this.keypad = (TableLayout) findViewById(R.id.keypad);
+		this.keypadView = (TableLayout) findViewById(R.id.keypad);
 		this.sudokuField = (SudokuField) findViewById(R.id.sudokuField);
 		this.sudokuField.showInvalidValues(false);
 		this.sudokuField.setGame(this.game);
@@ -694,7 +686,7 @@ public abstract class Play extends PoolBinder {
 			}
 		});
 		
-		this.root = (LinearLayout) this.findViewById(R.id.root);
+		this.rootView = (LinearLayout) this.findViewById(R.id.root);
 		
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		this.sudokuField.setZoomButtonsEnable(settings.getBoolean("zoom_buttons", false));

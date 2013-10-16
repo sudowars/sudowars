@@ -150,7 +150,7 @@ public class SingleplayerSettings extends Settings {
 		if (item.getItemId() == android.R.id.home) {
 			this.onBackPressed();
 			return true;
-		} else if (item.getItemId() == R.id.btStart) {
+		} else if (item.getItemId() == R.id.menu_start) {
 			onBtnStartClick ();
 			return true;
 		} else {

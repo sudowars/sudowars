@@ -262,7 +262,7 @@ public class MultiplayerMenu extends PoolBinder {
 		inflater.inflate(R.menu.multiplayer_menu, menu);
 	    
 		if (!this.savedGames.hasMultiplayerGame()) {
-			menu.removeItem(R.id.btMultiplayerContinue);
+			menu.removeItem(R.id.menu_multiplayer_continue);
 		}
 		
 	    return true;
@@ -276,7 +276,7 @@ public class MultiplayerMenu extends PoolBinder {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		
-	    this.btScan = (MenuItem) menu.findItem(R.id.btScan);
+	    this.btScan = (MenuItem) menu.findItem(R.id.menu_scan);
 	    this.btScan.setEnabled(BluetoothAdapter.getDefaultAdapter().isEnabled());
 	    
 		return true;
@@ -291,13 +291,13 @@ public class MultiplayerMenu extends PoolBinder {
 		if (item.getItemId() == android.R.id.home) {
 			this.onBackPressed();
 			return true;
-		} else if (item.getItemId() == R.id.btMultiplayerNew) {
+		} else if (item.getItemId() == R.id.menu_multiplayer_new) {
 			onBtnMultiplayerNewClick();
 			return true;
-		} else if (item.getItemId() == R.id.btMultiplayerContinue) {
+		} else if (item.getItemId() == R.id.menu_multiplayer_continue) {
 			onBtnMultiplayerContinueClick();
 			return true;
-		} else if (item.getItemId() == R.id.btScan) {
+		} else if (item.getItemId() == R.id.menu_scan) {
 			if (this.bluetoothAdapter.isDiscovering()) {
     			stopScan();
             } else {

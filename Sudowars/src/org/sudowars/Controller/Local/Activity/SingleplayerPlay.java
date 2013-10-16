@@ -55,7 +55,6 @@ import android.widget.Toast;
 
 import org.sudowars.DebugHelper;
 import org.sudowars.R;
-import org.sudowars.Model.CommandManagement.Command;
 import org.sudowars.Model.CommandManagement.GameCommands.*;
 import org.sudowars.Model.Game.GameCell;
 import org.sudowars.Model.Game.SingleplayerGame;
@@ -151,16 +150,16 @@ public class SingleplayerPlay extends Play {
 		inflater.inflate(R.menu.singleplayer_play, menu);
 		
 		if (!((SingleplayerGameState) this.gameState).isSolveCellEnabled()) {
-			menu.removeItem(R.id.assistant);
+			menu.removeItem(R.id.menu_assistant);
 		}
 		
 		if (!((SingleplayerGameState) this.gameState).isBookmarkEnabled()) {
-			menu.removeItem(R.id.get_bookmark);
-			menu.removeItem(R.id.set_bookmark);
+			menu.removeItem(R.id.menu_get_bookmark);
+			menu.removeItem(R.id.menu_set_bookmark);
 		}
 		
 		if (!((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled()) {
-			menu.removeItem(R.id.go_back_to_first_error);
+			menu.removeItem(R.id.menu_go_back_to_first_error);
 		}
 		
 		return super.onCreateOptionsMenu(menu);
@@ -190,37 +189,37 @@ public class SingleplayerPlay extends Play {
 		super.onPrepareOptionsMenu(menu);
 		
 		if (!this.game.isPaused() && !this.gameState.isFinished()) {
-			menu.findItem(R.id.undo).setEnabled(this.deltaManager.hasBackwardDelta());
-			menu.findItem(R.id.redo).setEnabled(this.deltaManager.hasForwardDelta());
+			menu.findItem(R.id.menu_undo).setEnabled(this.deltaManager.hasBackwardDelta());
+			menu.findItem(R.id.menu_redo).setEnabled(this.deltaManager.hasForwardDelta());
 			
 			if (((SingleplayerGameState) this.gameState).isSolveCellEnabled()) {
-				menu.findItem(R.id.assistant).setEnabled(true);
+				menu.findItem(R.id.menu_assistant).setEnabled(true);
 			}
 			
 			if (((SingleplayerGameState) this.gameState).isBookmarkEnabled()) {
-				menu.findItem(R.id.get_bookmark).setEnabled(this.deltaManager.isBookmarkAvailable());
-				menu.findItem(R.id.set_bookmark).setEnabled(true);
+				menu.findItem(R.id.menu_get_bookmark).setEnabled(this.deltaManager.isBookmarkAvailable());
+				menu.findItem(R.id.menu_set_bookmark).setEnabled(true);
 			}
 			
 			if (((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled()) {
-				menu.findItem(R.id.go_back_to_first_error).setEnabled(this.deltaManager.isBackToFirstErrorAvailable());
+				menu.findItem(R.id.menu_go_back_to_first_error).setEnabled(this.deltaManager.isBackToFirstErrorAvailable());
 			}
 			
 		} else {
-			menu.findItem(R.id.undo).setEnabled(false);
-			menu.findItem(R.id.redo).setEnabled(false);
+			menu.findItem(R.id.menu_undo).setEnabled(false);
+			menu.findItem(R.id.menu_redo).setEnabled(false);
 			
 			if (((SingleplayerGameState) this.gameState).isSolveCellEnabled()) {
-				menu.findItem(R.id.assistant).setEnabled(false);
+				menu.findItem(R.id.menu_assistant).setEnabled(false);
 			}
 			
 			if (((SingleplayerGameState) this.gameState).isBookmarkEnabled()) {
-				menu.findItem(R.id.get_bookmark).setEnabled(false);
-				menu.findItem(R.id.set_bookmark).setEnabled(false);
+				menu.findItem(R.id.menu_get_bookmark).setEnabled(false);
+				menu.findItem(R.id.menu_set_bookmark).setEnabled(false);
 			}
 			
 			if (((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled()) {
-				menu.findItem(R.id.go_back_to_first_error).setEnabled(false);
+				menu.findItem(R.id.menu_go_back_to_first_error).setEnabled(false);
 			}
 		}
 		
@@ -233,31 +232,31 @@ public class SingleplayerPlay extends Play {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {		
-		if (item.getItemId() == R.id.assistant) {
+		if (item.getItemId() == R.id.menu_assistant) {
 			return handleObjectItemAssistant();
-		} else if (item.getItemId() == R.id.get_bookmark) {
+		} else if (item.getItemId() == R.id.menu_get_bookmark) {
 			if (((SingleplayerGameState) this.gameState).isBookmarkEnabled()
 					&& !this.game.isPaused() && !this.gameState.isFinished()) {
 				this.deltaManager.backToBookmark((SingleplayerGame) this.game, this.localPlayer);
 			}
 			return true;
-		} else if (item.getItemId() == R.id.set_bookmark) {
+		} else if (item.getItemId() == R.id.menu_set_bookmark) {
 			if (((SingleplayerGameState) this.gameState).isBookmarkEnabled()&& !this.game.isPaused()
 					&& !this.gameState.isFinished()) {
 				this.deltaManager.setBookmark();
 			}
 			return true;
-		} else if (item.getItemId() == R.id.undo) {
+		} else if (item.getItemId() == R.id.menu_undo) {
 			if (this.deltaManager.hasBackwardDelta() && !this.game.isPaused() && !this.gameState.isFinished()) {
 				this.deltaManager.backward(this.game, this.localPlayer);
 			}
 			return true;
-		} else if (item.getItemId() == R.id.redo) {
+		} else if (item.getItemId() == R.id.menu_redo) {
 			if (this.deltaManager.hasForwardDelta() && !this.game.isPaused() && !this.gameState.isFinished()) {
 				this.deltaManager.forward(this.game, this.localPlayer);
 			}
 			return true;
-		} else if (item.getItemId() == R.id.go_back_to_first_error) {
+		} else if (item.getItemId() == R.id.menu_go_back_to_first_error) {
 			if (((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled()
 					&& !this.game.isPaused() && !this.gameState.isFinished()) {
 				if (this.deltaManager.backToFirstError((SingleplayerGame) this.game, this.localPlayer)) {

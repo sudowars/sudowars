@@ -406,13 +406,13 @@ public class MultiplayerSettings extends Settings {
 		inflater.inflate(R.menu.multiplayer_settings, menu);
 		
 		if (isClient) {
-			menu.removeItem(R.id.btKick);
-			menu.removeItem(R.id.btBan);
-			menu.removeItem(R.id.btVisible);
+			menu.removeItem(R.id.menu_kick);
+			menu.removeItem(R.id.menu_ban);
+			menu.removeItem(R.id.menu_visible);
 		} else {
-			this.btKick = (MenuItem) menu.findItem(R.id.btKick);
-			this.btBan = (MenuItem) menu.findItem(R.id.btBan);
-			this.btVisible = (MenuItem) menu.findItem(R.id.btVisible);
+			this.btKick = (MenuItem) menu.findItem(R.id.menu_kick);
+			this.btBan = (MenuItem) menu.findItem(R.id.menu_ban);
+			this.btVisible = (MenuItem) menu.findItem(R.id.menu_visible);
 		}
 		
 	    return true;
@@ -427,13 +427,13 @@ public class MultiplayerSettings extends Settings {
 		if (item.getItemId() == android.R.id.home) {
 			this.onBackPressed();
 			return true;
-		} else if (item.getItemId() == R.id.btKick) {
+		} else if (item.getItemId() == R.id.menu_kick) {
 			onBtKickClick();
 			return true;
-		} else if (item.getItemId() == R.id.btBan) {
+		} else if (item.getItemId() == R.id.menu_ban) {
 			onBtBanClick();
 			return true;
-		} else if (item.getItemId() == R.id.btVisible) {
+		} else if (item.getItemId() == R.id.menu_visible) {
 			onBtVisibleClick();
 			return true;
 		} else {

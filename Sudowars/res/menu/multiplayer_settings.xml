@@ -45,18 +45,18 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/btVisible"
+        android:id="@+id/menu_visible"
         android:title="@string/button_bluetooth_make_visible"
         android:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_refresh" />
     <item
-    	android:id="@+id/btKick"
+    	android:id="@+id/menu_kick"
     	android:title="@string/button_kick"
         android:showAsAction="never"
         android:icon="@drawable/ic_menu_kick_user"
         android:enabled="false" />
     <item
-        android:id="@+id/btBan"
+        android:id="@+id/menu_ban"
         android:title="@string/button_ban"
         android:showAsAction="never"
         android:icon="@drawable/ic_menu_ban_user"

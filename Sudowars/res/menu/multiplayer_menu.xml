@@ -46,19 +46,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/btMultiplayerNew"
+        android:id="@+id/menu_multiplayer_new"
         android:title="@string/button_multiplayer_new"
         android:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_menu_mark" />
 
     <item
-        android:id="@+id/btMultiplayerContinue"
+        android:id="@+id/menu_multiplayer_continue"
         android:title="@string/button_multiplayer_continue"
         android:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_menu_continue" />
     
     <item
-        android:id="@+id/btScan"
+        android:id="@+id/menu_scan"
         android:title="@string/button_bluetooth_scan"
         android:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_menu_refresh"/>

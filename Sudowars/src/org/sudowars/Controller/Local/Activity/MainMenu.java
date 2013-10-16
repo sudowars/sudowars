@@ -48,8 +48,7 @@ import org.sudowars.R;
 import org.sudowars.Controller.Local.Constants;
 import org.sudowars.Model.SudokuManagement.IO.FileIO;
 import android.app.Activity;
-import android.app.AlertDialog; 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,21 +59,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
-import android.text.Html;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -207,11 +201,11 @@ public class MainMenu extends PoolBinder {
 	 */
 	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
-		if (item.getItemId() == R.id.btSettings) {
+		if (item.getItemId() == R.id.menu_settings) {
 			Intent intent = new Intent(this, MainSettings.class);
 			startActivity(intent);
 			return true;
-		} else if (item.getItemId() == R.id.btAbout) {
+		} else if (item.getItemId() == R.id.menu_about) {
 			onAboutDialog();
 			return true;
 		} else {
