@@ -50,7 +50,7 @@
     android:orientation="horizontal" >
     
     <TextView
-        android:id="@+id/lblTime"
+        android:id="@+id/time"
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1"

@@ -168,7 +168,7 @@ public class MultiplayerMenu extends PoolBinder {
 			DebugHelper.log(DebugHelper.PackageName.MultiplayerMenu, "Initialization of a FileIO object failed!");
 		}
 		
-		this.lstBluetoothDevices = (ListView) findViewById(R.id.lstBluetoothDevices);
+		this.lstBluetoothDevices = (ListView) findViewById(R.id.bluetooth_devices);
 		this.btDeviceList = new ArrayList<BluetoothDeviceListItem>();
 		MultiplayerMenu.scanningItem = getLayoutInflater().inflate(R.layout.scanning_list_item, null);
 		

@@ -49,7 +49,7 @@
     android:orientation="vertical" >
 
 	<ListView
-	    android:id="@+id/lstBluetoothDevices"
+	    android:id="@+id/bluetooth_devices"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:adjustViewBounds="true" >

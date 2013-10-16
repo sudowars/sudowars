@@ -51,7 +51,7 @@
     android:orientation="vertical" >
     
     <TextView
-        android:id="@+id/lblScore"
+        android:id="@+id/score"
         android:layout_width="64dp"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
@@ -60,7 +60,7 @@
         android:textStyle="bold" />
     
     <TextView
-        android:id="@+id/lblOldScore"
+        android:id="@+id/score_old"
         android:layout_width="64dp"
         android:layout_height="match_parent"
         android:layout_margin="8dp"

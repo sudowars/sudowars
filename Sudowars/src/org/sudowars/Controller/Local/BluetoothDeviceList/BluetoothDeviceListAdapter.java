@@ -115,9 +115,9 @@ public class BluetoothDeviceListAdapter extends ArrayAdapter<BluetoothDeviceList
 		BluetoothDeviceListItem device = devices.get(position);
 		
 		if (device != null) {
-			TextView deviceName = (TextView) row.findViewById(R.id.lblDeviceName);
-			TextView deviceMac = (TextView) row.findViewById(R.id.lblDeviceMac);
-			ImageView deviceIcon = (ImageView) row.findViewById(R.id.imgDeviceIcon);
+			TextView deviceName = (TextView) row.findViewById(R.id.device_name);
+			TextView deviceMac = (TextView) row.findViewById(R.id.device_mac);
+			ImageView deviceIcon = (ImageView) row.findViewById(R.id.device_icon);
 			
 			if (device.isPaired()) {
 				deviceIcon.setImageResource(R.drawable.stat_sys_tether_bluetooth);

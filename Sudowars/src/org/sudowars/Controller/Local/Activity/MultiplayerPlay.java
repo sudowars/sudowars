@@ -304,16 +304,16 @@ public class MultiplayerPlay extends Play {
 		
     	RelativeLayout localScoreView = (RelativeLayout) menu.findItem(R.id.menu_score_local).getActionView();
     	localScoreView.setBackgroundColor(this.getResources().getColor(R.color.actionbar_score_local_background));
-		this.lblLocalScore = (TextView) localScoreView.findViewById(R.id.lblScore);
+		this.lblLocalScore = (TextView) localScoreView.findViewById(R.id.score);
 		this.lblLocalScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_local_foreground));
-		this.lblLocalOldScore = (TextView) localScoreView.findViewById(R.id.lblOldScore);
+		this.lblLocalOldScore = (TextView) localScoreView.findViewById(R.id.score_old);
 		this.lblLocalOldScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_local_foreground));
 		
 		RelativeLayout remoteScoreView = (RelativeLayout) menu.findItem(R.id.menu_score_remote).getActionView();
         remoteScoreView.setBackgroundColor(this.getResources().getColor(R.color.actionbar_score_remote_background));
-		this.lblRemoteScore = (TextView) remoteScoreView.findViewById(R.id.lblScore);
+		this.lblRemoteScore = (TextView) remoteScoreView.findViewById(R.id.score);
 		this.lblRemoteScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_remote_foreground));
-		this.lblRemoteOldScore = (TextView) remoteScoreView.findViewById(R.id.lblOldScore);
+		this.lblRemoteOldScore = (TextView) remoteScoreView.findViewById(R.id.score_old);
 		this.lblRemoteOldScore.setTextColor(this.getResources().getColor(R.color.actionbar_score_remote_foreground));
 		
 		this.refreshScore();
@@ -694,19 +694,19 @@ public class MultiplayerPlay extends Play {
 				LinearLayout.LayoutParams.MATCH_PARENT);
 		this.layPlayContent.setLayoutParams(lp);
 		this.layPlayContent.setVisibility(LinearLayout.GONE);
-		this.lblPauseText = (TextView) layPlayContent.findViewById(R.id.lblPauseText);
-		this.lblCountdown = (TextView) layPlayContent.findViewById(R.id.lblCountdown);
+		this.lblPauseText = (TextView) layPlayContent.findViewById(R.id.pause_text);
+		this.lblCountdown = (TextView) layPlayContent.findViewById(R.id.countdown);
 		this.layReady = (LinearLayout) layPlayContent.findViewById(R.id.ready);
 		
 		this.lblCountdown.setText(textCountdown);
-		this.tglLocalReady = (ToggleButton) this.layReady.findViewById(R.id.tglLocalReady);
+		this.tglLocalReady = (ToggleButton) this.layReady.findViewById(R.id.button_local_ready);
 		this.tglLocalReady.setOnClickListener(
                 new OnClickListener() {
                     public void onClick(View v) {
                         MultiplayerPlay.this.onTglLocalReadyToggle();
                     }
                 });
-		this.tglRemoteReady = (ToggleButton) this.layReady.findViewById(R.id.tglRemoteReady);
+		this.tglRemoteReady = (ToggleButton) this.layReady.findViewById(R.id.button_local_ready);
 		
 		super.setupView();
 		this.rootView.addView(this.layPlayContent);

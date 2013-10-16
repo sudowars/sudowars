@@ -373,7 +373,7 @@ public abstract class Play extends PoolBinder {
 	 */
     public boolean onCreateOptionsMenu(Menu menu) {
         View view = (View) menu.findItem(R.id.menu_time).getActionView();
-		this.lblTime = (TextView) view.findViewById(R.id.lblTime);
+		this.lblTime = (TextView) view.findViewById(R.id.time);
 		this.refreshTime(this.game.getGameTime());
 		
         return super.onCreateOptionsMenu(menu);
@@ -668,7 +668,7 @@ public abstract class Play extends PoolBinder {
 		}
 		
 		this.keypadView = (TableLayout) findViewById(R.id.keypad);
-		this.sudokuField = (SudokuField) findViewById(R.id.sudokuField);
+		this.sudokuField = (SudokuField) findViewById(R.id.sudoku_field);
 		this.sudokuField.showInvalidValues(false);
 		this.sudokuField.setGame(this.game);
 		this.sudokuField.setNoteManager(this.noteManager);

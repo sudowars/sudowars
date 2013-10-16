@@ -716,7 +716,7 @@ public class MultiplayerSettings extends Settings {
 		
 		this.connectionStatus = findPreference("multiplayer_connection_status");
 		
-		this.tglLocalReady = (ToggleButton) findViewById(R.id.tglLocalReady);
+		this.tglLocalReady = (ToggleButton) findViewById(R.id.button_local_ready);
 		this.tglLocalReady.setEnabled(false);
 		this.tglLocalReady.setOnClickListener(
                 new OnClickListener() {
@@ -725,7 +725,7 @@ public class MultiplayerSettings extends Settings {
                     }
                 });
 		
-		this.tglRemoteReady = (ToggleButton) findViewById(R.id.tglRemoteReady);
+		this.tglRemoteReady = (ToggleButton) findViewById(R.id.button_local_ready);
 		this.tglRemoteReady.setClickable(false);
 	}
 	

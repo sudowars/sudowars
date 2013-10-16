@@ -48,7 +48,7 @@
     android:layout_height="match_parent" >
     
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/background"
         android:contentDescription="@string/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -63,14 +63,14 @@
         android:orientation="vertical" >
         
         <LinearLayout
-            android:id="@+id/layBtnSingleplayer"
+            android:id="@+id/layout_singleplayer"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:orientation="horizontal" >
     
             <Button
-                android:id="@+id/btnSingleplayerContinue"
+                android:id="@+id/button_singleplayer_continue"
                 android:text="@string/button_singleplayer_continue"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -79,7 +79,7 @@
                 android:textSize="20sp" />
     
             <Button
-                android:id="@+id/btnSingleplayer"
+                android:id="@+id/button_singleplayer"
                 android:text="@string/button_singleplayer_symbol"
                 android:layout_weight="0"
                 android:layout_width="60dp"
@@ -90,7 +90,7 @@
         </LinearLayout>
     
         <Button
-            android:id="@+id/btnMultiplayer"
+            android:id="@+id/button_multiplayer"
             android:text="@string/button_multiplayer"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -98,7 +98,7 @@
             android:textSize="20sp" />
         
         <Button
-            android:id="@+id/btnManual"
+            android:id="@+id/button_manual"
             android:text="@string/button_manual"
             android:layout_width="match_parent"
             android:layout_height="60dp"

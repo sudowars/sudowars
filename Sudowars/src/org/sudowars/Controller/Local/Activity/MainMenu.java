@@ -334,7 +334,7 @@ public class MainMenu extends PoolBinder {
 	 * Setup buttons
 	 */
 	private void setupButtons() {
-		this.layBtnSingleplayer = (LinearLayout) findViewById(R.id.layBtnSingleplayer);
+		this.layBtnSingleplayer = (LinearLayout) findViewById(R.id.layout_singleplayer);
 		
 		// Get the screen's density scale
 		final float scale = getResources().getDisplayMetrics().density;
@@ -352,7 +352,7 @@ public class MainMenu extends PoolBinder {
 		
 		this.layBtnSingleplayer.setLayoutParams(lp);
 		
-		this.btnSingleplayer = (Button) findViewById(R.id.btnSingleplayer);
+		this.btnSingleplayer = (Button) findViewById(R.id.button_singleplayer);
 		this.btnSingleplayer.setOnClickListener(
                 new OnClickListener() {
                 	public void onClick(View v) {
@@ -361,7 +361,7 @@ public class MainMenu extends PoolBinder {
 
                 });
 		
-		this.btnSingleplayerContinue = (Button) findViewById(R.id.btnSingleplayerContinue);
+		this.btnSingleplayerContinue = (Button) findViewById(R.id.button_singleplayer_continue);
 		this.btnSingleplayerContinue.setOnClickListener(
                 new OnClickListener() {
                 	public void onClick(View v) {
@@ -370,7 +370,7 @@ public class MainMenu extends PoolBinder {
 
                 });
 		
-		this.btnMultiplayer = (Button) findViewById(R.id.btnMultiplayer);
+		this.btnMultiplayer = (Button) findViewById(R.id.button_multiplayer);
 		this.btnMultiplayer.setLayoutParams(lp);
 		this.btnMultiplayer.setOnClickListener(
                 new OnClickListener() {
@@ -380,7 +380,7 @@ public class MainMenu extends PoolBinder {
 
                 });
 		
-		this.btnManual = (Button) findViewById(R.id.btnManual);
+		this.btnManual = (Button) findViewById(R.id.button_manual);
 		this.btnManual.setLayoutParams(lp);
 		this.btnManual.setOnClickListener(
                 new OnClickListener() {

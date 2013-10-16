@@ -51,7 +51,7 @@
     android:orientation="horizontal" >
     
 	<org.sudowars.View.SudokuField
-		android:id="@+id/sudokuField"
+		android:id="@+id/sudoku_field"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginLeft="1dp"
