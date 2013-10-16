@@ -101,7 +101,7 @@ public class MultiplayerMenu extends PoolBinder {
 	/**
 	 * the menu item to start or stop scanning
 	 */
-	private MenuItem btScan;
+	private MenuItem btnScan;
 	
 	/**
 	 * the saved Games for loading
@@ -140,7 +140,7 @@ public class MultiplayerMenu extends PoolBinder {
         	} else if ((BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action) || BluetoothAdapter.ACTION_STATE_CHANGED.equals(action))
         			&& MultiplayerMenu.this.lstBluetoothDevices.getFooterViewsCount() > 0) {
         		MultiplayerMenu.this.lstBluetoothDevices.removeFooterView(MultiplayerMenu.scanningItem);
-        		MultiplayerMenu.this.btScan.setTitle(getString(R.string.button_bluetooth_scan));
+        		MultiplayerMenu.this.btnScan.setTitle(getString(R.string.button_bluetooth_scan));
             }
         }
     };
@@ -276,8 +276,8 @@ public class MultiplayerMenu extends PoolBinder {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		
-	    this.btScan = (MenuItem) menu.findItem(R.id.menu_scan);
-	    this.btScan.setEnabled(BluetoothAdapter.getDefaultAdapter().isEnabled());
+	    this.btnScan = (MenuItem) menu.findItem(R.id.menu_scan);
+	    this.btnScan.setEnabled(BluetoothAdapter.getDefaultAdapter().isEnabled());
 	    
 		return true;
 	}
@@ -384,7 +384,7 @@ public class MultiplayerMenu extends PoolBinder {
 		if (bluetoothAdapter != null && !this.bluetoothAdapter.isDiscovering()) {
 	    	// Request discover from BluetoothAdapter
 	    	this.bluetoothAdapter.startDiscovery();
-	    	this.btScan.setTitle(getString(R.string.button_bluetooth_scan_stop));
+	    	this.btnScan.setTitle(getString(R.string.button_bluetooth_scan_stop));
 	    	
 	    	if (this.lstBluetoothDevices.getFooterViewsCount() == 0) {
 	    		this.lstBluetoothDevices.addFooterView(MultiplayerMenu.scanningItem);
@@ -398,7 +398,7 @@ public class MultiplayerMenu extends PoolBinder {
 	private void stopScan() {
 		if (bluetoothAdapter != null && bluetoothAdapter.isDiscovering()) {
             bluetoothAdapter.cancelDiscovery();
-            this.btScan.setTitle(getString(R.string.button_bluetooth_scan));
+            this.btnScan.setTitle(getString(R.string.button_bluetooth_scan));
         }
 	}
     

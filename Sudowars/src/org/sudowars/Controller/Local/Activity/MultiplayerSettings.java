@@ -120,17 +120,17 @@ public class MultiplayerSettings extends Settings {
 	/**
 	 * the button to kick a connected player
 	 */
-	private MenuItem btKick;
+	private MenuItem btnKick;
 	
 	/**
 	 * the button to ban a connected player
 	 */
-	private MenuItem btBan;
+	private MenuItem btnBan;
 
 	/**
 	 * the button to make the device visible
 	 */
-	private MenuItem btVisible;
+	private MenuItem btnVisible;
 	/**
 	 * current connection status
 	 */
@@ -196,17 +196,17 @@ public class MultiplayerSettings extends Settings {
     				if (MultiplayerSettings.this.connection instanceof BluetoothServer) {
     					RemoteSettingsCommand command = new RemoteSettingsCommand(MultiplayerSettings.this.settings);
     					MultiplayerSettings.this.connection.sendCommand((Command) command);
-    					if (MultiplayerSettings.this.btKick != null && MultiplayerSettings.this.btBan != null) {
-	    					MultiplayerSettings.this.btKick.setEnabled(true);
-	    					MultiplayerSettings.this.btBan.setEnabled(true);
+    					if (MultiplayerSettings.this.btnKick != null && MultiplayerSettings.this.btnBan != null) {
+	    					MultiplayerSettings.this.btnKick.setEnabled(true);
+	    					MultiplayerSettings.this.btnBan.setEnabled(true);
     					}
     				}
     				
         			tglLocalReady.setEnabled(true);
         		} else {
-        			if (MultiplayerSettings.this.btKick != null && MultiplayerSettings.this.btBan != null) {
-	        			MultiplayerSettings.this.btKick.setEnabled(false);
-						MultiplayerSettings.this.btBan.setEnabled(false);
+        			if (MultiplayerSettings.this.btnKick != null && MultiplayerSettings.this.btnBan != null) {
+	        			MultiplayerSettings.this.btnKick.setEnabled(false);
+						MultiplayerSettings.this.btnBan.setEnabled(false);
         			}
         			MultiplayerSettings.this.tglLocalReady.setChecked(false);
         			MultiplayerSettings.this.tglLocalReady.setEnabled(false);
@@ -385,8 +385,8 @@ public class MultiplayerSettings extends Settings {
 		
 		if (requestCode == REQUEST_DISCOVERABLE) {
 	        if (resultCode == Activity.RESULT_CANCELED) {
-	        	if (this.btVisible != null) {
-	        		this.btVisible.setEnabled(true);
+	        	if (this.btnVisible != null) {
+	        		this.btnVisible.setEnabled(true);
 	        	}
 				Toast.makeText(getApplicationContext(), R.string.text_bluetooth_discoverable_failed, Toast.LENGTH_SHORT).show();
 			} else {
@@ -410,9 +410,9 @@ public class MultiplayerSettings extends Settings {
 			menu.removeItem(R.id.menu_ban);
 			menu.removeItem(R.id.menu_visible);
 		} else {
-			this.btKick = (MenuItem) menu.findItem(R.id.menu_kick);
-			this.btBan = (MenuItem) menu.findItem(R.id.menu_ban);
-			this.btVisible = (MenuItem) menu.findItem(R.id.menu_visible);
+			this.btnKick = (MenuItem) menu.findItem(R.id.menu_kick);
+			this.btnBan = (MenuItem) menu.findItem(R.id.menu_ban);
+			this.btnVisible = (MenuItem) menu.findItem(R.id.menu_visible);
 		}
 		
 	    return true;
@@ -745,7 +745,7 @@ public class MultiplayerSettings extends Settings {
 		 */
 		public Counter(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);
-			MultiplayerSettings.this.btVisible.setTitle(R.string.button_bluetooth_make_visible_active);
+			MultiplayerSettings.this.btnVisible.setTitle(R.string.button_bluetooth_make_visible_active);
 		}
 		
 		/*
@@ -755,8 +755,8 @@ public class MultiplayerSettings extends Settings {
 		@Override
 		public void onFinish() {
 			MultiplayerSettings.this.visibleCounter = -1;
-			if (MultiplayerSettings.this.btVisible != null) {
-				MultiplayerSettings.this.btVisible.setTitle(R.string.button_bluetooth_make_visible);
+			if (MultiplayerSettings.this.btnVisible != null) {
+				MultiplayerSettings.this.btnVisible.setTitle(R.string.button_bluetooth_make_visible);
 			}
 		}
 		
