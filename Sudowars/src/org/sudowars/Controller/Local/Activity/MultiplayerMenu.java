@@ -94,11 +94,6 @@ public class MultiplayerMenu extends PoolBinder {
 	private ListView lstBluetoothDevices;
 	
 	/**
-	 * the progress bar showing by scanning
-	 */
-	private static View scanningItem;
-	
-	/**
 	 * the menu item to start or stop scanning
 	 */
 	private MenuItem btnScan;
@@ -137,9 +132,8 @@ public class MultiplayerMenu extends PoolBinder {
                 if (device.getBondState() != BluetoothDevice.BOND_BONDED && !MultiplayerMenu.this.btDeviceList.contains(item)) {
                     MultiplayerMenu.this.btDeviceList.add(item);
                 }
-        	} else if ((BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action) || BluetoothAdapter.ACTION_STATE_CHANGED.equals(action))
-        			&& MultiplayerMenu.this.lstBluetoothDevices.getFooterViewsCount() > 0) {
-        		MultiplayerMenu.this.lstBluetoothDevices.removeFooterView(MultiplayerMenu.scanningItem);
+        	} else if ((BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action) || BluetoothAdapter.ACTION_STATE_CHANGED.equals(action))) {
+                setProgressBarVisibility(false);
         		MultiplayerMenu.this.btnScan.setTitle(getString(R.string.button_bluetooth_scan));
             }
         }
@@ -154,12 +148,14 @@ public class MultiplayerMenu extends PoolBinder {
 		if (BluetoothAdapter.getDefaultAdapter() == null) {
 			throw new IllegalStateException("The device has no Bluetooth, so this Activity should not be loaded...");
 		}
-		
+
+        requestWindowFeature(getWindow().FEATURE_PROGRESS);
 		super.onCreate(savedInstanceState);
 		
 	    ActionBar actionBar = getActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
-		
+
+        setProgressBarIndeterminate(true);
 		setContentView(R.layout.multiplayer_menu);
 		
 		try {
@@ -170,12 +166,8 @@ public class MultiplayerMenu extends PoolBinder {
 		
 		this.lstBluetoothDevices = (ListView) findViewById(R.id.bluetooth_devices);
 		this.btDeviceList = new ArrayList<BluetoothDeviceListItem>();
-		MultiplayerMenu.scanningItem = getLayoutInflater().inflate(R.layout.scanning_list_item, null);
-		
-		this.lstBluetoothDevices.addFooterView(MultiplayerMenu.scanningItem);
+
 		this.lstBluetoothDevices.setAdapter(new BluetoothDeviceListAdapter(this, R.layout.device_list_item, this.btDeviceList));
-		//workaround, because footer have to add before set the adapter
-		this.lstBluetoothDevices.removeFooterView(MultiplayerMenu.scanningItem);
 		this.lstBluetoothDevices.setOnItemClickListener(
 				new OnItemClickListener() {
 		    		@Override
@@ -214,16 +206,11 @@ public class MultiplayerMenu extends PoolBinder {
         }
 		
 		Set<BluetoothDevice> pairedDevices = this.bluetoothAdapter.getBondedDevices();
-		
+
 		if (pairedDevices != null) {
-			this.lstBluetoothDevices.addFooterView(MultiplayerMenu.scanningItem);
-	        if (pairedDevices.size() > 0) {
-	            for (BluetoothDevice device : pairedDevices) {
-	                this.btDeviceList.add(new BluetoothDeviceListItem(device.getName(), device.getAddress(), true));
-	            }
-	        }
-	        //workaround, because footer have to add before set the first item
-	        this.lstBluetoothDevices.removeFooterView(MultiplayerMenu.scanningItem);
+            for (BluetoothDevice device : pairedDevices) {
+                this.btDeviceList.add(new BluetoothDeviceListItem(device.getName(), device.getAddress(), true));
+            }
 		} else {
 			DebugHelper.log(DebugHelper.PackageName.MultiplayerMenu, "Error occured when retreiving bonded devices of bluetooth adapter");
 		}
@@ -241,10 +228,6 @@ public class MultiplayerMenu extends PoolBinder {
 		
 		if (BluetoothAdapter.getDefaultAdapter().isEnabled()) {
 			stopScan();
-			
-			if (lstBluetoothDevices.getFooterViewsCount() == 1) {
-        		lstBluetoothDevices.removeFooterView(MultiplayerMenu.scanningItem);
-        	}
 		}
 		
 		if (bluetoothEvent != null) {
@@ -385,10 +368,7 @@ public class MultiplayerMenu extends PoolBinder {
 	    	// Request discover from BluetoothAdapter
 	    	this.bluetoothAdapter.startDiscovery();
 	    	this.btnScan.setTitle(getString(R.string.button_bluetooth_scan_stop));
-	    	
-	    	if (this.lstBluetoothDevices.getFooterViewsCount() == 0) {
-	    		this.lstBluetoothDevices.addFooterView(MultiplayerMenu.scanningItem);
-	    	}
+            setProgressBarVisibility(true);
 		}
 	}
 	
@@ -399,6 +379,7 @@ public class MultiplayerMenu extends PoolBinder {
 		if (bluetoothAdapter != null && bluetoothAdapter.isDiscovering()) {
             bluetoothAdapter.cancelDiscovery();
             this.btnScan.setTitle(getString(R.string.button_bluetooth_scan));
+            setProgressBarVisibility(false);
         }
 	}
     

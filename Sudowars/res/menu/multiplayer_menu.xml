@@ -60,6 +60,6 @@
     <item
         android:id="@+id/menu_scan"
         android:title="@string/button_bluetooth_scan"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="ifRoom"
         android:icon="@drawable/ic_menu_refresh"/>
 </menu>
