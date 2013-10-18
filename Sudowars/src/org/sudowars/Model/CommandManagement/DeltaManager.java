@@ -121,12 +121,13 @@ public class DeltaManager implements Serializable {
 		if (!hasForwardDelta()) {
 			return false;
 		}
-		
+
 		if (commands.get(currentPosInList + 1).execute(game, executingPlayer)) {
 			if (bookmarkAvailable) {
 				toBookmarkCounter++;
 			}
 			currentPosInList++;
+            backToFirstErrorAvailable = true;
 			return true;
 		}
 		return false;
@@ -240,6 +241,15 @@ public class DeltaManager implements Serializable {
 		}
 		return true;
 	}
+
+    /**
+     * Returns if the bookmark state is different to the current state
+     *
+     * @return if the bookmark state is different to the current state
+     */
+    public boolean hasUnbookmarkedState() {
+        return (this.toBookmarkCounter != 0);
+    }
 	
 	/**
 	 * Returns if a bookmark is available

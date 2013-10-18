@@ -202,8 +202,13 @@ public class SingleplayerPlay extends Play {
 			}
 			
 			if (((SingleplayerGameState) this.gameState).isBookmarkEnabled()) {
-				menu.findItem(R.id.menu_get_bookmark).setEnabled(this.deltaManager.isBookmarkAvailable());
-				menu.findItem(R.id.menu_set_bookmark).setEnabled(true);
+                if (this.deltaManager.hasUnbookmarkedState() || !this.deltaManager.isBookmarkAvailable()) {
+                    menu.findItem(R.id.menu_get_bookmark).setEnabled(this.deltaManager.isBookmarkAvailable());
+                    menu.findItem(R.id.menu_set_bookmark).setEnabled(true);
+                } else {
+                    menu.findItem(R.id.menu_get_bookmark).setEnabled(false);
+                    menu.findItem(R.id.menu_set_bookmark).setEnabled(false);
+                }
 			}
 			
 			if (((SingleplayerGameState) this.gameState).isBackToFirstErrorEnabled()) {
