@@ -68,7 +68,12 @@ import org.sudowars.Model.SudokuUtil.SingleplayerGameState;
 public class SingleplayerPlay extends Play {
 	
 	private Handler assistantHandler = null;
-	
+
+    /**
+     * Workaround for Issue 11833 (https://code.google.com/p/android/issues/detail?id=11833)
+     */
+    private boolean firstMove = true;
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sudowars.Controller.Local.Play#onCreate(android.os.Bundle)
@@ -85,7 +90,7 @@ public class SingleplayerPlay extends Play {
 		}
 		
 		this.deltaManager = ((SingleplayerGameState) this.gameState).getDeltaManager();
-		
+
 		//Debug output
 		int debugAssistants = ((SingleplayerGameState) this.gameState).isShowObviousMistakesEnabled()?8:0;
 		debugAssistants += ((SingleplayerGameState) this.gameState).isSolveCellEnabled()?4:0;
@@ -347,11 +352,11 @@ public class SingleplayerPlay extends Play {
 		
 		return !error;
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sudowars.Controller.Local.Play#onBtnInvertClick()
-	 */
+
+    /*
+     * (non-Javadoc)
+     * @see org.sudowars.Controller.Local.Play#onBtnInvertClick()
+     */
 	protected boolean onBtnInvertClick() {
 		boolean error = !super.onBtnInvertClick();
 		
@@ -431,4 +436,21 @@ public class SingleplayerPlay extends Play {
 
 		this.sudokuField.showInvalidValues(((SingleplayerGameState) this.gameState).isShowObviousMistakesEnabled());
 	}
+
+    /**
+     * Workaround for Issue 11833 (https://code.google.com/p/android/issues/detail?id=11833)
+     */
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if (this.firstMove) {
+            this.firstMove = false;
+
+            if (menu != null) {
+                onPrepareOptionsMenu(menu);
+            }
+        }
+
+        return super.onMenuOpened(featureId, menu);
+    }
+
 }
