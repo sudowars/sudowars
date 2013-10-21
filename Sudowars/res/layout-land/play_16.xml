@@ -130,10 +130,10 @@
             <org.sudowars.View.SudokuButton
                 style="@style/KeypadButton"
                 android:id="@+id/key16" />
-            <ImageButton style="@style/KeypadButton"
-                         android:id="@+id/key_invert"
-                         android:src="@drawable/stat_notify_sync"
-                         android:contentDescription="@string/button_invert" />
+            <org.sudowars.View.SudokuButton
+                style="@style/KeypadButton"
+                android:id="@+id/key_invert"
+                android:text="@string/button_invert"/>
             <ImageButton style="@style/KeypadButton"
                          android:id="@+id/key_clear"
                          android:src="@drawable/ic_input_delete"

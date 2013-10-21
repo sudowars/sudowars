@@ -82,10 +82,10 @@
             <org.sudowars.View.SudokuButton
                 style="@style/KeypadButton"
                 android:id="@+id/key5" />
-            <ImageButton style="@style/KeypadButton"
-                         android:id="@+id/key_invert"
-                         android:src="@drawable/stat_notify_sync"
-                         android:contentDescription="@string/button_invert" />
+            <org.sudowars.View.SudokuButton
+                style="@style/KeypadButton"
+                android:id="@+id/key_invert"
+                android:text="@string/button_invert"/>
         </TableRow>
     
         <TableRow android:layout_weight="1">
