@@ -754,12 +754,12 @@ public abstract class Play extends PoolBinder {
 			}
 		});
 		
-		this.btnSymbols = new Button[size];
+		this.btnSymbols = new SudokuButton[size];
 		
 		for (int i = 0; i < size; i++) {
-			this.btnSymbols[i] = (Button) this.findViewById(this.keyIDs[i]);
+			this.btnSymbols[i] = (SudokuButton) this.findViewById(this.keyIDs[i]);
 			this.btnSymbols[i].setText(this.getResources().getStringArray(R.array.symbols)[i+1]);
-			
+
 			final int symbolId = i;
 			this.btnSymbols[i].setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {

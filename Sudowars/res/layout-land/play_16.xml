@@ -67,67 +67,67 @@
         android:layout_weight="1" >
     
         <TableRow android:layout_weight="1">
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key1"
                     android:layout_margin="1dp" />
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key2"
                     android:layout_margin="1dp" />
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key3"
                     android:layout_margin="1dp" />
         </TableRow>
     
         <TableRow android:layout_weight="1">
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key4"
                     android:layout_margin="1dp" />
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key5"
                     android:layout_margin="1dp" />
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key6"
                     android:layout_margin="1dp" />
         </TableRow>
     
         <TableRow android:layout_weight="1">
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key7"
                     android:layout_margin="1dp" />
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key8"
                     android:layout_margin="1dp" />
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key9"
                     android:layout_margin="1dp" />
         </TableRow>
     
         <TableRow android:layout_weight="1">
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key10"
                     android:layout_margin="1dp" />
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key11"
                     android:layout_margin="1dp" />
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key12"
                     android:layout_margin="1dp" />
         </TableRow>
     
         <TableRow android:layout_weight="1">
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key13"
                     android:layout_margin="1dp" />
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key14"
                     android:layout_margin="1dp" />
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key15"
                     android:layout_margin="1dp" />
         </TableRow>
         
         <TableRow android:layout_weight="1">
-            <Button style="@style/KeypadButton"
+            <org.sudowars.View.SudokuButton style="@style/KeypadButton"
                     android:id="@+id/key16"
                     android:layout_margin="1dp" />
             <ImageButton style="@style/KeypadButton"
