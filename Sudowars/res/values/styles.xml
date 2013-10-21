@@ -4,6 +4,7 @@
 		<item name="android:layout_height">match_parent</item>
 		<item name="android:textColor">@color/button_symbols_normal_foreground</item>
 		<item name="android:background">@color/button_symbols_normal_background</item>
+        <item name="android:layout_margin">1dp</item>
 	</style>
     
     <style name="DialogText">
