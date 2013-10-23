@@ -203,6 +203,7 @@ public class MultiplayerSettings extends Settings {
     				}
     				
         			tglLocalReady.setEnabled(true);
+                    tglLocalReady.setClickable(true);
         		} else {
         			if (MultiplayerSettings.this.btnKick != null && MultiplayerSettings.this.btnBan != null) {
 	        			MultiplayerSettings.this.btnKick.setEnabled(false);
@@ -210,6 +211,7 @@ public class MultiplayerSettings extends Settings {
         			}
         			MultiplayerSettings.this.tglLocalReady.setChecked(false);
         			MultiplayerSettings.this.tglLocalReady.setEnabled(false);
+                    MultiplayerSettings.this.tglLocalReady.setClickable(false);
         		}
     			
     			if (MultiplayerSettings.this.connection instanceof BluetoothServer

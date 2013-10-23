@@ -69,11 +69,6 @@ public class SingleplayerPlay extends Play {
 	
 	private Handler assistantHandler = null;
 
-    /**
-     * Workaround for Issue 11833 (https://code.google.com/p/android/issues/detail?id=11833)
-     */
-    private boolean firstMove = true;
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.sudowars.Controller.Local.Play#onCreate(android.os.Bundle)
@@ -441,21 +436,4 @@ public class SingleplayerPlay extends Play {
 
 		this.sudokuField.showInvalidValues(((SingleplayerGameState) this.gameState).isShowObviousMistakesEnabled());
 	}
-
-    /**
-     * Workaround for Issue 11833 (https://code.google.com/p/android/issues/detail?id=11833)
-     */
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu) {
-        if (this.firstMove) {
-            this.firstMove = false;
-
-            if (menu != null) {
-                onPrepareOptionsMenu(menu);
-            }
-        }
-
-        return super.onMenuOpened(featureId, menu);
-    }
-
 }

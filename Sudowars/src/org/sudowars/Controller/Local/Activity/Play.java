@@ -126,6 +126,11 @@ public abstract class Play extends PoolBinder {
 	 * Constants like the height of the status bar
 	 */
 	protected Constants constants;
+
+    /**
+     * Workaround for Issue 11833 (https://code.google.com/p/android/issues/detail?id=11833)
+     */
+    private boolean firstMove = true;
 	
 	/**
 	 * the sudoku field
@@ -826,4 +831,20 @@ public abstract class Play extends PoolBinder {
 		
 		this.lastNotificationTime = now;
 	}
+
+    /**
+     * Workaround for Issue 11833 (https://code.google.com/p/android/issues/detail?id=11833)
+     */
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if (this.firstMove) {
+            this.firstMove = false;
+
+            if (menu != null) {
+                onPrepareOptionsMenu(menu);
+            }
+        }
+
+        return super.onMenuOpened(featureId, menu);
+    }
 }
