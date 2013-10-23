@@ -60,7 +60,7 @@
         android:paddingBottom="4dp"
         android:paddingRight="8dp"
         android:paddingLeft="8dp"
-        android:gravity="right"
+        android:gravity="center|right"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textIsSelectable="false" />
