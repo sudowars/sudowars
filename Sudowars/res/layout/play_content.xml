@@ -80,7 +80,7 @@
     </LinearLayout>
         
     <include
-        layout="@layout/ready"
+        layout="@layout/multiplayer_settings_ready"
         android:id="@+id/ready"
         android:layout_width="match_parent"
         android:layout_height="70dp"

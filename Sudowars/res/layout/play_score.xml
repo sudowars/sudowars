@@ -44,7 +44,6 @@
   Philip Flohr 
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:baselineAligned="false"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:gravity="center"

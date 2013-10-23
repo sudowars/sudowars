@@ -61,7 +61,7 @@
         android:textOn="@string/button_ready_local" />
     
     <ToggleButton
-        android:id="@+id/button_local_ready"
+        android:id="@+id/button_remote_ready"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

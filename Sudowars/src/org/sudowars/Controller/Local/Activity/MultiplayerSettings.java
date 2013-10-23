@@ -714,7 +714,7 @@ public class MultiplayerSettings extends Settings {
             	}
 				return true;
 			}
-        });
+             });
 		
 		this.connectionStatus = findPreference("multiplayer_connection_status");
 		
