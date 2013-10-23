@@ -107,10 +107,9 @@
                 style="@style/KeypadButton"
                 android:id="@+id/key_invert"
                 android:text="@string/button_invert"/>
-            <ImageButton style="@style/KeypadButton"
-                         android:id="@+id/key_clear"
-                         android:src="@drawable/ic_input_delete"
-                         android:contentDescription="@string/button_clear" />
+            <org.sudowars.View.SudokuImageButton
+                style="@style/KeypadButton"
+                android:id="@+id/key_clear"/>
             <org.sudowars.View.SudokuButton
                 android:visibility="invisible" />
         </TableRow>

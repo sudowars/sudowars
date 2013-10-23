@@ -45,36 +45,82 @@
 package org.sudowars.View;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.Button;
 
-public class SudokuButton extends Button {
+import org.sudowars.R;
+
+public class SudokuImageButton extends Button {
     /**
      * The scale factor of the text size
      */
-    private static final float SCALE_FACTOR = (float) 0.4;
+    private static final float SCALE_FACTOR = (float) 0.6;
 
-    public SudokuButton(Context context, AttributeSet attrs) {
+    /**
+     * The button icon
+     */
+    private Drawable drawable;
+
+    public SudokuImageButton(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        if (this.getId() == R.id.key_clear) {
+            this.drawable = getResources().getDrawable(R.drawable.ic_input_delete);
+        }
     }
 
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        refreshTextSize();
+        refreshImageSize();
     }
 
     protected void onSizeChanged(int newWidth, int newHeight, int oldWidth, int oldHeight) {
         super.onSizeChanged(newWidth, newWidth, oldWidth, oldHeight);
 
-        refreshTextSize();
+        refreshImageSize();
+    }
+
+    public void setTextColor(int color) {
+        super.setTextColor(color);
+
+        drawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
     }
 
     /**
      * Scale the text to the button size
      */
-    private void refreshTextSize() {
-        float textSize = (float) (SCALE_FACTOR * Math.min(getWidth(), getHeight()));
-        this.setTextSize(textSize);
+    private void refreshImageSize() {
+        if (this.drawable != null) {
+            int imageSize = (int) (SCALE_FACTOR * Math.min(getWidth(), getHeight()));
+            imageSize = Math.min(imageSize, this.drawable.getIntrinsicWidth());
+            int spaceSize = (getWidth() - imageSize) / 2;
+            this.drawable.setBounds(spaceSize, 0, imageSize + spaceSize, imageSize);
+            setCompoundDrawables(this.drawable, null, null, null);
+
+
+            /*
+            ScaleDrawable scaleDrawable = new ScaleDrawable(drawable, 0, imageSize, imageSize);
+            scaleDrawable.setBounds(spaceSize, 0, imageSize + spaceSize, imageSize);
+            setCompoundDrawables(scaleDrawable.getDrawable(), null, null, null);
+            */
+
+            /*
+            this.drawable.setBounds(0, 0,
+                    (int) (0.5 * this.drawable.getIntrinsicWidth()),
+                    (int) (0.5 * this.drawable.getIntrinsicHeight()));
+            ScaleDrawable sd = new ScaleDrawable(this.drawable, 0, imageSize, imageSize);
+            setCompoundDrawables(sd.getDrawable(), null, null, null);
+            */
+
+            //FIXME: Workaround: SudokuImageButton must have the same size as SudokuButtons
+            this.setHeight(0);
+            this.setWidth(0);
+
+        }
     }
 }
