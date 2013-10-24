@@ -65,7 +65,7 @@ public class MultiplayerMenu extends PoolBinder {
 	 * Intent request code
 	 */
     private static final int REQUEST_ENABLE_BT = 3;
-	
+
 	/**
 	 * List with all bluetooth devices, which lstBluetoothDevices uses
 	 */
@@ -159,12 +159,12 @@ public class MultiplayerMenu extends PoolBinder {
 		    			if (arg2 < MultiplayerMenu.this.btDeviceList.size()) {
 		    				onLstBluetoothClick(MultiplayerMenu.this.btDeviceList.get(arg2).getMac());
 		    			}
-		    		}
+                                     }
 				});
 
         this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see android.app.Activity#onResume()

@@ -30,10 +30,19 @@
 	
 	<style name="KeypadButton" parent="android:style/Widget.Button">
 		<item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">1dp</item>
 		<item name="android:textColor">@color/button_symbols_normal_foreground</item>
 		<item name="android:background">@color/button_symbols_normal_background</item>
-        <item name="android:layout_margin">1dp</item>
 	</style>
+
+    <style name="ReadyButton" parent="android:style/Widget.Holo.Button.Borderless">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:enabled">false</item>
+    </style>
     
     <style name="DialogText">
         <item name="android:layout_width">wrap_content</item>

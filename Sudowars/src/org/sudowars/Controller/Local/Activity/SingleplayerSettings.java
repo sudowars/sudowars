@@ -110,7 +110,7 @@ public class SingleplayerSettings extends Settings {
             	}
 				return true;
 			}
-        });
+             });
 	}
 	
 	/*

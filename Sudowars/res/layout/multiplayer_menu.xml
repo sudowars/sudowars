@@ -35,7 +35,9 @@
 	    android:id="@+id/bluetooth_devices"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:adjustViewBounds="true" >
-	</ListView>
+	    android:adjustViewBounds="true"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:scrollbarStyle="outsideOverlay"/>
         
 </LinearLayout>
