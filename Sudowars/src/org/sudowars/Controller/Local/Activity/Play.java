@@ -158,7 +158,7 @@ public abstract class Play extends PoolBinder {
 	/**
 	 * the invert button to invert the symboles in a {@link Cell}
 	 */
-	private SudokuButton btnInvert;
+	private ImageButton btnInvert;
 
 	/**
 	 * the delete button to delete the symboles in a {@link Cell}
@@ -454,7 +454,7 @@ public abstract class Play extends PoolBinder {
 
             this.btnClear.setColorFilter(this.getResources().getColor(R.color.button_clear_normal_foreground), PorterDuff.Mode.MULTIPLY);
 			this.btnClear.setBackgroundColor(this.getResources().getColor(R.color.button_clear_normal_background));
-			this.btnInvert.setTextColor(this.getResources().getColor(R.color.button_invert_normal_foreground));
+			this.btnInvert.setColorFilter(this.getResources().getColor(R.color.button_invert_normal_foreground), PorterDuff.Mode.MULTIPLY);
 			this.btnInvert.setBackgroundColor(this.getResources().getColor(R.color.button_invert_normal_background));
 	
 			if (selectedCell != null) {
@@ -485,7 +485,7 @@ public abstract class Play extends PoolBinder {
                 this.btnClear.setColorFilter(this.getResources().getColor(R.color.button_clear_toggled_foreground), PorterDuff.Mode.MULTIPLY);
 				this.btnClear.setBackgroundColor(this.getResources().getColor(R.color.button_clear_toggled_background));
 			} else if (this.toggledSymbolId == -3) {
-				this.btnInvert.setTextColor(this.getResources().getColor(R.color.button_invert_toggled_foreground));
+				this.btnInvert.setColorFilter(this.getResources().getColor(R.color.button_invert_toggled_foreground), PorterDuff.Mode.MULTIPLY);
 				this.btnInvert.setBackgroundColor(this.getResources().getColor(R.color.button_invert_toggled_background));
 			}
 		}
@@ -715,7 +715,7 @@ public abstract class Play extends PoolBinder {
 			}
 		});
 		
-		this.btnInvert = (SudokuButton) this.findViewById(R.id.key_invert);
+		this.btnInvert = (ImageButton) this.findViewById(R.id.key_invert);
 		this.btnInvert.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				long now = SystemClock.uptimeMillis();

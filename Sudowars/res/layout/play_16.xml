@@ -65,10 +65,15 @@
             <org.sudowars.View.SudokuButton
                 style="@style/KeypadButton"
                 android:id="@+id/key5" />
-            <org.sudowars.View.SudokuButton
+            <ImageButton
                 style="@style/KeypadButton"
                 android:id="@+id/key_invert"
-                android:text="@string/button_invert"/>
+                android:src="@drawable/ic_input_invert"
+                android:contentDescription="@string/button_invert"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:maxHeight="0dp"
+                android:minWidth="0dp"/>
         </TableRow>
     
         <TableRow android:layout_weight="1">
