@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="274.15097"
+     inkscape:cx="205.02513"
      inkscape:cy="267.11328"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -58,14 +58,15 @@
      transform="translate(0,-540.36218)">
     <g
        id="g3990" />
-    <path
-       id="path3218"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.50196078;stroke-dasharray:none;stroke-dashoffset:0"
-       d="m 214.95122,837.41015 25.84553,25.84553 41.04878,-41.04878 41.04878,41.04878 25.84553,-25.84553 -41.04878,-41.04878 41.04878,-41.04878 -25.84553,-25.84553 -41.04878,41.04878 -41.04878,-41.04878 -25.84553,25.84553 L 256,796.36137 z M 443,893.66218 443,699.06055 c -91.72628,0 -183.45258,0 -275.17886,0 L 69,796.36137 l 98.82114,97.30081 c 91.72628,0 183.45258,0 275.17886,0 z"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccccccccccccccc"
-       inkscape:export-filename="/home/ritze/ic_input_delete2.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+    <g
+       id="g1236"
+       transform="matrix(4.4385457,0,0,-4.4385457,337.19469,857.06151)"
+       style="fill:#ffffff">
+      <path
+         d="m 0,0 -10.574,10.576 -10.574,-10.578 -3.677,3.678 10.575,10.579 -10.573,10.576 3.675,3.677 L -10.574,17.932 0,28.51 3.676,24.831 -6.898,14.253 3.676,3.676 0,0 z m -60.424,13.513 20.782,-20.727 63.48,0 0,41.779 -63.48,0 -20.782,-21.052 z"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="path1238"
+         inkscape:connector-curvature="0" />
+    </g>
   </g>
 </svg>
