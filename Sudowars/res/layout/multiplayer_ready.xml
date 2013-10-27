@@ -50,14 +50,13 @@
         android:layout_centerHorizontal="true"
         android:background="?android:attr/dividerVertical"/>
 
-    <ToggleButton
+    <Button
         android:id="@+id/button_local_ready"
         style="@style/ReadyButton"
         android:paddingRight="24dp"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@id/ButtonDivider"
-        android:textOff="@string/button_ready_local"
-        android:textOn="@string/button_ready_local" />
+        android:text="@string/button_ready_local"/>
 
     <CheckBox
         android:id="@+id/checkbox_local_ready"
@@ -67,14 +66,13 @@
         android:layout_toLeftOf="@id/ButtonDivider"
         android:clickable="false"/>
 
-    <ToggleButton
+    <Button
         android:id="@+id/button_remote_ready"
         style="@style/ReadyButton"
         android:paddingLeft="24dp"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@id/ButtonDivider"
-        android:textOff="@string/button_ready_remote"
-        android:textOn="@string/button_ready_remote"/>
+        android:text="@string/button_ready_remote"/>
 
     <CheckBox
         android:id="@+id/checkbox_remote_ready"
