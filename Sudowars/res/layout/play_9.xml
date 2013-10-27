@@ -75,9 +75,15 @@
             <org.sudowars.View.SudokuButton
                 style="@style/KeypadButton"
                 android:id="@+id/key6" />
-            <org.sudowars.View.SudokuImageButton
+            <ImageButton
                 style="@style/KeypadButton"
-                android:id="@+id/key_clear" />
+                android:id="@+id/key_clear"
+                android:src="@drawable/ic_input_delete"
+                android:contentDescription="@string/button_clear"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:maxHeight="0dp"
+                android:minWidth="0dp"/>
         </TableRow>
     
         <TableRow android:layout_weight="1">

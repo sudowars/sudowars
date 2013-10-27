@@ -39,7 +39,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -163,7 +163,7 @@ public abstract class Play extends PoolBinder {
 	/**
 	 * the delete button to delete the symboles in a {@link Cell}
 	 */
-	private SudokuImageButton btnClear;
+	private ImageButton btnClear;
 	
 	/**
 	 * status of availability of a saved singleplayer game
@@ -452,7 +452,7 @@ public abstract class Play extends PoolBinder {
 				this.btnSymbols[i].setBackgroundColor(this.getResources().getColor(R.color.button_symbols_normal_background));
 			}
 
-            this.btnClear.setTextColor(this.getResources().getColor(R.color.button_clear_normal_foreground));
+            this.btnClear.setColorFilter(this.getResources().getColor(R.color.button_clear_normal_foreground), PorterDuff.Mode.MULTIPLY);
 			this.btnClear.setBackgroundColor(this.getResources().getColor(R.color.button_clear_normal_background));
 			this.btnInvert.setTextColor(this.getResources().getColor(R.color.button_invert_normal_foreground));
 			this.btnInvert.setBackgroundColor(this.getResources().getColor(R.color.button_invert_normal_background));
@@ -482,7 +482,7 @@ public abstract class Play extends PoolBinder {
 					this.btnSymbols[this.toggledSymbolId].setBackgroundColor(this.getResources().getColor(R.color.button_symbols_toggled_background));
 				}
 			} else if (this.toggledSymbolId == -2) {
-                this.btnClear.setTextColor(this.getResources().getColor(R.color.button_clear_toggled_foreground));
+                this.btnClear.setColorFilter(this.getResources().getColor(R.color.button_clear_toggled_foreground), PorterDuff.Mode.MULTIPLY);
 				this.btnClear.setBackgroundColor(this.getResources().getColor(R.color.button_clear_toggled_background));
 			} else if (this.toggledSymbolId == -3) {
 				this.btnInvert.setTextColor(this.getResources().getColor(R.color.button_invert_toggled_foreground));
@@ -687,7 +687,7 @@ public abstract class Play extends PoolBinder {
 	 * Setup buttons
 	 */
 	protected void setupButtons() {
-		this.btnClear = (SudokuImageButton) this.findViewById(R.id.key_clear);
+		this.btnClear = (ImageButton) this.findViewById(R.id.key_clear);
 		this.btnClear.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				long now = SystemClock.uptimeMillis();

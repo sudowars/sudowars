@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="256"
-   height="256"
+   width="512"
+   height="512"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="64.080395"
-     inkscape:cy="125.50776"
+     inkscape:zoom="1.4"
+     inkscape:cx="274.15097"
+     inkscape:cy="267.11328"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -37,7 +37,8 @@
      inkscape:window-height="1016"
      inkscape:window-x="0"
      inkscape:window-y="27"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     inkscape:snap-page="false" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -54,14 +55,13 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-796.36218)">
+     transform="translate(0,-540.36218)">
     <g
        id="g3990" />
     <path
        id="path3218"
-       transform="translate(0,796.36218)"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.50196081000000004;stroke-dasharray:none;stroke-dashoffset:0"
-       d="m 101,155 17,17 27,-27 27,27 17,-17 -27,-27 27,-27 -17,-17 -27,27 -27,-27 -17,17 27,27 z m 150,37 0,-128 c -60.33333,0 -120.66667,0 -181,0 l -65,64 65,64 c 60.33333,0 120.66667,0 181,0 z"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.50196078;stroke-dasharray:none;stroke-dashoffset:0"
+       d="m 214.95122,837.41015 25.84553,25.84553 41.04878,-41.04878 41.04878,41.04878 25.84553,-25.84553 -41.04878,-41.04878 41.04878,-41.04878 -25.84553,-25.84553 -41.04878,41.04878 -41.04878,-41.04878 -25.84553,25.84553 L 256,796.36137 z M 443,893.66218 443,699.06055 c -91.72628,0 -183.45258,0 -275.17886,0 L 69,796.36137 l 98.82114,97.30081 c 91.72628,0 183.45258,0 275.17886,0 z"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccccccccccccc"
        inkscape:export-filename="/home/ritze/ic_input_delete2.png"

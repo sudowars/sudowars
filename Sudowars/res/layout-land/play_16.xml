@@ -117,9 +117,15 @@
                 style="@style/KeypadButton"
                 android:id="@+id/key_invert"
                 android:text="@string/button_invert"/>
-            <org.sudowars.View.SudokuImageButton
+            <ImageButton
                 style="@style/KeypadButton"
-                android:id="@+id/key_clear"/>
+                android:id="@+id/key_clear"
+                android:src="@drawable/ic_input_delete"
+                android:contentDescription="@string/button_clear"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:maxHeight="0dp"
+                android:minWidth="0dp"/>
         </TableRow>
         
     </TableLayout>
