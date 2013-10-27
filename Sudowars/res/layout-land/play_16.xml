@@ -120,7 +120,7 @@
             <ImageButton
                 style="@style/KeypadButton"
                 android:id="@+id/key_clear"
-                android:src="@drawable/ic_input_delete"
+                android:src="@drawable/ic_input_clear"
                 android:contentDescription="@string/button_clear"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
