@@ -24,8 +24,8 @@
   Florian Rosenthal
   Michael Hoff
   Moritz Lüdecke
-  Philip Flohr 
--->
+  Philip Flohr
+  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:baselineAligned="false"
     android:layout_width="match_parent"

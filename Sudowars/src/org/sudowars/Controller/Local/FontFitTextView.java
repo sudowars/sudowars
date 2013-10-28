@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2011 - 2012 Adrian Vielsack, Christof Urbaczek, Florian Rosenthal, Michael Hoff, Moritz Lüdecke, Philip Flohr.
  *
  * This file is part of Sudowars.
@@ -24,7 +24,7 @@
  * Michael Hoff
  * Moritz Lüdecke
  * Philip Flohr
- ******************************************************************************/
+ */
 package org.sudowars.Controller.Local;
 
 import android.content.Context;

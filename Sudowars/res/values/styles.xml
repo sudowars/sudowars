@@ -25,7 +25,7 @@
   Michael Hoff
   Moritz Lüdecke
   Philip Flohr
--->
+  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 	
 	<style name="KeypadButton" parent="android:style/Widget.Button">
