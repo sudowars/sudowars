@@ -30,6 +30,8 @@ package org.sudowars.test;
 
 import android.test.InstrumentationTestRunner;
 import android.test.InstrumentationTestSuite;
+
+import org.sudowars.Controller.Local.ReadyButtonGroupTest;
 import org.sudowars.Controller.Local.ReadyButtonTest;
 import junit.framework.TestSuite;
 
@@ -38,7 +40,10 @@ public class Runner extends InstrumentationTestRunner {
     @Override
     public TestSuite getAllTests() {
         InstrumentationTestSuite suite = new InstrumentationTestSuite(this);
+
         suite.addTestSuite(ReadyButtonTest.class);
+        suite.addTestSuite(ReadyButtonGroupTest.class);
+
         return suite;
     }
 

@@ -94,12 +94,16 @@ public class ReadyButtonGroup {
         this.local.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnLocalReadyChangeListener.onLocalReadyChange();
+                if (!ready) {
+                    mOnLocalReadyChangeListener.onLocalReadyChange();
+                }
                 onStatusChange();
             }
         });
 
         //TODO: Doesn't work. Why?
+        this.remote.setEnabled(false);
+        this.remote.setClickable(false);
         this.remote.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,10 +120,8 @@ public class ReadyButtonGroup {
      * @param enabled true if this view is enabled, false otherwise.
      */
     public void setLocalEnabled(Boolean enabled) {
-        local.setEnabled(enabled);
-
-        if (!enabled) {
-            local.setChecked(false);
+        if (!ready) {
+            local.setEnabled(enabled);
         }
     }
 
@@ -129,25 +131,33 @@ public class ReadyButtonGroup {
      * @param clickable true to make the local ready button clickable, false otherwise
      */
     public void setLocalClickable(Boolean clickable) {
-        local.setClickable(clickable);
+        if (!ready) {
+            local.setClickable(clickable);
+        }
     }
 
     /**
-     * Changes the checked state of the local ready button.
+     * Changes the checked state of the local ready button. Has no effect if all players are ready.
      *
      * @param checked true to check the local ready button, false to uncheck it
      */
     public void setLocalChecked(Boolean checked) {
-        remote.setChecked(checked);
+        if (!ready) {
+            local.setChecked(checked);
+        }
+        onStatusChange();
     }
 
     /**
-     * Changes the checked state of the remote ready button.
+     * Changes the checked state of the remote ready button. Has no effect if all players are ready.
      *
      * @param checked true to check the remote ready button, false to uncheck it
      */
     public void setRemoteChecked(Boolean checked) {
-        remote.setChecked(checked);
+        if (!ready) {
+            remote.setChecked(checked);
+        }
+        onStatusChange();
     }
 
     /**
@@ -209,13 +219,31 @@ public class ReadyButtonGroup {
     }
 
     /**
-     * Calls the onReady event
+     * Calls the onReady event if all players are ready. Has no effect if all players are already ready.
      */
     private void onStatusChange() {
-        if (local.isChecked() && remote.isChecked()) {
+        if (!ready && local.isChecked() && remote.isChecked()) {
             ready = true;
             local.setClickable(false);
-            mOnReadyListener.onReady();
+
+            if (mOnReadyListener != null) {
+                mOnReadyListener.onReady();
+            }
         }
+    }
+
+    /**
+     * Set the ready status to false and reset all player ready buttons.
+     */
+    public void reset() {
+        ready = false;
+
+        local.setEnabled(false);
+        local.setClickable(false);
+        local.setChecked(false);
+
+        remote.setEnabled(false);
+        remote.setClickable(false);
+        remote.setChecked(false);
     }
 }
