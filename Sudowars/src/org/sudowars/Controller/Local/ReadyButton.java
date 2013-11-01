@@ -32,6 +32,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+/**
+ * This class unify a toggle button with a checkbox
+ */
 public class ReadyButton {
     /**
      * the toggle button
@@ -44,6 +47,11 @@ public class ReadyButton {
     private CheckBox checkbox;
 
     /**
+     * Listener used to dispatch click events.
+     */
+    private OnClickListener mOnClickListener;
+
+    /**
      * Creates a new {@class ReadyButton}
      *
      * @param button the button
@@ -52,13 +60,17 @@ public class ReadyButton {
     public ReadyButton(Button button, CheckBox checkbox) {
         this.button = button;
         this.checkbox = checkbox;
+        mOnClickListener = null;
 
         this.checkbox.setClickable(false);
 
         this.button.setOnClickListener(
                 new OnClickListener() {
                     public void onClick(View v) {
-                        ReadyButton.this.checkbox.toggle();
+                        ReadyButton.this.toggle();
+                        if (mOnClickListener != null) {
+                            mOnClickListener.onClick(v);
+                        }
                     }
                 });
     }
@@ -153,10 +165,15 @@ public class ReadyButton {
      * @see #setClickable(boolean)
      */
     public void setOnClickListener(OnClickListener l) {
-        if (!isClickable()) {
-            setClickable(true);
-        }
+        mOnClickListener = l;
+    }
 
-        this.button.setOnClickListener(l);
+    /**
+     * TODO: Return whether this view has an attached OnClickListener.
+     *
+     * @returns true if there is a listener, false if there is none.
+     */
+    public boolean hasOnClickListener() {
+        return (mOnClickListener != null);
     }
 }

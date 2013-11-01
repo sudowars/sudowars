@@ -27,6 +27,8 @@
  */
 package org.sudowars.Controller.Local.Activity;
 
+import org.sudowars.Controller.Local.ReadyButton;
+import org.sudowars.Controller.Local.ReadyButtonGroup;
 import org.sudowars.DebugHelper;
 import org.sudowars.R;
 import org.sudowars.Controller.Local.MultiplayerSudokuSettings;
@@ -66,15 +68,14 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 import android.os.CountDownTimer;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.widget.ToggleButton;
 
 /**
  * Shows the settings menu of a new multiplayer game.
@@ -120,14 +121,9 @@ public class MultiplayerSettings extends Settings {
 	private Preference connectionStatus;
 	
 	/**
-	 * the ready button of the local player
+	 * the ready button group to handle the ready buttons
 	 */
-	private ToggleButton tglLocalReady;
-	
-	/**
-	 * the ready button of the remote player
-	 */
-	private ToggleButton tglRemoteReady;
+	private ReadyButtonGroup readyButtonGroup;
 	
 	/**
 	 * the bluetooth API, to communicate between client and server
@@ -184,17 +180,15 @@ public class MultiplayerSettings extends Settings {
 	    					MultiplayerSettings.this.btnBan.setEnabled(true);
     					}
     				}
-    				
-        			tglLocalReady.setEnabled(true);
-                    tglLocalReady.setClickable(true);
+
+                    readyButtonGroup.setLocalEnabled(true);
         		} else {
         			if (MultiplayerSettings.this.btnKick != null && MultiplayerSettings.this.btnBan != null) {
 	        			MultiplayerSettings.this.btnKick.setEnabled(false);
 						MultiplayerSettings.this.btnBan.setEnabled(false);
         			}
-        			MultiplayerSettings.this.tglLocalReady.setChecked(false);
-        			MultiplayerSettings.this.tglLocalReady.setEnabled(false);
-                    MultiplayerSettings.this.tglLocalReady.setClickable(false);
+                    readyButtonGroup.setLocalEnabled(false);
+                    readyButtonGroup.setLocalChecked(false);
         		}
     			
     			if (MultiplayerSettings.this.connection instanceof BluetoothServer
@@ -449,20 +443,18 @@ public class MultiplayerSettings extends Settings {
 		DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Size: " + debugSize + "x" + debugSize
 				+ " Difficulty: " + this.decodeDifficulty().toString());
 	}
-	
+
 	/**
-	 * Running on a click on button {@link tglLocalReady}.
+	 * Running on a change of the local ready status.
 	 */
-	private void onTglLocalReadyToggle() {
+	private void onLocalReadyChange() {
 		if (connection.getState() == BluetoothConnection.STATE_CONNECTED) {
-			RemoteReadyCommand command = new RemoteReadyCommand(this.tglLocalReady.isChecked());
+			RemoteReadyCommand command = new RemoteReadyCommand(this.readyButtonGroup.isLocalChecked());
 			this.connection.sendCommandAsync((Command) command);
 			
-			DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Set local ready: " + this.tglLocalReady.isChecked());
-			
-			this.prepareGame();
+			DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Set local ready: " + this.readyButtonGroup.isLocalChecked());
 		} else {
-			this.tglLocalReady.setChecked(false);
+			this.readyButtonGroup.setLocalEnabled(false);
 		}
 	}
 
@@ -494,8 +486,8 @@ public class MultiplayerSettings extends Settings {
 			KickMultiplayerClientCommand command = new KickMultiplayerClientCommand(KickStatus.KICK);
 			((BluetoothServer) this.connection).sendCommandAsync((Command) command);
 			((BluetoothServer) this.connection).kick();
-			this.tglRemoteReady.setChecked(false);
-			this.tglLocalReady.setChecked(false);
+			this.readyButtonGroup.setRemoteChecked(false);
+			this.readyButtonGroup.setLocalEnabled(false);
 			Toast.makeText(getApplicationContext(), R.string.text_kick, Toast.LENGTH_SHORT).show();
 			
 			DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Remote kicked.");
@@ -510,7 +502,8 @@ public class MultiplayerSettings extends Settings {
 			KickMultiplayerClientCommand command = new KickMultiplayerClientCommand(KickStatus.KICKBAN);
 			((BluetoothServer) this.connection).sendCommandAsync((Command) command);
 			((BluetoothServer) this.connection).ban();
-			this.tglRemoteReady.setChecked(false);
+            this.readyButtonGroup.setRemoteChecked(false);
+            this.readyButtonGroup.setLocalEnabled(false);
 			Toast.makeText(getApplicationContext(), R.string.text_ban, Toast.LENGTH_SHORT).show();
 			
 			DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Remote banned.");
@@ -554,23 +547,20 @@ public class MultiplayerSettings extends Settings {
 	 * @param state the state of the remote player
 	 */
 	public void setRemoteReadyState(boolean state) {
-		this.tglRemoteReady.setChecked(state);
-		
-		DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Set remote ready: " + this.tglRemoteReady.isChecked());
-		
-		this.prepareGame();
+		this.readyButtonGroup.setRemoteChecked(state);
+		DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Set remote ready: " + this.readyButtonGroup.isRemoteChecked());
 	}
 	
 	/**
 	 * Prepare the game
 	 */
 	private void prepareGame() {
-		if (this.connection instanceof BluetoothServer
-				&& this.tglLocalReady.isChecked() && this.tglRemoteReady.isChecked()) {
+        DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "prepareGame(): this.readyButtonGroup.isReady(): " + this.readyButtonGroup.isReady());
+		if (this.connection instanceof BluetoothServer && this.readyButtonGroup.isReady()) {
+            DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "prepareGame(): get it!");
+
 			FileIO savedGames = new FileIO(this.getApplicationContext());
-			
-			this.tglLocalReady.setClickable(false);
-				
+
 			if (this.connection instanceof BluetoothServer) {
 				Command command;
 				
@@ -589,15 +579,13 @@ public class MultiplayerSettings extends Settings {
 				this.connection.sendCommandAsync(command);
 			}
 		}
-		
 	}
 	
 	/**
 	 * Starts the Game, if local and remote are ready
 	 */
 	private void startGame() {
-		if (this.tglLocalReady.isChecked() && this.tglRemoteReady.isChecked()) {
-			this.tglLocalReady.setClickable(false);
+		if (this.readyButtonGroup.isReady()) {
 			
 			FileIO savedGames = new FileIO(this.getApplicationContext());
 			Intent intent = new Intent(this, MultiplayerPlay.class);
@@ -616,7 +604,8 @@ public class MultiplayerSettings extends Settings {
 			}
 			
 			savedGames.saveMultiplayerGame(new GameState(this.game, this.decodeDifficulty()));
-			
+
+            DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Start game with...");
 			DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Size: "
 					+ this.game.getSudoku().getField().getStructure().toString()
 					+ " Difficulty: " + this.decodeDifficulty().toString());
@@ -700,18 +689,31 @@ public class MultiplayerSettings extends Settings {
              });
 		
 		this.connectionStatus = findPreference("multiplayer_connection_status");
-		
-		this.tglLocalReady = (ToggleButton) findViewById(R.id.button_local_ready);
-		this.tglLocalReady.setEnabled(false);
-		this.tglLocalReady.setOnClickListener(
-                new OnClickListener() {
-                	public void onClick(View v) {
-                		onTglLocalReadyToggle();
-                    }
-                });
-		
-		this.tglRemoteReady = (ToggleButton) findViewById(R.id.button_local_ready);
-		this.tglRemoteReady.setClickable(false);
+
+        Button btnLocalReady = (Button) findViewById(R.id.button_local_ready);
+        CheckBox chkLocalReady = (CheckBox) findViewById(R.id.checkbox_local_ready);
+        ReadyButton localReadyButton = new ReadyButton(btnLocalReady, chkLocalReady);
+
+        Button btnRemoteReady = (Button) findViewById(R.id.button_remote_ready);
+        CheckBox chkRemoteReady = (CheckBox) findViewById(R.id.checkbox_remote_ready);
+        ReadyButton remoteReadyButton = new ReadyButton(btnRemoteReady, chkRemoteReady);
+
+        this.readyButtonGroup = new ReadyButtonGroup(localReadyButton, remoteReadyButton);
+
+        this.readyButtonGroup.setOnReadyListener(new ReadyButtonGroup.OnReadyListener() {
+            @Override
+            public void onReady() {
+                DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Players are ready...");
+                MultiplayerSettings.this.prepareGame();
+            }
+        });
+
+        this.readyButtonGroup.setOnLocalReadyChangeListener(new ReadyButtonGroup.OnLocalReadyChangeListener() {
+            @Override
+            public void onLocalReadyChange() {
+                MultiplayerSettings.this.onLocalReadyChange();
+            }
+        });
 	}
 	
 	

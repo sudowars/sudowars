@@ -42,12 +42,16 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import org.sudowars.Controller.Local.ReadyButton;
+import org.sudowars.Controller.Local.ReadyButtonGroup;
 import org.sudowars.DebugHelper;
 import org.sudowars.R;
 import org.sudowars.Controller.Remote.BluetoothConnection;
@@ -85,16 +89,11 @@ public class MultiplayerPlay extends Play {
 	 * the pause text, which is show on the screen
 	 */
 	private TextView lblPauseText;
-	
-	/**
-	 * the ready button of the local player
-	 */
-	private ToggleButton tglLocalReady;
-	
-	/**
-	 * the ready button of the remote player
-	 */
-	private ToggleButton tglRemoteReady;
+
+    /**
+     * the ready button group to handle the ready buttons
+     */
+    private ReadyButtonGroup readyButtonGroup;
 	
 	/**
 	 * the points of the local player
@@ -378,8 +377,8 @@ public class MultiplayerPlay extends Play {
 					this.layReady.setVisibility(View.GONE);
 				} else {
 					this.layReady.setVisibility(View.VISIBLE);
-					this.tglLocalReady.setChecked(!this.game.hasPaused(this.localPlayer));
-					this.tglRemoteReady.setChecked(!this.game.hasPaused(this.remotePlayer));
+					this.readyButtonGroup.setLocalChecked(!this.game.hasPaused(this.localPlayer));
+					this.readyButtonGroup.setRemoteChecked(!this.game.hasPaused(this.remotePlayer));
 				}
 			} else {
 				this.layReady.setVisibility(View.GONE);
@@ -582,40 +581,34 @@ public class MultiplayerPlay extends Play {
 		
 		super.onGameFinished(text);
 	}
-	
-	/**
-	 * Running on a click on button {@link tglLocalReady}.
-	 */
-	private void onTglLocalReadyToggle () {
-		RemoteReadyCommand command = new RemoteReadyCommand(this.tglLocalReady.isChecked());
-		this.connection.sendCommand((Command) command);
-		
-		if (this.tglLocalReady.isChecked()) {
-			this.game.resumeGame(this.game.getPlayers().get(0));
-		} else {
-			this.game.pauseGame(this.game.getPlayers().get(0));
-		}
-		
-		if (!this.game.isPaused()) {
-			this.startCountDown();
-		}
-	}
+
+    /**
+     * Running on a change of the local ready status.
+     */
+    private void onLocalReadyChange() {
+        RemoteReadyCommand command = new RemoteReadyCommand(this.readyButtonGroup.isLocalChecked());
+        this.connection.sendCommand((Command) command);
+        DebugHelper.log(DebugHelper.PackageName.MultiplayerPlay, "Set local ready: " + this.readyButtonGroup.isLocalChecked());
+
+        if (this.readyButtonGroup.isLocalChecked()) {
+            this.game.resumeGame(this.game.getPlayers().get(0));
+        } else {
+            this.game.pauseGame(this.game.getPlayers().get(0));
+        }
+    }
 	
 	/**
 	 * Function used to set the RemoteReady state via remote command object
 	 * @param state the state of the remote player
 	 */
 	public void setRemoteReadyState(boolean state) {
+        this.readyButtonGroup.setRemoteChecked(state);
+        DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Set remote ready: " + this.readyButtonGroup.isRemoteChecked());
+
 		if (state) {
 			this.game.resumeGame(this.remotePlayer);
 		} else {
 			this.game.pauseGame(this.remotePlayer);
-		}
-		
-		if (!this.game.isPaused()) {
-			this.startCountDown();
-		} else {
-			this.refresh();
 		}
 	}
 	
@@ -682,15 +675,35 @@ public class MultiplayerPlay extends Play {
 		this.layReady = (LinearLayout) layPlayContent.findViewById(R.id.ready);
 		
 		this.lblCountdown.setText(textCountdown);
-		this.tglLocalReady = (ToggleButton) this.layReady.findViewById(R.id.button_local_ready);
-		this.tglLocalReady.setOnClickListener(
-                new OnClickListener() {
-                    public void onClick(View v) {
-                        MultiplayerPlay.this.onTglLocalReadyToggle();
-                    }
-                });
-		this.tglRemoteReady = (ToggleButton) this.layReady.findViewById(R.id.button_local_ready);
-		
+
+        Button btnLocalReady = (Button) findViewById(R.id.button_local_ready);
+        CheckBox chkLocalReady = (CheckBox) findViewById(R.id.checkbox_local_ready);
+        ReadyButton localReadyButton = new ReadyButton(btnLocalReady, chkLocalReady);
+
+        Button btnRemoteReady = (Button) findViewById(R.id.button_remote_ready);
+        CheckBox chkRemoteReady = (CheckBox) findViewById(R.id.checkbox_remote_ready);
+        ReadyButton remoteReadyButton = new ReadyButton(btnRemoteReady, chkRemoteReady);
+
+        this.readyButtonGroup = new ReadyButtonGroup(localReadyButton, remoteReadyButton);
+
+        this.readyButtonGroup.setOnReadyListener(new ReadyButtonGroup.OnReadyListener() {
+            @Override
+            public void onReady() {
+                DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Players are ready...");
+
+                if (!MultiplayerPlay.this.game.isPaused()) {
+                    MultiplayerPlay.this.startCountDown();
+                }
+            }
+        });
+
+        this.readyButtonGroup.setOnLocalReadyChangeListener(new ReadyButtonGroup.OnLocalReadyChangeListener() {
+            @Override
+            public void onLocalReadyChange() {
+                MultiplayerPlay.this.onLocalReadyChange();
+            }
+        });
+
 		super.setupView();
 		this.rootView.addView(this.layPlayContent);
 	}
