@@ -19,6 +19,8 @@ android {
     defaultConfig {
         minSdkVersion 12
         targetSdkVersion 19
+		testPackageName "org.sudowars.test"
+		testInstrumentationRunner "org.sudowars.test.Runner"
     }
 }
 
