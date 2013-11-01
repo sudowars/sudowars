@@ -25,6 +25,11 @@ v1.1:
 v1.0:
 *  First release
 
+Development
+-----------
+
+We use Android Studio for development.
+
 License
 -------
 
