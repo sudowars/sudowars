@@ -57,10 +57,15 @@ public class ReadyButtonGroupTest extends AndroidTestCase {
         localCheckbox = new CheckBox(getContext());
         localReadyButton = new ReadyButton(localButton, localCheckbox);
         localReadyButton.setEnabled(true);
+        localReadyButton.setClickable(true);
+        localReadyButton.setChecked(false);
 
         remoteButton = new Button(getContext());
         remoteCheckbox = new CheckBox(getContext());
         remoteReadyButton = new ReadyButton(remoteButton, remoteCheckbox);
+        remoteReadyButton.setEnabled(false);
+        remoteReadyButton.setClickable(false);
+        remoteReadyButton.setChecked(false);
 
         readyButtonGroup = new ReadyButtonGroup(localReadyButton, remoteReadyButton);
     }
@@ -76,6 +81,21 @@ public class ReadyButtonGroupTest extends AndroidTestCase {
         assertEquals(localButton.isEnabled(), true);
         assertEquals(remoteButton.isClickable(), false);
         assertEquals(remoteButton.isEnabled(), false);
+
+        localReadyButton.setEnabled(false);
+        localReadyButton.setClickable(false);
+        localReadyButton.setChecked(true);
+        remoteReadyButton.setEnabled(true);
+        remoteReadyButton.setClickable(true);
+        remoteReadyButton.setChecked(true);
+        readyButtonGroup = new ReadyButtonGroup(localReadyButton, remoteReadyButton);
+        assertEquals(readyButtonGroup.isLocalChecked(), true);
+        assertEquals(readyButtonGroup.isRemoteChecked(), true);
+
+        assertEquals(localButton.isClickable(), false);
+        assertEquals(localButton.isEnabled(), false);
+        assertEquals(remoteButton.isClickable(), true);
+        assertEquals(remoteButton.isEnabled(), true);
     }
 
     public void testLocalChecked() {
@@ -201,9 +221,37 @@ public class ReadyButtonGroupTest extends AndroidTestCase {
         assertEquals(readyButtonGroup.isReady(), false);
         assertEquals(readyButtonGroup.isLocalChecked(), false);
         assertEquals(readyButtonGroup.isRemoteChecked(), false);
-        assertEquals(localReadyButton.isEnabled(), false);
-        assertEquals(remoteReadyButton.isEnabled(), false);
 
+        assertEquals(localReadyButton.isEnabled(), true);
+        assertEquals(localReadyButton.isClickable(), true);
+        assertEquals(remoteReadyButton.isEnabled(), false);
+        assertEquals(remoteReadyButton.isClickable(), false);
+
+        localReadyButton.setEnabled(false);
+        localReadyButton.setClickable(false);
+        localReadyButton.setChecked(true);
+        remoteReadyButton.setEnabled(true);
+        remoteReadyButton.setClickable(true);
+        remoteReadyButton.setChecked(true);
+        readyButtonGroup = new ReadyButtonGroup(localReadyButton, remoteReadyButton);
+
+        assertEquals(readyButtonGroup.isLocalChecked(), true);
+        assertEquals(readyButtonGroup.isRemoteChecked(), true);
+        localReadyButton.setEnabled(true);
+        localReadyButton.setClickable(true);
+        localReadyButton.setChecked(false);
+        remoteReadyButton.setEnabled(false);
+        remoteReadyButton.setClickable(false);
+        remoteReadyButton.setChecked(false);
+        readyButtonGroup.reset();
+
+        assertEquals(readyButtonGroup.isReady(), false);
+        assertEquals(localReadyButton.isEnabled(), false);
+        assertEquals(localReadyButton.isClickable(), false);
+        assertEquals(localReadyButton.isChecked(), true);
+        assertEquals(remoteReadyButton.isEnabled(), true);
+        assertEquals(remoteReadyButton.isClickable(), true);
+        assertEquals(remoteReadyButton.isChecked(), true);
     }
 
     public void testLocalEnabled() {

@@ -64,7 +64,7 @@
         
     <include
         layout="@layout/multiplayer_ready"
-        android:id="@+id/ready"
+        android:id="@+id/ready_buttons"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_weight="0" />

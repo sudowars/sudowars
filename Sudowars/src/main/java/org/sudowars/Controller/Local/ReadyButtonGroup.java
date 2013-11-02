@@ -41,6 +41,36 @@ public class ReadyButtonGroup {
     private boolean ready;
 
     /**
+     * the initial local enabled status
+     */
+    private boolean initLocalEnabled;
+
+    /**
+     * the initial local clickable status
+     */
+    private boolean initLocalClickable;
+
+    /**
+     * the initial local checked status
+     */
+    private boolean initLocalChecked;
+
+    /**
+     * the initial remote enabled status
+     */
+    private boolean initRemoteEnabled;
+
+    /**
+     * the initial remote clickable status
+     */
+    private boolean initRemoteClickable;
+
+    /**
+     * the initial remote checked status
+     */
+    private boolean initRemoteChecked;
+
+    /**
      * the local ready button
      */
     private ReadyButton local;
@@ -90,7 +120,14 @@ public class ReadyButtonGroup {
         this.local = local;
         this.remote = remote;
 
-        //TODO: Works...
+        this.ready = false;
+        this.initLocalEnabled = this.local.isEnabled();
+        this.initLocalClickable = this.local.isClickable();
+        this.initLocalChecked = this.local.isChecked();
+        this.initRemoteEnabled = this.remote.isEnabled();
+        this.initRemoteClickable = this.remote.isClickable();
+        this.initRemoteChecked = this.remote.isChecked();
+
         this.local.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,18 +137,12 @@ public class ReadyButtonGroup {
                 onStatusChange();
             }
         });
-
-        //TODO: Doesn't work. Why?
-        this.remote.setEnabled(false);
-        this.remote.setClickable(false);
         this.remote.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 onStatusChange();
             }
         });
-
-        this.ready = false;
     }
 
     /**
@@ -233,17 +264,17 @@ public class ReadyButtonGroup {
     }
 
     /**
-     * Set the ready status to false and reset all player ready buttons.
+     * Set the ready status to false and reset all player ready buttons to the initial condition.
      */
     public void reset() {
         ready = false;
 
-        local.setEnabled(false);
-        local.setClickable(false);
-        local.setChecked(false);
+        local.setEnabled(initLocalEnabled);
+        local.setClickable(initLocalClickable);
+        local.setChecked(initLocalChecked);
 
-        remote.setEnabled(false);
-        remote.setClickable(false);
-        remote.setChecked(false);
+        remote.setEnabled(initRemoteEnabled);
+        remote.setClickable(initRemoteClickable);
+        remote.setChecked(initRemoteChecked);
     }
 }
