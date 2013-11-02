@@ -214,7 +214,7 @@ public class ReadyButtonGroup {
      *
      * @returns true if there is a listener, false if there is none.
      */
-    public boolean hasOnClickListeners() {
+    public boolean hasOnReadyListener() {
         return (mOnReadyListener != null);
     }
 

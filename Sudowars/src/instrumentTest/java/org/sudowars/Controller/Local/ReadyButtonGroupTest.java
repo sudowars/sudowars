@@ -31,12 +31,13 @@
 package org.sudowars.Controller.Local;
 
 import android.test.AndroidTestCase;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
 public class ReadyButtonGroupTest extends AndroidTestCase {
-    private boolean localClicked;
-    private boolean remoteClicked;
+    private boolean localReady;
+    private boolean globalReady;
     private Button localButton;
     private Button remoteButton;
     private CheckBox localCheckbox;
@@ -49,13 +50,14 @@ public class ReadyButtonGroupTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        localClicked = false;
+        localReady = false;
+        globalReady = false;
+
         localButton = new Button(getContext());
         localCheckbox = new CheckBox(getContext());
         localReadyButton = new ReadyButton(localButton, localCheckbox);
         localReadyButton.setEnabled(true);
 
-        remoteClicked = false;
         remoteButton = new Button(getContext());
         remoteCheckbox = new CheckBox(getContext());
         remoteReadyButton = new ReadyButton(remoteButton, remoteCheckbox);
@@ -67,7 +69,7 @@ public class ReadyButtonGroupTest extends AndroidTestCase {
         assertEquals(readyButtonGroup.isReady(), false);
         assertEquals(readyButtonGroup.isLocalChecked(), false);
         assertEquals(readyButtonGroup.isRemoteChecked(), false);
-        assertEquals(readyButtonGroup.hasOnClickListeners(), false);
+        assertEquals(readyButtonGroup.hasOnReadyListener(), false);
         assertEquals(readyButtonGroup.hasOnLocalReadyChangeListener(), false);
 
         assertEquals(localButton.isClickable(), true);
@@ -227,7 +229,40 @@ public class ReadyButtonGroupTest extends AndroidTestCase {
         assertEquals(localButton.isClickable(), false);
     }
 
-    public void testOnClickListener() {
-        //TODO
+    public void testOnReadyListener() {
+        assertEquals(readyButtonGroup.hasOnReadyListener(), false);
+        readyButtonGroup.setOnReadyListener(new ReadyButtonGroup.OnReadyListener() {
+            @Override
+            public void onReady() {
+                globalReady = !globalReady;
+            }
+        });
+        assertEquals(readyButtonGroup.hasOnReadyListener(), true);
+
+        readyButtonGroup.setLocalChecked(true);
+        assertEquals(globalReady, false);
+        readyButtonGroup.setRemoteChecked(true);
+        assertEquals(globalReady, true);
+
+        readyButtonGroup.setLocalChecked(false);
+        assertEquals(globalReady, true);
+        readyButtonGroup.setLocalChecked(true);
+        assertEquals(globalReady, true);
+    }
+
+    public void testOnLocalReadyChangeListener() {
+        assertEquals(readyButtonGroup.hasOnLocalReadyChangeListener(), false);
+        readyButtonGroup.setOnLocalReadyChangeListener(new ReadyButtonGroup.OnLocalReadyChangeListener() {
+            @Override
+            public void onLocalReadyChange() {
+                localReady = !localReady;
+            }
+        });
+        assertEquals(readyButtonGroup.hasOnLocalReadyChangeListener(), true);
+
+        localButton.performClick();
+        assertEquals(localReady, true);
+        localButton.performClick();
+        assertEquals(localReady, false);
     }
 }
