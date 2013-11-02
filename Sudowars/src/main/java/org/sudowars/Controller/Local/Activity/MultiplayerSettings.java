@@ -100,16 +100,6 @@ public class MultiplayerSettings extends Settings {
 	 * the preferences
 	 */
 	protected SharedPreferences preferences;
-	
-	/**
-	 * the button to kick a connected player
-	 */
-	private MenuItem btnKick;
-	
-	/**
-	 * the button to ban a connected player
-	 */
-	private MenuItem btnBan;
 
 	/**
 	 * the button to make the device visible
@@ -175,20 +165,12 @@ public class MultiplayerSettings extends Settings {
     				if (MultiplayerSettings.this.connection instanceof BluetoothServer) {
     					RemoteSettingsCommand command = new RemoteSettingsCommand(MultiplayerSettings.this.settings);
     					MultiplayerSettings.this.connection.sendCommand((Command) command);
-    					if (MultiplayerSettings.this.btnKick != null && MultiplayerSettings.this.btnBan != null) {
-	    					MultiplayerSettings.this.btnKick.setEnabled(true);
-	    					MultiplayerSettings.this.btnBan.setEnabled(true);
-    					}
     				}
 
                     readyButtonGroup.setLocalEnabled(true);
+                    readyButtonGroup.setLocalClickable(true);
         		} else {
-        			if (MultiplayerSettings.this.btnKick != null && MultiplayerSettings.this.btnBan != null) {
-	        			MultiplayerSettings.this.btnKick.setEnabled(false);
-						MultiplayerSettings.this.btnBan.setEnabled(false);
-        			}
-                    readyButtonGroup.setLocalEnabled(false);
-                    readyButtonGroup.setLocalChecked(false);
+                    readyButtonGroup.reset();
         		}
     			
     			if (MultiplayerSettings.this.connection instanceof BluetoothServer
@@ -389,13 +371,33 @@ public class MultiplayerSettings extends Settings {
 			menu.removeItem(R.id.menu_ban);
 			menu.removeItem(R.id.menu_visible);
 		} else {
-			this.btnKick = (MenuItem) menu.findItem(R.id.menu_kick);
-			this.btnBan = (MenuItem) menu.findItem(R.id.menu_ban);
 			this.btnVisible = (MenuItem) menu.findItem(R.id.menu_visible);
 		}
 		
 	    return true;
 	}
+
+    /* TODO
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onPrepareOptionsMenu(android.view.Menu)
+	 */
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        if (!isClient) {
+            if (this.connection instanceof BluetoothServer
+                    && connection.getState() == BluetoothConnection.STATE_CONNECTED
+                    && !this.readyButtonGroup.isReady()) {
+                menu.findItem(R.id.menu_kick).setEnabled(true);
+                menu.findItem(R.id.menu_ban).setEnabled(true);
+            } else {
+                menu.findItem(R.id.menu_kick).setEnabled(false);
+                menu.findItem(R.id.menu_ban).setEnabled(false);
+            }
+        }
+
+        return true;
+    }
 	
 	/*
 	 * (non-Javadoc)
@@ -453,13 +455,11 @@ public class MultiplayerSettings extends Settings {
 			this.connection.sendCommandAsync((Command) command);
 			
 			DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Set local ready: " + this.readyButtonGroup.isLocalChecked());
-		} else {
-			this.readyButtonGroup.setLocalEnabled(false);
 		}
 	}
 
 	/**
-	 * Running on a click on button {@link BtnVisible}.
+	 * Running on a click on make visible button.
 	 */
 	private void onBtVisibleClick() {
 		if (this.visibleCounter <= 0
@@ -479,15 +479,16 @@ public class MultiplayerSettings extends Settings {
 	}
 
 	/**
-	 * Running on a click on button {@link btnKick}.
+	 * Running on a click on kick button.
 	 */
 	private void onBtKickClick() {
-		if (this.connection instanceof BluetoothServer && connection.getState() == BluetoothConnection.STATE_CONNECTED) {
+		if (this.connection instanceof BluetoothServer
+                && connection.getState() == BluetoothConnection.STATE_CONNECTED
+                && !this.readyButtonGroup.isReady()) {
 			KickMultiplayerClientCommand command = new KickMultiplayerClientCommand(KickStatus.KICK);
 			((BluetoothServer) this.connection).sendCommandAsync((Command) command);
 			((BluetoothServer) this.connection).kick();
-			this.readyButtonGroup.setRemoteChecked(false);
-			this.readyButtonGroup.setLocalEnabled(false);
+			this.readyButtonGroup.reset();
 			Toast.makeText(getApplicationContext(), R.string.text_kick, Toast.LENGTH_SHORT).show();
 			
 			DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Remote kicked.");
@@ -495,15 +496,16 @@ public class MultiplayerSettings extends Settings {
 	}
 
 	/**
-	 * Running on a click on button {@link btnBan}.
+	 * Running on a click on ban button.
 	 */
 	private void onBtBanClick() {
-		if (this.connection instanceof BluetoothServer && connection.getState() == BluetoothConnection.STATE_CONNECTED) {
+		if (this.connection instanceof BluetoothServer
+                && connection.getState() == BluetoothConnection.STATE_CONNECTED
+                && !this.readyButtonGroup.isReady()) {
 			KickMultiplayerClientCommand command = new KickMultiplayerClientCommand(KickStatus.KICKBAN);
 			((BluetoothServer) this.connection).sendCommandAsync((Command) command);
 			((BluetoothServer) this.connection).ban();
-            this.readyButtonGroup.setRemoteChecked(false);
-            this.readyButtonGroup.setLocalEnabled(false);
+            this.readyButtonGroup.reset();
 			Toast.makeText(getApplicationContext(), R.string.text_ban, Toast.LENGTH_SHORT).show();
 			
 			DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Remote banned.");
@@ -548,17 +550,16 @@ public class MultiplayerSettings extends Settings {
 	 */
 	public void setRemoteReadyState(boolean state) {
 		this.readyButtonGroup.setRemoteChecked(state);
-		DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Set remote ready: " + this.readyButtonGroup.isRemoteChecked());
+		DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Set remote ready: "
+                                                                      + this.readyButtonGroup.isRemoteChecked());
 	}
 	
 	/**
 	 * Prepare the game
 	 */
 	private void prepareGame() {
-        DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "prepareGame(): this.readyButtonGroup.isReady(): " + this.readyButtonGroup.isReady());
-		if (this.connection instanceof BluetoothServer && this.readyButtonGroup.isReady()) {
-            DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "prepareGame(): get it!");
-
+		if (this.connection instanceof BluetoothServer) {
+            disableButtons();
 			FileIO savedGames = new FileIO(this.getApplicationContext());
 
 			if (this.connection instanceof BluetoothServer) {
