@@ -64,7 +64,7 @@
         android:layout_width="32dp"
         android:layout_marginRight="16dp"
         android:layout_toLeftOf="@id/ButtonDivider"
-        android:clickable="false"/>
+        android:checked="false"/>
 
     <Button
         android:id="@+id/button_remote_ready"
@@ -80,6 +80,6 @@
         android:layout_width="32dp"
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@id/ButtonDivider"
-        android:clickable="false"/>
+        android:checked="false"/>
     
 </RelativeLayout>

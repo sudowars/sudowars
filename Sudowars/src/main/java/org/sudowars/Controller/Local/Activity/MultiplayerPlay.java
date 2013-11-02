@@ -37,7 +37,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -48,7 +47,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import org.sudowars.Controller.Local.ReadyButton;
 import org.sudowars.Controller.Local.ReadyButtonGroup;
@@ -146,9 +144,9 @@ public class MultiplayerPlay extends Play {
 	private BluetoothConnection connection;
 	
 	/**
-	 * the ready view
+	 * the ready buttons view
 	 */
-	private LinearLayout layReady;
+	private RelativeLayout layReadyButtons;
 	
 	/**
 	 * the multiplayer content
@@ -374,18 +372,18 @@ public class MultiplayerPlay extends Play {
 		if (!this.counterIsRunning) {
 			if (this.game.isPaused() && !this.gameState.isFinished()) {
 				if (this.playerLeftGame) {
-					this.layReady.setVisibility(View.GONE);
+					this.layReadyButtons.setVisibility(View.GONE);
 				} else {
-					this.layReady.setVisibility(View.VISIBLE);
+					this.layReadyButtons.setVisibility(View.VISIBLE);
 					this.readyButtonGroup.setLocalChecked(!this.game.hasPaused(this.localPlayer));
 					this.readyButtonGroup.setRemoteChecked(!this.game.hasPaused(this.remotePlayer));
 				}
 			} else {
-				this.layReady.setVisibility(View.GONE);
+				this.layReadyButtons.setVisibility(View.GONE);
 				super.refresh();
 			}
 		} else {
-			this.layReady.setVisibility(View.GONE);
+			this.layReadyButtons.setVisibility(View.GONE);
 		}
 	}
 	
@@ -588,7 +586,8 @@ public class MultiplayerPlay extends Play {
     private void onLocalReadyChange() {
         RemoteReadyCommand command = new RemoteReadyCommand(this.readyButtonGroup.isLocalChecked());
         this.connection.sendCommand((Command) command);
-        DebugHelper.log(DebugHelper.PackageName.MultiplayerPlay, "Set local ready: " + this.readyButtonGroup.isLocalChecked());
+        DebugHelper.log(DebugHelper.PackageName.MultiplayerPlay, "Set local ready: "
+                                                                  + this.readyButtonGroup.isLocalChecked());
 
         if (this.readyButtonGroup.isLocalChecked()) {
             this.game.resumeGame(this.game.getPlayers().get(0));
@@ -602,14 +601,16 @@ public class MultiplayerPlay extends Play {
 	 * @param state the state of the remote player
 	 */
 	public void setRemoteReadyState(boolean state) {
-        this.readyButtonGroup.setRemoteChecked(state);
-        DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Set remote ready: " + this.readyButtonGroup.isRemoteChecked());
+        DebugHelper.log(DebugHelper.PackageName.MultiplayerSettings, "Set remote ready: "
+                                                                      + this.readyButtonGroup.isRemoteChecked());
 
 		if (state) {
 			this.game.resumeGame(this.remotePlayer);
 		} else {
 			this.game.pauseGame(this.remotePlayer);
 		}
+
+        this.readyButtonGroup.setRemoteChecked(state);
 	}
 	
 	/**
@@ -617,8 +618,9 @@ public class MultiplayerPlay extends Play {
 	 */
 	private void startCountDown() {
 		DebugHelper.log(DebugHelper.PackageName.MultiplayerPlay, "Start countdown.");
-		
-		this.layReady.setVisibility(View.GONE);
+
+        this.readyButtonGroup.reset();
+		this.layReadyButtons.setVisibility(View.GONE);
 		
 		this.counter = new Counter(3999, 1000);
 		this.vibrate(this.getResources().getInteger(R.integer.vibrate_countdown_on_start));
@@ -672,18 +674,20 @@ public class MultiplayerPlay extends Play {
 		this.layPlayContent.setVisibility(LinearLayout.GONE);
 		this.lblPauseText = (TextView) layPlayContent.findViewById(R.id.pause_text);
 		this.lblCountdown = (TextView) layPlayContent.findViewById(R.id.countdown);
-		this.layReady = (LinearLayout) layPlayContent.findViewById(R.id.ready);
+		this.layReadyButtons = (RelativeLayout) layPlayContent.findViewById(R.id.ready_buttons);
 		
 		this.lblCountdown.setText(textCountdown);
 
-        Button btnLocalReady = (Button) findViewById(R.id.button_local_ready);
-        CheckBox chkLocalReady = (CheckBox) findViewById(R.id.checkbox_local_ready);
+        Button btnLocalReady = (Button) layReadyButtons.findViewById(R.id.button_local_ready);
+        CheckBox chkLocalReady = (CheckBox) layReadyButtons.findViewById(R.id.checkbox_local_ready);
         ReadyButton localReadyButton = new ReadyButton(btnLocalReady, chkLocalReady);
 
-        Button btnRemoteReady = (Button) findViewById(R.id.button_remote_ready);
-        CheckBox chkRemoteReady = (CheckBox) findViewById(R.id.checkbox_remote_ready);
+        Button btnRemoteReady = (Button) layReadyButtons.findViewById(R.id.button_remote_ready);
+        CheckBox chkRemoteReady = (CheckBox) layReadyButtons.findViewById(R.id.checkbox_remote_ready);
         ReadyButton remoteReadyButton = new ReadyButton(btnRemoteReady, chkRemoteReady);
 
+        localReadyButton.setEnabled(true);
+        localReadyButton.setClickable(true);
         this.readyButtonGroup = new ReadyButtonGroup(localReadyButton, remoteReadyButton);
 
         this.readyButtonGroup.setOnReadyListener(new ReadyButtonGroup.OnReadyListener() {

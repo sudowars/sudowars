@@ -88,10 +88,12 @@ public class ReadyButtonTest extends AndroidTestCase {
     public void testEnabled() {
         readyButton.setEnabled(false);
         assertEquals(button.isEnabled(), false);
+        assertEquals(button.isClickable(), true);
         assertEquals(checkbox.isEnabled(), false);
 
         readyButton.setEnabled(true);
         assertEquals(button.isEnabled(), true);
+        assertEquals(button.isClickable(), true);
         assertEquals(checkbox.isEnabled(), true);
     }
 
