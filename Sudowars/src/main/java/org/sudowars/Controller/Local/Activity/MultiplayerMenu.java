@@ -151,6 +151,7 @@ public class MultiplayerMenu extends PoolBinder {
 		this.btDeviceList = new ArrayList<BluetoothDeviceListItem>();
 
 		this.lstBluetoothDevices.setAdapter(new BluetoothDeviceListAdapter(this, R.layout.device_list_item, this.btDeviceList));
+        this.lstBluetoothDevices.setFooterDividersEnabled(true);
 		this.lstBluetoothDevices.setOnItemClickListener(
 				new OnItemClickListener() {
 		    		@Override

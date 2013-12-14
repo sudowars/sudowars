@@ -226,7 +226,7 @@ public class MainMenu extends PoolBinder {
 				public void onClick(DialogInterface dialog, int id) {
 					return;
 				}
-    		}).show(); 
+                		}).show();
     }
 	
 	/*
