@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Sudowars/Sudowars.iml" filepath="$PROJECT_DIR$/Sudowars/Sudowars.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sudowars.iml" filepath="$PROJECT_DIR$/Sudowars.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sudowars/Sudowars-Sudowars.iml" filepath="$PROJECT_DIR$/Sudowars/Sudowars-Sudowars.iml" />
       <module fileurl="file://$PROJECT_DIR$/SudowarsProject.iml" filepath="$PROJECT_DIR$/SudowarsProject.iml" />
     </modules>
   </component>
