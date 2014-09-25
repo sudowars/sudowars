@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.android.tools.build:gradle:0.13.0'
     }
 }
 apply plugin: 'android'
@@ -14,16 +14,20 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.0"
-
+    buildToolsVersion '19.1.0'
     defaultConfig {
-        minSdkVersion 12
+        minSdkVersion 13
         targetSdkVersion 19
-		testPackageName "org.sudowars.test"
-		testInstrumentationRunner "org.sudowars.test.Runner"
+        testPackageName "org.sudowars.test"
+        testInstrumentationRunner 'org.sudowars.test.Runner'
+        testApplicationId 'org.sudowars.test'
+    }
+    productFlavors {
+    }
+    buildTypes {
     }
 }
 
 dependencies {
-	compile "com.android.support:support-v4:19.0.+"
+    compile 'com.android.support:support-v4:20.0.0'
 }
