@@ -34,14 +34,14 @@
     <TextView
         android:id="@+id/time"
         android:layout_width="0dip"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:maxLength="7"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:paddingRight="8dp"
         android:paddingLeft="8dp"
-        android:gravity="center|right"
+        android:layout_gravity="center|right"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textIsSelectable="false" />
