@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.path="$MODULE_DIR$/Sudowars" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="sudowars" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.path="$MODULE_DIR$/Sudowars" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="SudowarsProject" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -57,6 +57,12 @@
       <sourceFolder url="file://$MODULE_DIR$/Sudowars/src/androidTest/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Sudowars/src/androidTest/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Sudowars/src/androidTest/rs" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/apk" />
+      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/assets" />
+      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/dependency-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/incremental" />
+      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/instrumentTest-results" />
       <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/intermediates/classes" />
@@ -76,8 +82,13 @@
       <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/intermediates/symbols" />
+      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/libs" />
+      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/reports" />
+      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/res" />
+      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/source" />
+      <excludeFolder url="file://$MODULE_DIR$/Sudowars/build/symbols" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
