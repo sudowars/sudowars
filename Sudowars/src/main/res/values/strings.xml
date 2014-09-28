@@ -142,7 +142,7 @@
     <string name="text_bluetooth_not_available">No bluetooth is provided on your device. You will not be able to access any multiplayer function.</string>
     <string name="text_defeat_multiplayer">DEFEAT</string>
     <string name="text_draw_multiplayer">DRAW</string>
-    <string name="text_game_over">GAME OVER</string>
+    <string name="text_game_over">CRACKED</string>
     <string name="text_give_up">Do you really want to give up and reveal solution?</string>
     <string name="text_kick">User has been kicked.</string>
     <string name="text_kicked">You have been kicked!</string>

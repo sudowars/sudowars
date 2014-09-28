@@ -127,7 +127,7 @@
     <string name="text_bluetooth_not_available">Das Gerät unterstützt kein Bluetooth. Die Mehrspielerfunktionen sind aus diesem Grund nicht verfügbar.</string>
     <string name="text_defeat_multiplayer">NIEDERLAGE</string>
     <string name="text_draw_multiplayer">UNENTSCHIEDEN</string>
-    <string name="text_game_over">GAME OVER</string>
+    <string name="text_game_over">GEKNACKT</string>
     <string name="text_give_up">Wollen Sie wirklich aufgeben und damit das Sudokufeld aufgedecken?</string>
     <string name="text_kick">Benutzer wurde gekickt.</string>
     <string name="text_kicked">Du wurdest gekickt!</string>
